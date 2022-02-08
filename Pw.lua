@@ -922,16 +922,16 @@ ESPSection:AddToggle('Tracer ESP', false, function(onoff)
     ESP.Tracers = onoff
 end)
 
-ESPSection:AddToggle('Health Bar', false, function(Boolean)
-    
+ESPSection:AddToggle('Highlighter', false, function(onoff)
+    ESP.Highlighted = onoff
 end)
 
-ESPSection:AddToggle('Armor Bar', false, function(Boolean)
-    
+ESPSection:AddToggle('Teammate Check', false, function(onoff)
+    ESP:IsTeamMate = onoff
 end)
 
-ESPSection:AddToggle("Wall Check", false, function()
-
+ESPSection:AddToggle("Wall Check", false, function(onoff)
+    ESP:GetTeam	 = onoff
 end)
 --[[
 local LocalSection = VisualsTab:CreateSector("Local", "left")
