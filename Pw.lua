@@ -947,7 +947,7 @@ end)
 ESPSection:AddToggle('Tracer ESP', false, function(onoff)
     ESP.Tracers = onoff
 end)
-
+--[[
 ESPSection:AddToggle('Player Check', false, function(onoff)
     ESP.Players = onoff
 end)
@@ -959,6 +959,7 @@ end)
 ESPSection:AddToggle('Team Color', false, function(onoff)
     ESP.TeamColor = onoff
 end)
+]]
 --[[
 ESPSection:AddToggle('Health Bar', false, function(onoff)
     
