@@ -461,13 +461,14 @@ local PuppywareModule = {
     },
 
 Functions = {
-    Network=function(Data)
+    Network = function(Data)
         if Data and Data.Character and Data.Character:FindFirstChild("HumanoidRootPart") ~= nil and Data.Character:FindFirstChild("Humanoid") ~= nil and Data.Character:FindFirstChild("Head") ~= nil then
             return true
         end
         return false
     end,
 },
+
 Drawing = {
     Circle = function(Thickness)
         local Circle = Drawing.new("Circle")
@@ -732,7 +733,7 @@ AimbotFOVSection:AddSlider("Silent Aim Size", 0, 100, 500, 1, function(Value)
     PuppywareSettings.Aiming.FOV.SilentAimSize = Value
 end)
 
-AimbotFOVSection:AddSlider("FOV Transparency", 0, 9, 9, 1, function(Value)
+AimbotFOVSection:AddSlider("FOV Transparency", 0, 5, 9, 1, function(Value)
     PuppywareSettings.Aiming.FOV.Transparency = tonumber("0." .. Value)
 end)
 
@@ -902,7 +903,7 @@ end)
     
 local VisualsTab = Window:CreateTab("Visuals")
 local ESPSection = VisualsTab:CreateSector("ESP", "left")
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Twixks/Kiriot-esp/main/ESP.lua"))() --// ESP Library
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Twixks/Kiriot-esp/main/ESP.lua"))() --// ESP Library Kiriot
 local ESPToggle = ESPSection:AddToggle('ESP Enabled', false, function(onoff)
     ESP:Toggle(onoff)
     ESP.Players = onoff
@@ -910,29 +911,33 @@ end)
 
 ESPToggle:AddKeybind()
 
-ESPSection:AddToggle('Name ESP', false, function(onoff)
-    ESP.Names = onoff
-end)
-
 ESPSection:AddToggle('Box ESP', false, function(onoff)
     ESP.Boxes = onoff
+end)
+
+ESPSection:AddToggle('Name ESP', false, function(onoff)
+    ESP.Names = onoff
 end)
 
 ESPSection:AddToggle('Tracer ESP', false, function(onoff)
     ESP.Tracers = onoff
 end)
 
-ESPSection:AddToggle('Highlighter', false, function(onoff)
-    ESP.Highlighted = onoff
+ESPSection:AddToggle('Coming soon!', false, function(onoff)
+end)
+--[[
+ESPSection:AddToggle('Health Bar', false, function(onoff)
+    
 end)
 
-ESPSection:AddToggle('Teammate Check', false, function(onoff)
-    ESP:IsTeamMate = onoff
+ESPSection:AddToggle('Armor Bar', false, function(onoff)
+    
 end)
 
 ESPSection:AddToggle("Wall Check", false, function(onoff)
-    ESP:GetTeam	 = onoff
+
 end)
+]]
 --[[
 local LocalSection = VisualsTab:CreateSector("Local", "left")
 
@@ -1071,7 +1076,7 @@ end)
 
 SpeedToggle:AddKeybind()
 
-SpeedToggle:AddSlider(1, 5, 10, 1, function(Value)
+SpeedToggle:AddSlider(1, 3, 10, 1, function(Value)
     PuppywareSettings.Blatant.Movement.SpeedAmount = Value
 end)
 
@@ -1496,10 +1501,6 @@ LocalPlayer.CharacterAdded:Connect(function()
             GodFunction(PuppywareModule.God.AntiRagdoll)
         end
     end
-    wait(0.5)
-    if PuppywareSettings.Blatant.BlatantAA.Underground then
-        Underground(true)
-    end
     wait(0.4)
     if PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang then
         Float = Instance.new("BodyVelocity")
@@ -1569,7 +1570,8 @@ end)
 
 local UpdateLogsSector = MiscellaneousTab:CreateSector("Update logs", "right")
 
-UpdateLogsSector:AddLabel("8-2| Added New Tab with ESP")
+UpdateLogsSector:AddLabel("9-2| Added Esp Settings")
+UpdateLogsSector:AddLabel("8-2| Added Visuals Tab with ESP")
 UpdateLogsSector:AddLabel("4-2| Added some features")
 
 --[[
@@ -2060,8 +2062,10 @@ RunService.Heartbeat:Connect(function()
     end
         if PuppywareSettings.Blatant.Character.AntiSlow then
                 local DeletePart = player.Character.BodyEffects.Movement:FindFirstChild('NoJumping') or player.Character.BodyEffects.Movement:FindFirstChild('ReduceWalk') or player.Character.BodyEffects.Movement:FindFirstChild('NoWalkSpeed')
-                if DeletePart then DeletePart:Destroy() end
-                if player.Character.BodyEffects.Reload.Value == true then player.Character.BodyEffects.Reload.Value = false
+                if DeletePart then DeletePart:Destroy()
+                if player.Character.BodyEffects.Reload.Value == true then 
+                    player.Character.BodyEffects.Reload.Value = false
+                end
                 end
         end
 end)
