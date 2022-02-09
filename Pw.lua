@@ -456,13 +456,21 @@ local PuppywareSettings = {
             AutoDropAmount = 5000,
             AutoPickCash = false
         }
+        },
+    Miscellaneous = {
+        Server = {
+            CrashRate = nil,
+            ServerCrasher = false,
+            Rejoin = false,
+            ServerHop = false
+        },
     },
     Teleport = {
         TeleportReturn = false,
         ReturnDelay = false,
         AutoPurchase = false,
         AmmoPurchaseAmount = 1
-    }
+    },
 }
 
 local PuppywareModule = {
