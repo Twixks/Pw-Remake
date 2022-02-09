@@ -390,6 +390,18 @@ local PuppywareSettings = {
             CrewEnabled = false,
             FriendsWhitelist = false
         },
+    Visuals = {
+        ESP = {
+            Enabled = false,
+            ESPColor = Color3.new(0.284713, 0.011764, 1),
+            Box = false,
+            Name = false,
+            Tracers = false,
+            PlayerCheck = false,
+            TeamMateCheck = false,
+            TeamColor = false
+        },
+    },
     },
     Blatant = {
         BlatantAA = {
@@ -1582,7 +1594,7 @@ AnimationSector:AddDropdown("Fall", AnimationsName, "Default", false, function(S
     end
 end)
 
-local UpdateLogsSector = MiscellaneousTab:CreateSector("Update logs", "right")
+local UpdateLogsSector = MiscellaneousTab:CreateSector("Update logs", "left")
 
 UpdateLogsSector:AddLabel("9-2| Added Esp Color and options")
 UpdateLogsSector:AddLabel("8-2| Added Visuals Tab with ESP")
@@ -1673,7 +1685,7 @@ CustomModelSector:AddSlider("Position Rotation", 0, 0, 360, 1, function(Value)
     
 end)
 ]]
-local ServerSector = MiscellaneousTab:CreateSector("Server", "left")
+local ServerSector = MiscellaneousTab:CreateSector("Server", "right")
 
 ServerSector:AddLabel("Crashing Rate: 0%")
 
