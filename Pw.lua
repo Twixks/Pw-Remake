@@ -1,5 +1,4 @@
 --[[ Update :
-REWRITTEN
 Changed Color to the UI and fov as well
 Fixed Aimbot fov
 Added Keybinds to certain features
@@ -904,7 +903,7 @@ end)
     
 local VisualsTab = Window:CreateTab("Visuals")
 local ESPSection = VisualsTab:CreateSector("ESP", "left")
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Twixks/Kiriot-esp/main/ESP.lua"))() --// ESP Library Kiriot
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Twixks/Pw-Remake/main/ESP.lua"))() --// ESP Library Kiriot
 local ESPToggle = ESPSection:AddToggle('ESP Enabled', false, function(onoff)
     ESP:Toggle(onoff)
     ESP.Players = onoff
@@ -929,7 +928,16 @@ ESPSection:AddToggle('Tracer ESP', false, function(onoff)
     ESP.Tracers = onoff
 end)
 
-ESPSection:AddToggle('Coming soon!', false, function(onoff)
+ESPSection:AddToggle('Player Check', false, function(onoff)
+    ESP.Players = onoff
+end)
+
+ESPSection:AddToggle('Team Mate Check', false, function(onoff)
+    ESP.TeamMates = onoff
+end)
+
+ESPSection:AddToggle('Team Color', false, function(onoff)
+    ESP.TeamColor = onoff
 end)
 --[[
 ESPSection:AddToggle('Health Bar', false, function(onoff)
@@ -1576,7 +1584,7 @@ end)
 
 local UpdateLogsSector = MiscellaneousTab:CreateSector("Update logs", "right")
 
-UpdateLogsSector:AddLabel("9-2| Added Esp Settings")
+UpdateLogsSector:AddLabel("9-2| Added Esp Color and options")
 UpdateLogsSector:AddLabel("8-2| Added Visuals Tab with ESP")
 UpdateLogsSector:AddLabel("4-2| Added some features")
 
