@@ -1,4 +1,5 @@
 --[[ Update :
+REWRITTEN
 Changed Color to the UI and fov as well
 Fixed Aimbot fov
 Added Keybinds to certain features
@@ -910,6 +911,11 @@ local ESPToggle = ESPSection:AddToggle('ESP Enabled', false, function(onoff)
 end)
 
 ESPToggle:AddKeybind()
+
+ESPToggle:AddColorpicker(Color3.new(0.284713, 0.011764, 1), function(Color)
+    ESP.Color = Color
+end)
+
 
 ESPSection:AddToggle('Box ESP', false, function(onoff)
     ESP.Boxes = onoff
