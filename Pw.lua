@@ -400,6 +400,9 @@ local PuppywareSettings = {
             PlayerCheck = false,
             TeamMateCheck = false,
             TeamColor = false
+        }
+        Local = {
+            FOVChanger = 70
         },
     },
     },
@@ -948,15 +951,13 @@ ESPSection:AddToggle('Tracer ESP', false, function(onoff)
     ESP.Tracers = onoff
 end)
 --[[
-ESPSection:AddToggle('Player Check', false, function(onoff)
-    ESP.Players = onoff
-end)
+local CheckSection = VisualsTab:CreateSector("Check", "right")
 
-ESPSection:AddToggle('Team Mate Check', false, function(onoff)
+CheckSection:AddToggle('Team Mate Check', false, function(onoff)
     ESP.TeamMates = onoff
 end)
 
-ESPSection:AddToggle('Team Color', false, function(onoff)
+CheckSection:AddToggle('Team Color', false, function(onoff)
     ESP.TeamColor = onoff
 end)
 ]]
@@ -973,17 +974,14 @@ ESPSection:AddToggle("Wall Check", false, function(onoff)
 
 end)
 ]]
---[[
+
 local LocalSection = VisualsTab:CreateSector("Local", "left")
 
-local FOVToggle = LocalSection:AddToggle('FOV Changer', false, function(State)
-
+LocalSection:AddSlider("FOV Changer", 70, 90, 120, 1, function(Value)
+	local InputFOV = (Value)
+	game:GetService("Workspace").Camera.FieldOfView = (Value)
 end)
-
-FOVToggle:AddSlider(70, 90, 120, 1, function(Value)
-    
-end)
-
+--[[
 local SelfChamToggle = LocalSection:AddToggle('Self Cham', false, function(State)
 
 end)
@@ -1077,25 +1075,13 @@ end)
 ContrastToggle:AddSlider(-10, 0, 10, 1, function(Value)
     
 end)
-
+]]
 local ESPSettings = VisualsTab:CreateSector("ESP Settings", "right")
 
-ESPSettings:AddDropdown('Font', {}, "Plex", false, function(Option)
-    
+ESPSettings:AddSlider("Attach Shift", 1, 1, 10, 1, function(Value)
+    ESP.AttachShift = Value
 end)
 
-ESPSettings:AddDropdown('Text Case', {"Normal", "Uppercase", "Lowercase"}, "Lowercase", false, function(Option)
-    
-end)
-
-ESPSettings:AddToggle("Unlock Tracers", false, function()
-
-end)
-
-ESPSettings:AddSlider("Text Size", 5, 14, 20, 1, function(Value)
-    
-end)
-]]
 
 -- Blatant Tab --
 
@@ -1210,12 +1196,17 @@ MiscSector:AddButton('Nil Char', function(State)
     NilBody()
 end)
 
---[[
-    MiscSector:AddButton('Unjail', function(State)
-
+MiscSector:AddButton('Body Reset', function(State)
+    pcall(function()
+        LocalPlayer.Character.Humanoid:Destroy()
     end)
-]]
+end)
 
+--[[
+MiscSector:AddButton('Unjail', function(State)
+    NilBody()
+end)
+]]
 local NilCharBind = MiscSector:AddKeybind("Nil Char Bind", false, function()
     
 end, function()
@@ -1605,8 +1596,8 @@ end)
 
 local UpdateLogsSector = MiscellaneousTab:CreateSector("Update logs", "left")
 
-UpdateLogsSector:AddLabel("9-2| Added Esp Color and options")
-UpdateLogsSector:AddLabel("8-2| Added Visuals Tab with ESP")
+UpdateLogsSector:AddLabel("9-2| Added some Esp")
+UpdateLogsSector:AddLabel("8-2| Added Visuals Tab")
 UpdateLogsSector:AddLabel("4-2| Added some features")
 
 --[[
@@ -2517,4 +2508,4 @@ while wait() do
             end
         end
     end
-end 
+end
