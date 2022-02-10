@@ -400,9 +400,6 @@ local PuppywareSettings = {
             PlayerCheck = false,
             TeamMateCheck = false,
             TeamColor = false
-        }
-        Local = {
-            FOVChanger = 70
         },
     },
     },
