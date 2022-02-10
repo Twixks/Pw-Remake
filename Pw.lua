@@ -935,7 +935,6 @@ ESPToggle:AddColorpicker(Color3.new(0.284713, 0.011764, 1), function(Color)
     ESP.Color = Color
 end)
 
-
 ESPSection:AddToggle('Box ESP', false, function(onoff)
     ESP.Boxes = onoff
 end)
@@ -947,58 +946,46 @@ end)
 ESPSection:AddToggle('Tracer ESP', false, function(onoff)
     ESP.Tracers = onoff
 end)
---[[
-local CheckSection = VisualsTab:CreateSector("Check", "right")
 
-CheckSection:AddToggle('Team Mate Check', false, function(onoff)
+ESPSection:AddToggle('Face Camera', false, function(onoff)
+    ESP.FaceCamera = onoff
+end)
+
+local ESPCheckSection = VisualsTab:CreateSector("ESP Check", "right")
+
+ESPCheckSection:AddToggle('Player Check', false, function(onoff)
+    ESP.Players = onoff
+end)
+
+ESPCheckSection:AddToggle('Team Check', false, function(onoff)
     ESP.TeamMates = onoff
 end)
 
-CheckSection:AddToggle('Team Color', false, function(onoff)
+ESPCheckSection:AddToggle('Team Color', false, function(onoff)
     ESP.TeamColor = onoff
 end)
-]]
---[[
-ESPSection:AddToggle('Health Bar', false, function(onoff)
-    
-end)
-
-ESPSection:AddToggle('Armor Bar', false, function(onoff)
-    
-end)
-
-ESPSection:AddToggle("Wall Check", false, function(onoff)
-
-end)
-]]
 
 local LocalSection = VisualsTab:CreateSector("Local", "left")
 
-LocalSection:AddSlider("FOV Changer", 70, 90, 120, 1, function(Value)
+LocalSection:AddSlider("FOV Changer", 70, 70, 120, 1, function(Value)
 	local InputFOV = (Value)
 	game:GetService("Workspace").Camera.FieldOfView = (Value)
+	PuppywareSettings.Visuals.Local.FOVChanger = Value
 end)
+
+local WorldSection = VisualsTab:CreateSector("World", "right")
+
+WorldSection:AddSlider("Brightness", 3, 3, 10, 2, function(Value)
+    game.Lighting.Brightness = (Value)
+end)
+
+WorldSection:AddSlider("Time", 1, 14.5, 24, 2, function(Value)
+    game.Lighting.ClockTime = (Value)
+end)
+
+
+
 --[[
-local SelfChamToggle = LocalSection:AddToggle('Self Cham', false, function(State)
-
-end)
-
-SelfChamToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function()
-
-end)
-
-SelfChamToggle:AddDropdown({}, "Ghost", false, function(Option)
-    
-end)
-
-local FakeLagChamToggle = LocalSection:AddToggle('Fake Lag Cham', false, function(State)
-
-end)
-
-FakeLagChamToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function()
-
-end)
-
 local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "left")
 
 local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", false, function()
@@ -1049,30 +1036,22 @@ GridiantToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function()
 
 end)
 
-local SaturationToggle = WorldSection:AddToggle("Saturation", false, function()
 
+WorldSection:AddSlider("Saturation" ,-10, 0, 10, 1, function(Value)
+    game.Lighting.Brightness = Value
 end)
 
-SaturationToggle:AddSlider(-10, 0, 10, 1, function(Value)
-    
+
+
+WorldSection:AddSlider("Brightness" ,0, 0, 20, 5, function(Value)
+    game.Lighting.Brightness = Value
 end)
 
-local BrightnessToggle = WorldSection:AddToggle("Brightness", false, function()
-
-end)
-
-BrightnessToggle:AddSlider(-10, 0, 10, 1, function(Value)
-    
-end)
-
-local ContrastToggle = WorldSection:AddToggle("Contrast", false, function()
-
-end)
-
-ContrastToggle:AddSlider(-10, 0, 10, 1, function(Value)
+WorldSection:AddSlider("Contrast" ,-10, 0, 20, 1, function(Value)
     
 end)
 ]]
+
 local ESPSettings = VisualsTab:CreateSector("ESP Settings", "right")
 
 ESPSettings:AddSlider("Attach Shift", 1, 1, 10, 1, function(Value)
@@ -1591,11 +1570,12 @@ AnimationSector:AddDropdown("Fall", AnimationsName, "Default", false, function(S
     end
 end)
 
-local UpdateLogsSector = MiscellaneousTab:CreateSector("Update logs", "left")
+local UpdateLogsSector = MiscellaneousTab:CreateSector("Credits", "left")
 
-UpdateLogsSector:AddLabel("9-2| Added some Esp")
-UpdateLogsSector:AddLabel("8-2| Added Visuals Tab")
-UpdateLogsSector:AddLabel("4-2| Added some features")
+UpdateLogsSector:AddLabel("Thanks to Kiriot esp")
+UpdateLogsSector:AddLabel("Rest was by Loni")
+UpdateLogsSector:AddLabel("Made some Tweaks")
+UpdateLogsSector:AddLabel("Tweaks by Twix#0667")
 
 --[[
 local RadioSector = MiscellaneousTab:CreateSector("Radio Playlist", "left")
