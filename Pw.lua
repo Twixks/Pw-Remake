@@ -946,7 +946,7 @@ end)
 ESPSection:AddToggle('Tracer ESP', false, function(onoff)
     ESP.Tracers = onoff
 end)
-
+--[[
 ESPSection:AddToggle('Face Camera', false, function(onoff)
     ESP.FaceCamera = onoff
 end)
@@ -964,7 +964,7 @@ end)
 ESPCheckSection:AddToggle('Team Color', false, function(onoff)
     ESP.TeamColor = onoff
 end)
-
+]]
 local LocalSection = VisualsTab:CreateSector("Local", "left")
 
 LocalSection:AddSlider("FOV Changer", 70, 70, 120, 1, function(Value)
