@@ -1129,6 +1129,11 @@ end)
 local MiscSector = BlatantTab:CreateSector("Misc", "left")
 
 MiscSector:AddButton('Fly (X)', function()
+    Notify({
+        Title = "Puppyware",
+        Description = "This is one time fly",
+        Duration = 2
+    })
     FLYSPEED = 20
     FLYMODE = 'Default'
         if FLYMODE == 'Default' then
@@ -1734,12 +1739,8 @@ ServerSector:AddToggle("Server Crash", false, function(State)
 PuppywareSettings.Miscellaneous.Server.ServerCrasher = State
 end)
 
-ServerSector:AddButton("Rejoin", function()
-PuppywareSettings.Miscellaneous.Server.Rejoin = State
-end)
-
 ServerSector:AddButton("Server Hop", function()
-PuppywareSettings.Miscellaneous.Server.ServerHop = State
+game:GetService("TeleportService"):Teleport(2788229376, game:GetService("Players").LocalPlayer)
 end)
 
 local CreditSector = MiscellaneousTab:CreateSector("Credits", "left")
@@ -1747,6 +1748,14 @@ local CreditSector = MiscellaneousTab:CreateSector("Credits", "left")
 CreditSector:AddLabel("Rest was by Loni \n Lxyo and others")
 CreditSector:AddLabel("Tweaks were made by \n Twix#0667")
 
+CreditSector:AddButton("Puppyware Server", function()
+    setclipboard("https://discord.gg/Puppyware")
+    Notify = ({
+        Title = "Puppyware",
+        Description = "Copied to clipboard!",
+        Duration = 5
+    })
+end)
 
 local UpdateSector = MiscellaneousTab:CreateSector("Update Logs", "right")
 
@@ -1754,6 +1763,14 @@ UpdateSector:AddLabel("8/2/22 \n Improved ESP and Options")
 UpdateSector:AddLabel("5/2/22 \n Added Visuals and ESP")
 UpdateSector:AddLabel("1/2/22 \n Added some features")
 
+UpdateSector:AddButton("My Discord Server", function()
+    setclipboard("https://discord.gg/D83UdBWrV2")
+    Notify = ({
+        Title = "Puppyware",
+        Description = "Copied to clipboard!",
+        Duration = 5
+    })
+end)
 --[[
 local RadioSector = MiscellaneousTab:CreateSector("Radio Playlist", "left")
 
