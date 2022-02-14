@@ -1,4 +1,8 @@
---changes oh yeah
+--[[ Pw remake
+    I probably update this EVERY single WEEK
+    Too lazy, to fix silent aim and other shitty stuff
+    :P 
+]]
 
 local GetService = setmetatable({}, {
     __index = function(self, key)
@@ -968,7 +972,7 @@ end)
 ]]
 local LocalSection = VisualsTab:CreateSector("Local", "left")
 
-LocalSection:AddSlider("FOV Changer", 70, 70, 120, 1, function(Value)
+LocalSection:AddSlider("FOV Changer", 70, nil, 120, 1, function(Value)
 	local InputFOV = (Value)
 	game:GetService("Workspace").Camera.FieldOfView = (Value)
 	PuppywareSettings.Visuals.Local.FOVChanger = Value
@@ -1004,7 +1008,7 @@ WorldSection:AddSlider("Brightness", 3, 3, 10, 2, function(Value)
     game.Lighting.Brightness = (Value)
 end)
 
-WorldSection:AddSlider("Time", 1, 14.5, 24, 2, function(Value)
+WorldSection:AddSlider("Time", 1, 14, 24, 2, function(Value)
     game.Lighting.ClockTime = (Value)
 end)
 
@@ -1722,12 +1726,33 @@ AnimationSector:AddDropdown("Fall", AnimationsName, "Default", false, function(S
     end
 end)
 
-local UpdateLogsSector = MiscellaneousTab:CreateSector("Credits", "left")
+local ServerSector = MiscellaneousTab:CreateSector("Server", "right")
 
-UpdateLogsSector:AddLabel("Thanks to Kiriot esp")
-UpdateLogsSector:AddLabel("Rest was by Loni")
-UpdateLogsSector:AddLabel("Made some Tweaks")
-UpdateLogsSector:AddLabel("Tweaks by Twix#0667")
+ServerSector:AddLabel("Crashing Rate: 0%")
+
+ServerSector:AddToggle("Server Crash", false, function(State)
+PuppywareSettings.Miscellaneous.Server.ServerCrasher = State
+end)
+
+ServerSector:AddButton("Rejoin", function()
+PuppywareSettings.Miscellaneous.Server.Rejoin = State
+end)
+
+ServerSector:AddButton("Server Hop", function()
+PuppywareSettings.Miscellaneous.Server.ServerHop = State
+end)
+
+local CreditSector = MiscellaneousTab:CreateSector("Credits", "left")
+
+CreditSector:AddLabel("Rest was by Loni \n Lxyo and others")
+CreditSector:AddLabel("Tweaks were made by \n Twix#0667")
+
+
+local UpdateSector = MiscellaneousTab:CreateSector("Update Logs", "right")
+
+UpdateSector:AddLabel("8/2/22 \n Improved ESP and Options")
+UpdateSector:AddLabel("5/2/22 \n Added Visuals and ESP")
+UpdateSector:AddLabel("1/2/22 \n Added some features")
 
 --[[
 local RadioSector = MiscellaneousTab:CreateSector("Radio Playlist", "left")
@@ -1814,21 +1839,7 @@ CustomModelSector:AddSlider("Position Rotation", 0, 0, 360, 1, function(Value)
     
 end)
 ]]
-local ServerSector = MiscellaneousTab:CreateSector("Server", "right")
 
-ServerSector:AddLabel("Crashing Rate: 0%")
-
-ServerSector:AddToggle("Server Crash", false, function(State)
-PuppywareSettings.Miscellaneous.Server.ServerCrasher = State
-end)
-
-ServerSector:AddButton("Rejoin", function()
-PuppywareSettings.Miscellaneous.Server.Rejoin = State
-end)
-
-ServerSector:AddButton("Server Hop", function()
-PuppywareSettings.Miscellaneous.Server.ServerHop = State
-end)
 --[[
 local PanicSector = MiscellaneousTab:CreateSector("Panic", "right")
 
@@ -2638,3 +2649,5 @@ while wait() do
         end
     end
 end
+
+--ends here with cool face 😎
