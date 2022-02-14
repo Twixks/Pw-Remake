@@ -1,3 +1,8 @@
+--[[
+    Wow, I really like doing a public version of it
+    Anyway, Enjoy the orginal version
+]]
+
 local GetService = setmetatable({}, {
     __index = function(self, key)
         return game:GetService(key)
