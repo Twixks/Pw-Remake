@@ -972,10 +972,20 @@ end)
 ]]
 local LocalSection = VisualsTab:CreateSector("Local", "left")
 
-LocalSection:AddSlider("FOV Changer", 70, nil, 120, 1, function(Value)
-	local InputFOV = (Value)
+LocalSection:AddSlider("FOV Changer", 70, 70, 120, 1, function(Value)
+	local InputFOV = (Value)local L_418_ = game.Players.LocalPlayer
 	game:GetService("Workspace").Camera.FieldOfView = (Value)
 	PuppywareSettings.Visuals.Local.FOVChanger = Value
+end)
+
+LocalSection:AddButton("Korblox", function()
+    game:GetService("Workspace").Players:FindFirstChild(player.Name).RightLowerLeg:Destroy()
+    game:GetService("Workspace").Players:FindFirstChild(player.Name).RightUpperLeg:Destroy()
+    game:GetService("Workspace").Players:FindFirstChild(player.Name).RightFoot:Destroy()
+end)
+
+LocalSection:AddButton("Hide Boombox", function()
+    player.Character.BOOMBOXHANDLE:Destroy()
 end)
 
 --[[
@@ -1000,28 +1010,41 @@ end)
 
 local WorldSection = VisualsTab:CreateSector("World", "right")
 
-WorldSection:AddToggle("FullBright", false, function()
+WorldSection:AddToggle("Global Shadows", false, function(Toggle)
+    game.Lighting.GlobalShadows = (Toggle)
+end)
+
+WorldSection:AddButton("FullBright", function(Button)
     game.Lighting.Brightness = 6
+    PuppywareSettings.Visuals.World.FullBright = Button
+end)
+
+WorldSection:AddSlider("Shadow Softness", -5, 0.2, 10, 5, function(Value)
+    game.Lighting.ShadowSoftness = (Value)
 end)
 
 WorldSection:AddSlider("Brightness", 3, 3, 10, 2, function(Value)
     game.Lighting.Brightness = (Value)
+    PuppywareSettings.Visuals.World.Brightness.BrightAmount = (Value)
 end)
 
-WorldSection:AddSlider("Time", 1, 14, 24, 2, function(Value)
+WorldSection:AddSlider("Time", 1, 14.5, 24, 2, function(Value)
     game.Lighting.ClockTime = (Value)
+    PuppywareSettings.Visuals.World.Time = (Value)
 end)
 
---[[
-local GridiantToggle = WorldSection:AddToggle("Gradiant", false, function()
-
+WorldSection:AddColorpicker("Top Color", Color3.fromRGB(0, 0, 0), function(Color)
+    game.Lighting.ColorShift_Top = (Color)
 end)
 
-GridiantToggle:AddColorpicker(Color3.fromRGB(0.284713, 0.011764, 1), function()
+WorldSection:AddColorpicker("Bottom Color", Color3.fromRGB(0, 0, 0), function(Color)
+    game.Lighting.ColorShift_Bottom = (Color)
+end)
 
-end)    
-]]
-
+WorldSection:AddColorpicker("Ambient Color", Color3.fromRGB(70, 70, 70), function(Color)
+    game.Lighting.Ambient = (Color)
+    PuppywareSettings.Visuals.World.Ambient.AmbientColor = Color
+end)
 
 -- Blatant Tab --
 
@@ -1745,16 +1768,16 @@ end)
 
 local CreditSector = MiscellaneousTab:CreateSector("Credits", "left")
 
-CreditSector:AddLabel("Rest was by Loni \n Lxyo and others")
+CreditSector:AddLabel("Rest was by Loni \nLxyo and others")
 CreditSector:AddLabel("Tweaks were made by \n Twix#0667")
 
 CreditSector:AddButton("Puppyware Server", function()
-    setclipboard("https://discord.gg/Puppyware")
     Notify = ({
         Title = "Puppyware",
         Description = "Copied to clipboard!",
         Duration = 5
     })
+    setclipboard("https://discord.gg/Puppyware")
 end)
 
 local UpdateSector = MiscellaneousTab:CreateSector("Update Logs", "right")
@@ -1764,12 +1787,12 @@ UpdateSector:AddLabel("5/2/22 \n Added Visuals and ESP")
 UpdateSector:AddLabel("1/2/22 \n Added some features")
 
 UpdateSector:AddButton("My Discord Server", function()
-    setclipboard("https://discord.gg/D83UdBWrV2")
-    Notify = ({
+    Notify({
         Title = "Puppyware",
-        Description = "Copied to clipboard!",
-        Duration = 5
+        Description = "Copied to clipboard",
+        Duration = 3
     })
+    setclipboard("https://discord.gg/D83UdBWrV2")
 end)
 --[[
 local RadioSector = MiscellaneousTab:CreateSector("Radio Playlist", "left")
