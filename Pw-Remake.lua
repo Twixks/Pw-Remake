@@ -2,6 +2,7 @@
     I probably update this EVERY single WEEK
     Too lazy, to fix silent aim and other shitty stuff
     :P 
+    execute to see updates
 ]]
 
 local GetService = setmetatable({}, {
@@ -978,6 +979,19 @@ LocalSection:AddSlider("FOV Changer", 70, 70, 120, 1, function(Value)
 	PuppywareSettings.Visuals.Local.FOVChanger = Value
 end)
 
+LocalSection:AddSlider("Gravity", 1, 196.2, 600, 1, function(Value)
+    game.Workspace.Gravity = (Value)
+end)
+
+LocalSection:AddButton("Headless", function()
+    Notify({
+        Title = "Puppyware",
+        Description = "Uh, too lazy, I'll add it later",
+        Duration = 2
+    })
+-- Too lazy to make headless
+end)
+
 LocalSection:AddButton("Korblox", function()
     game:GetService("Workspace").Players:FindFirstChild(player.Name).RightLowerLeg:Destroy()
     game:GetService("Workspace").Players:FindFirstChild(player.Name).RightUpperLeg:Destroy()
@@ -985,7 +999,7 @@ LocalSection:AddButton("Korblox", function()
 end)
 
 LocalSection:AddButton("Hide Boombox", function()
-    player.Character.BOOMBOXHANDLE:Destroy()
+    player.Character.BOOMBOXHANDLE:Destroy()    -- i wonder why i made this
 end)
 
 --[[
@@ -1016,28 +1030,36 @@ end)
 
 WorldSection:AddButton("FullBright", function(Button)
     game.Lighting.Brightness = 6
-    PuppywareSettings.Visuals.World.FullBright = Button
+    PuppywareSettings.Visuals.World.FullBright = (Button)
 end)
 
-WorldSection:AddSlider("Shadow Softness", -5, 0.2, 10, 5, function(Value)
-    game.Lighting.ShadowSoftness = (Value)
-end)
-
-WorldSection:AddSlider("Brightness", 3, 3, 10, 2, function(Value)
+WorldSection:AddSlider("Brightness", 1, 1, 10, 2, function(Value)
     game.Lighting.Brightness = (Value)
     PuppywareSettings.Visuals.World.Brightness.BrightAmount = (Value)
 end)
 
-WorldSection:AddSlider("Time", 1, 14.5, 24, 2, function(Value)
+WorldSection:AddSlider("Fog Start Point", 0, 0, 0, 1, function(Value)
+    game.Lighting.FogEnd = (Value)
+end)
+
+WorldSection:AddSlider("Fog end Point", 0, 100000, 100000, 1, function(Value)
+    game.Lighting.FogEnd = (Value)
+end)
+
+WorldSection:AddSlider("Time", 1, 14, 24, 2, function(Value)
     game.Lighting.ClockTime = (Value)
     PuppywareSettings.Visuals.World.Time = (Value)
 end)
 
-WorldSection:AddColorpicker("Top Color", Color3.fromRGB(0, 0, 0), function(Color)
+WorldSection:AddColorpicker("Fog Color", Color3.fromRGB(191, 191, 191), function(Color)
+    game.Lighting.FogColor = (Value)
+end)
+
+WorldSection:AddColorpicker("Color Effect Top", Color3.fromRGB(0, 0, 0), function(Color)
     game.Lighting.ColorShift_Top = (Color)
 end)
 
-WorldSection:AddColorpicker("Bottom Color", Color3.fromRGB(0, 0, 0), function(Color)
+WorldSection:AddColorpicker("Color Effect Down", Color3.fromRGB(0, 0, 0), function(Color)
     game.Lighting.ColorShift_Bottom = (Color)
 end)
 
@@ -1045,6 +1067,8 @@ WorldSection:AddColorpicker("Ambient Color", Color3.fromRGB(70, 70, 70), functio
     game.Lighting.Ambient = (Color)
     PuppywareSettings.Visuals.World.Ambient.AmbientColor = Color
 end)
+
+
 
 -- Blatant Tab --
 
@@ -1154,7 +1178,7 @@ local MiscSector = BlatantTab:CreateSector("Misc", "left")
 MiscSector:AddButton('Fly (X)', function()
     Notify({
         Title = "Puppyware",
-        Description = "This is one time fly",
+        Description = "this is one time fly, Click again if resetted.",
         Duration = 2
     })
     FLYSPEED = 20
@@ -1775,13 +1799,15 @@ CreditSector:AddButton("Puppyware Server", function()
     Notify = ({
         Title = "Puppyware",
         Description = "Copied to clipboard!",
-        Duration = 5
+        Duration = 3
     })
     setclipboard("https://discord.gg/Puppyware")
 end)
 
 local UpdateSector = MiscellaneousTab:CreateSector("Update Logs", "right")
 
+UpdateSector:AddLabel("16/2/22 \n Added extra options for world")
+UpdateSector:AddLabel("15/2/22 \n Added options in Visuals \n Added options in Local \n Added options for world")
 UpdateSector:AddLabel("8/2/22 \n Improved ESP and Options")
 UpdateSector:AddLabel("5/2/22 \n Added Visuals and ESP")
 UpdateSector:AddLabel("1/2/22 \n Added some features")
@@ -1789,7 +1815,7 @@ UpdateSector:AddLabel("1/2/22 \n Added some features")
 UpdateSector:AddButton("My Discord Server", function()
     Notify({
         Title = "Puppyware",
-        Description = "Copied to clipboard",
+        Description = "Copied to clipboard!",
         Duration = 3
     })
     setclipboard("https://discord.gg/D83UdBWrV2")
