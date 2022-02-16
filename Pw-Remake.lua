@@ -1795,22 +1795,14 @@ local CreditSector = MiscellaneousTab:CreateSector("Credits", "left")
 CreditSector:AddLabel("Rest was by Loni \nLxyo and others")
 CreditSector:AddLabel("Tweaks were made by \n Twix#0667")
 
-CreditSector:AddButton("Puppyware Server", function()
-    Notify = ({
-        Title = "Puppyware",
+UpdateSector:AddButton("Puppyware Server", function()
+    Notify({
+        Title = "Puppyware Server",
         Description = "Copied to clipboard!",
         Duration = 3
     })
-    setclipboard("https://discord.gg/Puppyware")
+    setclipboard("https://discord.gg/SVbKHJV4EH")
 end)
-
-local UpdateSector = MiscellaneousTab:CreateSector("Update Logs", "right")
-
-UpdateSector:AddLabel("16/2/22 \n Added extra options \nfor world")
-UpdateSector:AddLabel("15/2/22 \n Added options in Visuals \n Added options in Local \n Added options for world")
-UpdateSector:AddLabel("8/2/22 \n Improved ESP and Options")
-UpdateSector:AddLabel("5/2/22 \n Added Visuals and ESP")
-UpdateSector:AddLabel("1/2/22 \n Added some features")
 
 UpdateSector:AddButton("My Discord Server", function()
     Notify({
@@ -1820,6 +1812,17 @@ UpdateSector:AddButton("My Discord Server", function()
     })
     setclipboard("https://discord.gg/D83UdBWrV2")
 end)
+
+local UpdateSector = MiscellaneousTab:CreateSector("Update Logs", "right")
+
+UpdateSector:AddLabel("16/2/22 \n Added extra options \n for world")
+UpdateSector:AddLabel("15/2/22 \n Added options in Visuals \n Added options in Local \n Added options for world")
+UpdateSector:AddLabel("8/2/22 \n Improved ESP and Options")
+UpdateSector:AddLabel("5/2/22 \n Added Visuals and ESP")
+UpdateSector:AddLabel("1/2/22 \n Added some features")
+
+
+
 --[[
 local RadioSector = MiscellaneousTab:CreateSector("Radio Playlist", "left")
 
