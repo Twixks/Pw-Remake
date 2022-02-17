@@ -993,9 +993,7 @@ LocalSection:AddButton("Headless", function()
 end)
 
 LocalSection:AddButton("Korblox", function()
-    game:GetService("Workspace").Players:FindFirstChild(player.Name).RightLowerLeg:Destroy()
-    game:GetService("Workspace").Players:FindFirstChild(player.Name).RightUpperLeg:Destroy()
-    game:GetService("Workspace").Players:FindFirstChild(player.Name).RightFoot:Destroy()
+    game.Players.LocalPlayer.Character.RightUpperLeg:Destroy()
 end)
 
 LocalSection:AddButton("Hide Boombox", function()
@@ -1028,29 +1026,6 @@ WorldSection:AddToggle("Global Shadows", false, function(Toggle)
     game.Lighting.GlobalShadows = (Toggle)
 end)
 
-WorldSection:AddButton("FullBright", function(Button)
-    game.Lighting.Brightness = 6
-    PuppywareSettings.Visuals.World.FullBright = (Button)
-end)
-
-WorldSection:AddSlider("Brightness", 1, 1, 10, 2, function(Value)
-    game.Lighting.Brightness = (Value)
-    PuppywareSettings.Visuals.World.Brightness.BrightAmount = (Value)
-end)
-
-WorldSection:AddSlider("Fog Start Point", 0, 0, 0, 1, function(Value)
-    game.Lighting.FogEnd = (Value)
-end)
-
-WorldSection:AddSlider("Fog end Point", 0, 100000, 100000, 1, function(Value)
-    game.Lighting.FogEnd = (Value)
-end)
-
-WorldSection:AddSlider("Time", 1, 14, 24, 2, function(Value)
-    game.Lighting.ClockTime = (Value)
-    PuppywareSettings.Visuals.World.Time = (Value)
-end)
-
 WorldSection:AddColorpicker("Fog Color", Color3.fromRGB(191, 191, 191), function(Color)
     game.Lighting.FogColor = (Value)
 end)
@@ -1066,6 +1041,34 @@ end)
 WorldSection:AddColorpicker("Ambient Color", Color3.fromRGB(70, 70, 70), function(Color)
     game.Lighting.Ambient = (Color)
     PuppywareSettings.Visuals.World.Ambient.AmbientColor = Color
+end)
+
+WorldSection:AddColorpicker("OutAmbient Color", Color3.fromRGB(127, 127, 127), function(Color)
+    game.Lighting.OutdoorAmbient = (Color)
+end)
+
+WorldSection:AddButton("FullBright", function(Button)
+    game.Lighting.Brightness = 6
+    PuppywareSettings.Visuals.World.FullBright = (Button)
+end)
+
+WorldSection:AddSlider("Brightness", 1, 1, 10, 2, function(Value)
+    game.Lighting.Brightness = (Value)
+    PuppywareSettings.Visuals.World.Brightness.BrightAmount = (Value)
+end)
+
+WorldSection:AddSlider("Fog Effect", 0, 100000, 100000, 1, function(Value)
+    game.Lighting.FogEnd = (Value)
+end)
+
+WorldSection:AddSlider("Time", 1, 14, 24, 2, function(Value)
+    game.Lighting.ClockTime = (Value)
+    PuppywareSettings.Visuals.World.Time = (Value)
+end)
+
+WorldSection:AddSlider("Latitude", 1, 25, 360, 1, function(Value)
+    game.Lighting.GeographicLatitude = (Value)
+    PuppywareSettings.Visuals.World.Latitude = (Value)
 end)
 
 
@@ -1782,12 +1785,21 @@ local ServerSector = MiscellaneousTab:CreateSector("Server", "right")
 
 ServerSector:AddLabel("Crashing Rate: 0%")
 
-ServerSector:AddToggle("Server Crash", false, function(State)
+ServerSector:AddButton("Server Crash", function(State)
 PuppywareSettings.Miscellaneous.Server.ServerCrasher = State
 end)
 
 ServerSector:AddButton("Server Hop", function()
 game:GetService("TeleportService"):Teleport(2788229376, game:GetService("Players").LocalPlayer)
+end)
+
+ServerSector:AddButton("Decompile Game", function()
+    Notify({
+        Title = "Puppyware",
+        Description = "Starting Decompilement, Please be patience",
+        Duration = 6
+    })
+    saveinstance({decomptype = new})
 end)
 --[[
 local RadioSector = MiscellaneousTab:CreateSector("Radio Playlist", "left")
@@ -1814,35 +1826,23 @@ RadioSector:AddButton("Stop", function()
 
 end)
 ]]
-local KillInsultsSector = MiscellaneousTab:CreateSector("Kill Insults", "right")
+local KillInsultsSector = MiscellaneousTab:CreateSector("Coming Soon!", "right")
 
-KillInsultsSector:AddToggle("Kill Insults Enabled", false, function()
-
+KillInsultsSector:AddToggle("Kill Insults Enabled", false, function(State)
+    PuppywareSettings.Miscellaneous.KillInsults.Enabled = State
 end)
 
 KillInsultsSector:AddToggle("Custom Message", false, function()
-
+    PuppywareSettings.Miscellaneous.KillInsults.CustomMsg = State
 end)
 
-KillInsultsSector:AddSlider("Delay (ms)", 0, 0, 5, 1, function(Value)
-    
+KillInsultsSector:AddDropdown("Method", {"After Dead", "Before Dead", "After Dead",}, false, function(Option)
+    PuppywareSettings.Miscellaneous.KillInsults.Type = Option
 end)
-
-KillInsultsSector:AddDropdown("Messages", {}, "", false, function()
-
-end)
-
 KillInsultsSector:AddTextbox("Message", "@Username is bad.", function(Text)
-    
+    PuppywareSettings.Miscellaneous.KillInsults.MsgText = Text
 end)
 
-KillInsultsSector:AddButton("Add", function()
-
-end)
-
-KillInsultsSector:AddButton("Remove", function()
-
-end)
 --[[
 local CustomModelSector = MiscellaneousTab:CreateSector("Custom Model", "right")
 
@@ -1893,6 +1893,7 @@ local SettingsTab = Window:CreateTab("Info")
 
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
+UpdateSector:AddLabel("17/2/22 \n Added Few beta features \n and world")
 UpdateSector:AddLabel("16/2/22 \n Added extra options \n for world")
 UpdateSector:AddLabel("15/2/22 \n Added options in Visuals \n Added options in Local \n Added options for world")
 UpdateSector:AddLabel("8/2/22 \n Improved ESP and Options")
@@ -1909,6 +1910,7 @@ UpdateSector:AddButton("My Discord Server", function()
 end)
 
 local CreditSector = SettingsTab:CreateSector("Credits", "right")
+
 
 CreditSector:AddLabel("Rest was by Loni \nLxyo and others")
 CreditSector:AddLabel("Small Tweaks were made by \n Twix#0667")
