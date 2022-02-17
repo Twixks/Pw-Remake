@@ -31,7 +31,7 @@ local PuppywareFolder = Instance.new("Folder", workspace)
 PuppywareFolder.Name = "PuppyWare-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
-
+--[[
 local AnimModule = {
     Sweat = {
         "rbxassetid://782841498",
@@ -112,7 +112,7 @@ local AnimsName = {
 local AnimState = {
     Animation = "Default"
 }
-
+]]
 local AnimationModule = {
     Astronaut = {
         "rbxassetid://891621366",
@@ -1075,7 +1075,6 @@ LocalSection:AddButton("Headless", function()
         Duration = 2
     })
     game.Players.LocalPlayer.Character.Head:BreakJoints()
-    game.Players.LocalPlayer.Character.Head.Position = Vector3.new(0, 999999999999, 0)
 end)
 
 LocalSection:AddButton("Korblox", function()
@@ -1822,7 +1821,7 @@ LocalPlayer.CharacterAdded:Connect(function()
         print(i, v)
     end
 end)
-
+--[[
 local AnimSector = MiscellaneousTab:CreateSector("Full Animations", "left")
 
 AnimSector:AddDropdown("Animations", AnimsName, "Default", false, function(State)
@@ -1842,7 +1841,7 @@ AnimSector:AddDropdown("Animations", AnimsName, "Default", false, function(State
         AnimState.Fall = State
     end
 end)
-
+]]
 local AnimationSector = MiscellaneousTab:CreateSector("Animations", "left")
 AnimationSector:AddDropdown("Idle", AnimationsName, "Default", false, function(State)
     if Alive(LocalPlayer) then
@@ -2050,6 +2049,7 @@ end)
 local PendingSector = SettingsTab:CreateSector("Pending", "right")
 
 PendingSector:AddLabel("Fixing Underground \n Adding Background featues \n Trying to fix Aimbot")
+PendingSector:AddLabel("Adding AntiLock \n (i think or no)")
 
 local CreditSector = SettingsTab:CreateSector("Credits", "left")
 
