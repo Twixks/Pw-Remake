@@ -1,8 +1,6 @@
---[[ Pw remake
-    I probably update this EVERY single WEEK
-    Too lazy, to fix silent aim and other shitty stuff
-    :P 
-    execute to see updates
+--[[    Pw remake
+    I probably update this EVERY single Day
+    What an Explosm tbh, Anyway i've made some Updates so enjoy !
 ]]
 
 local GetService = setmetatable({}, {
@@ -33,6 +31,87 @@ local PuppywareFolder = Instance.new("Folder", workspace)
 PuppywareFolder.Name = "PuppyWare-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
+
+local AnimModule = {
+    Sweat = {
+        "rbxassetid://782841498",
+        "rbxassetid://782845736",
+        "rbxassetid://616168032",
+        "rbxassetid://616163682",
+        "rbxassetid://1083218792",
+        "rbxassetid://1083182000",
+        "rbxassetid://1083189019"
+    },
+    Professional = {
+        "rbxassetid://1083445855",
+        "rbxassetid://1083450166",
+        "rbxassetid://616168032",
+        "rbxassetid://616163682",
+        "rbxassetid://5319839762",
+        "rbxassetid://5319852613",
+        "rbxassetid://782846423"
+    },
+    Barbie = {
+        "rbxassetid://910004836",
+        "rbxassetid://910009958",
+        "rbxassetid://910034870",
+        "rbxassetid://910025107",
+        "rbxassetid://910016857",
+        "rbxassetid://616139451",
+        "rbxassetid://910030921",
+        "rbxassetid://616134815"
+    },
+    Astro = {
+        "rbxassetid://891621366",
+        "rbxassetid://891633237",
+        "rbxassetid://616168032",
+        "rbxassetid://616163682",
+        "rbxassetid://891627522",
+        "rbxassetid://507765644",
+        "rbxassetid://891617961"
+    },
+    DTB = {
+        "rbxassetid://782841498",
+        "rbxassetid://782845736",
+        "rbxassetid://616168032",
+        "rbxassetid://616163682",
+        "rbxassetid://656117878",
+        "rbxassetid://507765644",
+        "rbxassetid://656115606"
+    },
+    Newgen = {
+        "rbxassetid://742637544"
+        "rbxassetid://742638445"
+        "rbxassetid://742640026"
+        "rbxassetid://742638842"
+        "rbxassetid://845398858"
+        "rbxassetid://845392038"
+        "rbxassetid://845396048"
+    }
+    Default = {
+        "http://www.roblox.com/asset/?id=507766666",
+        "http://www.roblox.com/asset/?id=507766951",
+        "http://www.roblox.com/asset/?id=507777826",
+        "http://www.roblox.com/asset/?id=507767714",
+        "http://www.roblox.com/asset/?id=507765000",
+        "http://www.roblox.com/asset/?id=507765644",
+        "http://www.roblox.com/asset/?id=507767968"
+    }
+}
+
+local AnimsName = {
+    "Sweat",
+    "Professional",
+    "Barbie",
+    "Astro",
+    "DTB",
+    "Newgen",
+    "Default"
+}
+
+local AnimState = {
+    Animation = "Default"
+}
 
 local AnimationModule = {
     Astronaut = {
@@ -388,6 +467,7 @@ local PuppywareSettings = {
             CrewEnabled = false,
             FriendsWhitelist = false
         },
+    },
     Visuals = {
         ESP = {
             Enabled = false,
@@ -399,7 +479,6 @@ local PuppywareSettings = {
             TeamMateCheck = false,
             TeamColor = false
         },
-    },
     },
     Blatant = {
         BlatantAA = {
@@ -460,7 +539,13 @@ local PuppywareSettings = {
             CrashRate = nil,
             ServerCrasher = false,
             Rejoin = false,
-            ServerHop = false
+            ServerHop = false,
+        },
+        KillInsults = {
+            Enabled = false,
+            CustomMsg = false,
+            Method = "After Dead",
+            Message = "@Username is bad."
         },
     },
     Teleport = {
@@ -989,7 +1074,8 @@ LocalSection:AddButton("Headless", function()
         Description = "Uh, too lazy, I'll add it later",
         Duration = 2
     })
--- Too lazy to make headless
+    game.Players.LocalPlayer.Character.Head:BreakJoints()
+    game.Players.LocalPlayer.Character.Head.Position = Vector3.new(0, 999999999999, 0)
 end)
 
 LocalSection:AddButton("Korblox", function()
@@ -1024,10 +1110,6 @@ local WorldSection = VisualsTab:CreateSector("World", "right")
 
 WorldSection:AddToggle("Global Shadows", false, function(Toggle)
     game.Lighting.GlobalShadows = (Toggle)
-end)
-
-WorldSection:AddColorpicker("Fog Color", Color3.fromRGB(191, 191, 191), function(Color)
-    game.Lighting.FogColor = (Value)
 end)
 
 WorldSection:AddColorpicker("Color Effect Top", Color3.fromRGB(0, 0, 0), function(Color)
@@ -1477,9 +1559,11 @@ FarmingSector:AddToggle('Shoe Farm', false, function(State)
     PuppywareSettings.Blatant.Farming.ShoeFarm = State
 end)
 
-FarmingSector:AddToggle('ATM Farm', false, function(State)
+local ATMToggle = FarmingSector:AddToggle('ATM Farm', false, function(State)
     PuppywareSettings.Blatant.Farming.ATMFarm = State
 end)
+
+ATMToggle:AddKeybind()
 
 FarmingSector:AddToggle('Hospital Farm', false, function(State)
     PuppywareSettings.Blatant.Farming.HospitalFarm = State
@@ -1495,9 +1579,11 @@ FarmingSector:AddDropdown("Muscle Farming Type", {"Normal", "Heavy"}, "Normal", 
     PuppywareSettings.Blatant.Farming.MuscleFarmingType = State
 end)
 
-FarmingSector:AddToggle('Muscle Farm', false, function(State)
+local MuscleToggle = FarmingSector:AddToggle('Muscle Farm', false, function(State)
     PuppywareSettings.Blatant.Farming.MuscleFarm = State
 end)
+
+MuscleToggle:AddKeybind()
 
 local CashSector = BlatantTab:CreateSector("Cash", "right")
 
@@ -1737,7 +1823,27 @@ LocalPlayer.CharacterAdded:Connect(function()
     end
 end)
 
-local AnimationSector = MiscellaneousTab:CreateSector("Animation", "left")
+local AnimSector = MiscellaneousTab:CreateSector("Full Animations", "left")
+
+AnimSector:AddDropdown("Animations", AnimsName, "Default", false, function(State)
+    if Alive(LocalPlayer) then
+        LocalPlayer.Character.Animate.idle.Animation1.AnimationId = AnimModule[State][1]
+        LocalPlayer.Character.Animate.idle.Animation2.AnimationId = AnimModule[State][2]
+        LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = AnimModule[State][3]
+        LocalPlayer.Character.Animate.run.RunAnim.AnimationId = AnimModule[State][4]
+        LocalPlayer.Character.Animate.jump.JumpAnim.AnimationId = AnimModule[State][5]
+        LocalPlayer.Character.Animate.climb.ClimbAnim.AnimationId = AnimModule[State][6]
+        LocalPlayer.Character.Animate.fall.FallAnim.AnimationId = AnimModule[State][7]
+        AnimState.Idle = State
+        AnimState.Walk = State
+        AnimState.Run = State
+        AnimState.Jump = State
+        AnimState.Climb = State
+        AnimState.Fall = State
+    end
+end)
+
+local AnimationSector = MiscellaneousTab:CreateSector("Animations", "left")
 AnimationSector:AddDropdown("Idle", AnimationsName, "Default", false, function(State)
     if Alive(LocalPlayer) then
         LocalPlayer.Character.Animate.idle.Animation1.AnimationId = AnimationModule[State][1]
@@ -1786,6 +1892,11 @@ local ServerSector = MiscellaneousTab:CreateSector("Server", "right")
 ServerSector:AddLabel("Crashing Rate: 0%")
 
 ServerSector:AddButton("Server Crash", function(State)
+    notify({
+        Title = "Puppyware",
+        Description = "Coming in 2066",
+        Duration = 6
+    })
 PuppywareSettings.Miscellaneous.Server.ServerCrasher = State
 end)
 
@@ -1826,7 +1937,7 @@ RadioSector:AddButton("Stop", function()
 
 end)
 ]]
-local KillInsultsSector = MiscellaneousTab:CreateSector("Coming Soon!", "right")
+local KillInsultsSector = MiscellaneousTab:CreateSector("Kill Insults", "right")
 
 KillInsultsSector:AddToggle("Kill Insults Enabled", false, function(State)
     PuppywareSettings.Miscellaneous.KillInsults.Enabled = State
@@ -1836,12 +1947,39 @@ KillInsultsSector:AddToggle("Custom Message", false, function()
     PuppywareSettings.Miscellaneous.KillInsults.CustomMsg = State
 end)
 
-KillInsultsSector:AddDropdown("Method", {"After Dead", "Before Dead", "After Dead",}, false, function(Option)
+KillInsultsSector:AddDropdown("Method", {"After Dead", "Before Dead"}, "After Dead", false, function(Option)
     PuppywareSettings.Miscellaneous.KillInsults.Type = Option
 end)
 KillInsultsSector:AddTextbox("Message", "@Username is bad.", function(Text)
     PuppywareSettings.Miscellaneous.KillInsults.MsgText = Text
 end)
+--[[
+local WindowSection = MiscellaneousTab:CreateSector("Window (UI)", "left")
+
+WindowSection:AddColorpicker("Background Color", (Color3.new(0.284713, 0.011764, 1), function(Color)
+    --never ever done this before
+end)
+
+WindowSection:AddColorpicker("Background Outter Color", (Color3.new(0.284713, 0.011764, 1), function(Color)
+    --never ever done this before
+end)
+
+WindowSection:AddColorpicker("Theme Color", (Color3.new(0.284713, 0.011764, 1), function(Color)
+    --never ever done this before
+end)
+
+WindowSection:AddDropdown("Background Wallpaper", {"Flower", "Snow", "Face", "Guns", "Birds"}, false, function(Option)
+    --sooner or later
+end)
+
+WindowSection:AddSlider("Background Transparency", 1, 5, 10, 2, function(Value)
+    --no-
+end)
+
+WindowSection:AddSlider("Background Outer Transparency", 1, 5, 10, 2, function(Value)
+    --no
+end)
+]]
 
 --[[
 local CustomModelSector = MiscellaneousTab:CreateSector("Custom Model", "right")
@@ -1890,9 +2028,9 @@ end)
 -- Settings Window --
 
 local SettingsTab = Window:CreateTab("Info")
-
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
+UpdateSector:AddLabel("18/2/22 \n Added new Feature in \n Miscellanceous \n Removed some useless \n features")
 UpdateSector:AddLabel("17/2/22 \n Added Few beta features \n and world")
 UpdateSector:AddLabel("16/2/22 \n Added extra options \n for world")
 UpdateSector:AddLabel("15/2/22 \n Added options in Visuals \n Added options in Local \n Added options for world")
@@ -1909,7 +2047,11 @@ UpdateSector:AddButton("My Discord Server", function()
     setclipboard("https://discord.gg/D83UdBWrV2")
 end)
 
-local CreditSector = SettingsTab:CreateSector("Credits", "right")
+local PendingSector = SettingsTab:CreateSector("Pending", "right")
+
+PendingSector:AddLabel("Fixing Underground \n Adding Background featues \n Trying to fix Aimbot")
+
+local CreditSector = SettingsTab:CreateSector("Credits", "left")
 
 
 CreditSector:AddLabel("Rest was by Loni \nLxyo and others")
