@@ -2020,10 +2020,10 @@ end)
 local SettingsTab = Window:CreateTab("Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
-UpdateSector:AddLabel("18/2/22 \n Added new Feature in \n Miscellanceous \n Removed some useless \n features")
-UpdateSector:AddLabel("17/2/22 \n Added Few beta features \n and world")
-UpdateSector:AddLabel("16/2/22 \n Added extra options \n for world")
-UpdateSector:AddLabel("15/2/22 \n Added options in Visuals \n Added options in Local \n Added options for world")
+UpdateSector:AddLabel("18/2/22 \n Added new Feature in \n Miscellanceous. \n Removed some useless \n features.")
+UpdateSector:AddLabel("17/2/22 \n Added Few beta features \n and world.")
+UpdateSector:AddLabel("16/2/22 \n Added extra options \n for world.")
+UpdateSector:AddLabel("15/2/22 \n Added options in Visuals. \n Added options in Local. \n Added options in world.")
 UpdateSector:AddLabel("8/2/22 \n Improved ESP and Options")
 UpdateSector:AddLabel("5/2/22 \n Added Visuals and ESP")
 UpdateSector:AddLabel("1/2/22 \n Added some features")
@@ -2042,11 +2042,21 @@ local PendingSector = SettingsTab:CreateSector("Pending", "right")
 PendingSector:AddLabel("Fixing Underground \n Adding Background featues \n Trying to fix Aimbot")
 PendingSector:AddLabel("Adding AntiLock \n (i think or no)")
 
+if syn then
+    SettingsTab:CreateConfigSystem("left")
+else
+    Notify({
+        Title = "Puppyware",
+        Description = "Your Executor Doesn't Support Config.",
+        Duration = 3
+    })
+end
+
 local CreditSector = SettingsTab:CreateSector("Credits", "left")
 
 
 CreditSector:AddLabel("Rest was by Loni \nLxyo and others")
-CreditSector:AddLabel("Small Tweaks were made by \n Twix#0667")
+CreditSector:AddLabel("Current changes were made by \n Twix")
 
 CreditSector:AddButton("Puppyware Server", function()
     Notify({
@@ -2057,15 +2067,6 @@ CreditSector:AddButton("Puppyware Server", function()
     setclipboard("https://discord.gg/Puppyware")
 end)
 
-if syn then
-    SettingsTab:CreateConfigSystem("left")
-else
-    Notify({
-        Title = "Puppyware",
-        Description = "Your Executor Doesn't Support Config.",
-        Duration = 3
-    })
-end
 
 -- Init --
 
