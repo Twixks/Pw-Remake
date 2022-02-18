@@ -31,7 +31,7 @@ local PuppywareFolder = Instance.new("Folder", workspace)
 PuppywareFolder.Name = "PuppyWare-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
---[[
+
 local AnimModule = {
     Sweat = {
         "rbxassetid://782841498",
@@ -79,15 +79,6 @@ local AnimModule = {
         "rbxassetid://507765644",
         "rbxassetid://656115606"
     },
-    Newgen = {
-        "rbxassetid://742637544"
-        "rbxassetid://742638445"
-        "rbxassetid://742640026"
-        "rbxassetid://742638842"
-        "rbxassetid://845398858"
-        "rbxassetid://845392038"
-        "rbxassetid://845396048"
-    }
     Default = {
         "http://www.roblox.com/asset/?id=507766666",
         "http://www.roblox.com/asset/?id=507766951",
@@ -100,19 +91,19 @@ local AnimModule = {
 }
 
 local AnimsName = {
-    "Sweat",
+    "DTB",
     "Professional",
+    "Sweat",
     "Barbie",
     "Astro",
-    "DTB",
-    "Newgen",
-    "Default"
+    "Default",
+    "none"
 }
 
 local AnimState = {
-    Animation = "Default"
+    Animation = "none"
 }
-]]
+
 local AnimationModule = {
     Astronaut = {
         "rbxassetid://891621366",
@@ -381,16 +372,17 @@ local AnimationsName = {
     "Toy",
     "Vampire",
     "Werewolf",
-    "Zombie"
+    "Zombie",
+    "none"
 }
 
 local AnimationState = {
-    Idle = "Default",
-    Walk = "Default",
-    Run = "Default",
-    Jump = "Default",
-    Climb = "Default",
-    Fall = "Default",
+    Idle = "none",
+    Walk = "none",
+    Run = "none",
+    Jump = "none",
+    Climb = "none",
+    Fall = "none",
 }
 
 local PuppywareSettings = {
@@ -1074,7 +1066,6 @@ LocalSection:AddButton("Headless", function()
         Description = "Uh, too lazy, I'll add it later",
         Duration = 2
     })
-    game.Players.LocalPlayer.Character.Head:BreakJoints()
 end)
 
 LocalSection:AddButton("Korblox", function()
@@ -1821,10 +1812,10 @@ LocalPlayer.CharacterAdded:Connect(function()
         print(i, v)
     end
 end)
---[[
+
 local AnimSector = MiscellaneousTab:CreateSector("Full Animations", "left")
 
-AnimSector:AddDropdown("Animations", AnimsName, "Default", false, function(State)
+AnimSector:AddDropdown("Animations", AnimsName, "none", false, function(State)
     if Alive(LocalPlayer) then
         LocalPlayer.Character.Animate.idle.Animation1.AnimationId = AnimModule[State][1]
         LocalPlayer.Character.Animate.idle.Animation2.AnimationId = AnimModule[State][2]
@@ -1841,9 +1832,9 @@ AnimSector:AddDropdown("Animations", AnimsName, "Default", false, function(State
         AnimState.Fall = State
     end
 end)
-]]
+
 local AnimationSector = MiscellaneousTab:CreateSector("Animations", "left")
-AnimationSector:AddDropdown("Idle", AnimationsName, "Default", false, function(State)
+AnimationSector:AddDropdown("Idle", AnimationsName, "none", false, function(State)
     if Alive(LocalPlayer) then
         LocalPlayer.Character.Animate.idle.Animation1.AnimationId = AnimationModule[State][1]
         LocalPlayer.Character.Animate.idle.Animation2.AnimationId = AnimationModule[State][2]
@@ -1851,35 +1842,35 @@ AnimationSector:AddDropdown("Idle", AnimationsName, "Default", false, function(S
     end
 end)
 
-AnimationSector:AddDropdown("Walk", AnimationsName, "Default", false, function(State)
+AnimationSector:AddDropdown("Walk", AnimationsName, "none", false, function(State)
     if Alive(LocalPlayer) then
         LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = AnimationModule[State][3]
         AnimationState.Walk = State
     end
 end)
 
-AnimationSector:AddDropdown("Run", AnimationsName, "Default", false, function(State)
+AnimationSector:AddDropdown("Run", AnimationsName, "none", false, function(State)
     if Alive(LocalPlayer) then
         LocalPlayer.Character.Animate.run.RunAnim.AnimationId = AnimationModule[State][4]
         AnimationState.Run = State
     end
 end)
 
-AnimationSector:AddDropdown("Jump", AnimationsName, "Default", false, function(State)
+AnimationSector:AddDropdown("Jump", AnimationsName, "none", false, function(State)
     if Alive(LocalPlayer) then
         LocalPlayer.Character.Animate.jump.JumpAnim.AnimationId = AnimationModule[State][5]
         AnimationState.Jump = State
     end
 end)
 
-AnimationSector:AddDropdown("Climb", AnimationsName, "Default", false, function(State)
+AnimationSector:AddDropdown("Climb", AnimationsName, "none", false, function(State)
     if Alive(LocalPlayer) then
         LocalPlayer.Character.Animate.climb.ClimbAnim.AnimationId = AnimationModule[State][6]
         AnimationState.Climb = State
     end
 end)
 
-AnimationSector:AddDropdown("Fall", AnimationsName, "Default", false, function(State)
+AnimationSector:AddDropdown("Fall", AnimationsName, "none", false, function(State)
     if Alive(LocalPlayer) then
         LocalPlayer.Character.Animate.fall.FallAnim.AnimationId = AnimationModule[State][7]
         AnimationState.Fall = State
