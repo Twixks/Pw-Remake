@@ -1060,6 +1060,10 @@ LocalSection:AddSlider("Gravity", 1, 196.2, 600, 1, function(Value)
     game.Workspace.Gravity = (Value)
 end)
 
+LocalSection:AddSlider("WalkSpeed", 1, 16, 900, 1, function(Value)
+    game.Character:FindFirstChildOfClass('Humanoid').WalkSpeed = Value
+end)
+
 LocalSection:AddButton("Headless", function()
     Notify({
         Title = "Puppyware",
@@ -2020,7 +2024,7 @@ end)
 local SettingsTab = Window:CreateTab("Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
-UpdateSector:AddLabel("18/2/22 \n Added new Feature in \n Miscellanceous. \n Removed some useless \n features.")
+UpdateSector:AddLabel("18/2/22 \n Removed A feature \n Miscellanceous. \n Removed some useless \n features.")
 UpdateSector:AddLabel("17/2/22 \n Added Few beta features \n and world.")
 UpdateSector:AddLabel("16/2/22 \n Added extra options \n for world.")
 UpdateSector:AddLabel("15/2/22 \n Added options in Visuals. \n Added options in Local. \n Added options in world.")
