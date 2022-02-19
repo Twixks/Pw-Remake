@@ -31,7 +31,7 @@ local PuppywareFolder = Instance.new("Folder", workspace)
 PuppywareFolder.Name = "PuppyWare-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
-
+--[[
 local AnimModule = {
     Sweat = {
         "rbxassetid://782841498",
@@ -103,7 +103,7 @@ local AnimsName = {
 local AnimState = {
     Animation = "none"
 }
-
+]]
 local AnimationModule = {
     Astronaut = {
         "rbxassetid://891621366",
@@ -1816,7 +1816,7 @@ LocalPlayer.CharacterAdded:Connect(function()
         print(i, v)
     end
 end)
-
+--[[
 local AnimSector = MiscellaneousTab:CreateSector("Full Animations", "left")
 
 AnimSector:AddDropdown("Animations", AnimsName, "none", false, function(State)
@@ -1836,7 +1836,7 @@ AnimSector:AddDropdown("Animations", AnimsName, "none", false, function(State)
         AnimState.Fall = State
     end
 end)
-
+]]
 local AnimationSector = MiscellaneousTab:CreateSector("Animations", "left")
 AnimationSector:AddDropdown("Idle", AnimationsName, "none", false, function(State)
     if Alive(LocalPlayer) then
