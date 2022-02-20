@@ -2110,6 +2110,7 @@ end)
 local SettingsTab = Window:CreateTab("Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
+UpdateSector:AddLabel("20/2/22 \n Added new features \n in visuals")
 UpdateSector:AddLabel("18/2/22 \n Removed A feature \n Miscellanceous. \n Removed some useless \n features.")
 UpdateSector:AddLabel("17/2/22 \n Added Few beta features \n and world.")
 UpdateSector:AddLabel("16/2/22 \n Added extra options \n for world.")
@@ -2129,6 +2130,7 @@ end)
 
 local PendingSector = SettingsTab:CreateSector("Pending", "right")
 
+PendingSector:AddLabel("Adding Crosshair \n (maybe or not)")
 PendingSector:AddLabel("Fixing Underground \n Adding Background featues \n Trying to fix Aimbot")
 PendingSector:AddLabel("Adding AntiLock \n (i think or no)")
 
@@ -2145,7 +2147,7 @@ end
 local CreditSector = SettingsTab:CreateSector("Credits", "left")
 
 
-CreditSector:AddLabel("Rest was by Loni \nLxyo and others")
+CreditSector:AddLabel("I give Loni all the \n Credits since he made it \n all and his team")
 CreditSector:AddLabel("Current changes were made by \n Twix")
 
 CreditSector:AddButton("Puppyware Server", function()
