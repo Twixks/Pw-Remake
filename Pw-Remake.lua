@@ -10,6 +10,8 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Twixk
 local NotifyLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Dynissimo/main/Scripts/AkaliNotif.lua"))()
 local Notify = NotifyLibrary.Notify
 Library.theme.accentcolor = Color3.new(0.284713, 0.011764, 1)
+local Watermark = Library:CreateWatermark("Pw-Remake | {fps} | {game}")
+
 
 local RunService = GetService.RunService
 local Players = GetService.Players
@@ -69,7 +71,7 @@ local AnimModule = {
     },
     DTB = {
         "rbxassetid://782841498",
-        "rbxassetid://782845736",
+        "rbxassetid://782845736",       -- Forgor to do shitty stuff
         "rbxassetid://616168032",
         "rbxassetid://616163682",
         "rbxassetid://656117878",
@@ -604,23 +606,6 @@ Drawing = {
             "Lettuce",
             "Lemonade"
         },
-        Location = {
-            "Bank",
-            "Boxing Place",
-            "Police Station",
-            "Admin Base",
-            "Sewers",
-            "Shoe Store",
-            "Hospital",
-            "Phone Store",
-            "Taco Shack",
-            "Casino",
-            "UFO",
-            "Fire Station",
-            "Church",
-            "Downhill Shop",
-            "Uphill Shop"
-        },
         Gun = {
             "Glock",
             "SMG",
@@ -1008,29 +993,29 @@ ESPToggle:AddColorpicker(Color3.new(0.284713, 0.011764, 1), function(Color)
 end)
 
 ESPSection:AddToggle('Box ESP', false, function(onoff)
-    ESP.Boxes = onoff
+    ESP.Boxes = (onoff)
 end)
 
 ESPSection:AddToggle('Name ESP', false, function(onoff)
-    ESP.Names = onoff
+    ESP.Names = (onoff)
 end)
 
 ESPSection:AddToggle('Tracer ESP', false, function(onoff)
-    ESP.Tracers = onoff
+    ESP.Tracers = (onoff)
 end)
 
 ESPSection:AddToggle('Highlight', false, function(onoff)
-    ESP.Highlighted = onoff
+    ESP.Highlighted = (onoff)
 end)
 
 local ESPSettings = VisualsTab:CreateSector("ESP Settings", "right")
 
 ESPSettings:AddSlider('Attach Shift', 1, 1, 10, 1, function(Value)
-    ESP.AttachShift = Value
+    ESP.AttachShift = (Value)
 end)
 
-ESPSettings:AddSlider('Thickness', 1, 1.5, 20, 2, function(Value)
-    ESP.Thickness = Value
+ESPSettings:AddSlider('Thickness', 1, 1, 15, 2, function(Value)
+    ESP.Thickness = (Value)
 end)
 
 --[[
@@ -1060,17 +1045,13 @@ end)
 LocalSection:AddButton("Headless", function()
     Notify({
         Title = "Puppyware",
-        Description = "Uh, too lazy, I'll add it later",
+        Description = "Uh, too lazy, I'll add it later",        -- Why to bother adding this shit, Make it by yourself faggot
         Duration = 2
     })
 end)
 
 LocalSection:AddButton("No Face", function()
     game.Players.LocalPlayer.Character.Head.face:Destroy()
-end)
-
-LocalSection:AddButton("Hide Mask", function()
-    game.players.LocalPLayer.Character:FindFirstChild('In-gameMask').Handle:Destroy()
 end)
 
 LocalSection:AddButton("Korblox", function()
@@ -1082,8 +1063,6 @@ LocalSection:AddButton("Hide Boombox", function()
 end)
 
 LocalSection:AddButton("Chat Spy", function()
---SCRIPT NOT MADE BY ME I JUST NEEDED A LOADSTRING FOR IT
---\\ lol i was so humble 
 
 --chat "/spy" to toggle!
 enabled = true
@@ -1152,25 +1131,31 @@ chatFrame.ChatChannelParentFrame.Visible = true
 chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
 end)
 
---[[
+
 local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "left")
 
-local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", false, function()
-
+local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", false, function(State)
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Visible = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.Visible = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.Visible = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.Visible = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.Visible = State
 end)
 
-DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(0.284713, 0.011764, 1), function()
-
+DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(0.284713, 0.011764, 1), function(State)
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.BackgroundColor3 = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.BackgroundColor3 = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.BackgroundColor3 = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.BackgroundColor3 = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.BackgroundColor3 = State
 end)
 
-CrosshairSection:AddSlider("Gap", 0, 1, 5, 1, function(Value)
+CrosshairSection:AddSlider("Coming soon", 0, 1, 5, 1, function(Value)
+end)
+
+CrosshairSection:AddSlider("Coming soon", 0, 3, 10, 1, function(Value)
     
 end)
-
-CrosshairSection:AddSlider("Size", 0, 3, 10, 1, function(Value)
-    
-end)
-]]
 
 local WorldSection = VisualsTab:CreateSector("World", "right")
 
@@ -1521,6 +1506,23 @@ MiscSector:AddButton('Fly (X)', function()
     end
 end)
 
+MiscSector:AddButton('BackGround Autoclicker', function()
+    notify({
+        Title = "Puppyware",
+        Description = "AutoClicker - V \n Lock Mouse Position - B",
+        Duration = 8
+    })
+    getgenv().Settings = {
+		["Auto Click Keybind"] = "V", -- Use an UpperCase letter or KeyCode Enum. Ex: Enum.KeyCode.Semicolon
+		["Lock Mouse Position Keybind"] = "B",
+		["Right Click"] = false,
+		["GUI"] = false, -- A drawing gui that tells you what is going on with the autoclicker.
+		["Delay"] = 0 -- 0 for RenderStepped, other numbers go to regular wait timings.
+	}
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/tayodevelup/secretinsomniac/main/asdadas"))()
+end)
+
+
 
 MiscSector:AddButton('Invisible', function(State)
     Invisible()
@@ -1608,6 +1610,12 @@ CharacterSector:AddDropdown("Anti Stomp Type", {"Show Body", "Nil Char"}, "Nil C
     PuppywareSettings.Blatant.Character.AntiStompType = State
 end)
 
+local FlingToggle = CharacterSector:AddToggle('Anti-Fling', false, function(State)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = State
+end)
+
+FlingToggle:AddKeybind()
+
 CharacterSector:AddToggle('Anti Bag', false, function(State)
     PuppywareSettings.Blatant.Character.AntiBag = State
 end)
@@ -1624,9 +1632,11 @@ CharacterSector:AddToggle('Auto Lettuce', false, function(State)
     PuppywareSettings.Blatant.Character.AutoLettuce = State
 end)
 
-CharacterSector:AddToggle('Auto Armor', false, function(State)
+local ArmorToggle = CharacterSector:AddToggle('Auto Armor', false, function(State)
     PuppywareSettings.Blatant.Character.AutoArmor = State
 end)
+
+ArmorToggle:AddKeybind()
 
 CharacterSector:AddToggle('Auto Reload', false, function(State)
     PuppywareSettings.Blatant.Character.AutoReload = State
@@ -1686,7 +1696,6 @@ local TeleportTab = Window:CreateTab("Teleport")
 local TeleportModule = {
     Food = PuppywareModule.Teleport.Food[1],
     Gun = PuppywareModule.Teleport.Gun[1],
-    Location = PuppywareModule.Teleport.Location[1],
     Armor = PuppywareModule.Teleport.Armor[1],
     Melee = PuppywareModule.Teleport.Melee[1],
     Extra = PuppywareModule.Teleport.Extra[1],
@@ -1698,6 +1707,28 @@ local TeleportModule = {
         Tools = {}
     }
 }
+
+local LocationSector = TeleportTab:CreateSector("Location Teleport", "left")
+
+LocationSector:AddButton('Bank Building', function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-327.583862, 80.4338913, -278.811951, -0.0466220938, -1.94237373e-08, 0.998912573, 1.07243459e-07, 1, 2.44502392e-08, -0.998912573, 1.08266761e-07, -0.0466220938)
+end)
+
+LocationSector:AddButton('Admin Base', function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-874.903992, -32.6492004, -525.215698)
+end)
+
+LocationSector:AddButton('School', function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-581.790283, 68.4947281, 331.046448, 0.220051467, -7.56681329e-05, 0.975498199, -3.96428077e-05, 0.999999583, 8.65130132e-05, -0.975498199, -5.77078645e-05, 0.22005)
+end)
+
+LocationSector:AddButton('Circus Mountain', function()
+	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(292.643799, 122.749977, -860.128784, 0.986730993, 5.09704545e-09, 0.162363499, -9.24942123e-10, 1, -2.57716568e-08, -0.162363499, 2.52795154e-08, 0.986730993)
+end)
+
+LocationSector:AddButton('UFO Mountain', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(65.1504517, 138.999954, -691.819031, -0.935115993, -5.9791418e-08, -0.354341775, -3.10840989e-08, 1, -8.67077574e-08, 0.354341775, -7.0067415e-08, -0.935115993)
+end)
 
 local FoodSector = TeleportTab:CreateSector("Food Teleport", "left")
 FoodSector:AddDropdown("Food Selection", PuppywareModule.Teleport.Food, PuppywareModule.Teleport.Food[1], false, function(Value)
@@ -1721,11 +1752,6 @@ GunSector:AddButton("Teleport", function()
             wait(1)
         end
     end)
-end)
-
-local LocationSector = TeleportTab:CreateSector("Location Teleport", "left")
-LocationSector:AddDropdown("Location Selection", PuppywareModule.Teleport.Location, PuppywareModule.Teleport.Location[1], false, function(Value)
-    TeleportModule.Location = Value
 end)
 
 LocationSector:AddButton("Teleport", function()
@@ -2110,6 +2136,7 @@ end)
 local SettingsTab = Window:CreateTab("Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
+UpdateSector:AddLabel("21/2/22 \n Added Crosshair in \n Visuals \n Added for local also.")
 UpdateSector:AddLabel("20/2/22 \n Added new features \n in visuals")
 UpdateSector:AddLabel("18/2/22 \n Removed A feature \n Miscellanceous. \n Removed some useless \n features.")
 UpdateSector:AddLabel("17/2/22 \n Added Few beta features \n and world.")
@@ -2143,6 +2170,13 @@ else
         Duration = 3
     })
 end
+
+local WindowSection = SettingsTab:CreateSector("Ui Settings", "left")
+
+WindowSection:AddToggle("Watermark", false, function(State)
+    Watermark.Visible = State
+end)
+
 
 local CreditSector = SettingsTab:CreateSector("Credits", "left")
 
@@ -2516,20 +2550,20 @@ RunService.Heartbeat:Connect(function()
                 LocalPlayer.Character:FindFirstChild("Christmas_Sock"):Destroy()
             end
         end
+        if PuppywareSettings.Blatant.Character.AntiSlow then
+            local lplayer = game.Players.LocalPlayer
+
+            game:GetService('RunService').Stepped:Connect(function()
+               pcall(function()
+                   lplayer.Character.BodyEffects.Movement:ClearAllChildren()
+               end)
+            end)
+        end
         if PuppywareSettings.Blatant.Character.AntiGrab and LocalPlayer.Character:FindFirstChild("GRABBING_CONSTRAINT") then
             LocalPlayer.Character["GRABBING_CONSTRAINT"]:Destroy()
         end
     end
-        if PuppywareSettings.Blatant.Character.AntiSlow then
-                local DeletePart = player.Character.BodyEffects.Movement:FindFirstChild('NoJumping') or player.Character.BodyEffects.Movement:FindFirstChild('ReduceWalk') or player.Character.BodyEffects.Movement:FindFirstChild('NoWalkSpeed')
-                if DeletePart then DeletePart:Destroy()
-                if player.Character.BodyEffects.Reload.Value == true then 
-                    player.Character.BodyEffects.Reload.Value = false
-                end
-                end
-        end
 end)
-    
 
 RunService.Stepped:Connect(function()
 	if PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang then
