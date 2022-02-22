@@ -1,4 +1,6 @@
-
+--[[
+    Pw remake so cool
+]]
 
 local GetService = setmetatable({}, {
     __index = function(self, key)
@@ -27,7 +29,7 @@ SilentAimFOV.Thickness = 1
 local Insert = table.insert
 local Network = GetService.NetworkClient
 local PuppywareFolder = Instance.new("Folder", workspace)
-PuppywareFolder.Name = "PuppyWare-Folder"
+PuppywareFolder.Name = "PWRemake-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
 --[[
@@ -681,7 +683,7 @@ Drawing = {
     }
 }
 
-local Window = Library:CreateWindow("Puppyware", Vector2.new(492, 598), Enum.KeyCode.RightShift)
+local Window = Library:CreateWindow("Pw-Remake", Vector2.new(492, 598), Enum.KeyCode.RightShift)
 local AimingTab = Window:CreateTab("Aiming")
 
 -- Aimbot Setion --
@@ -947,20 +949,20 @@ WhitelistSection:AddButton('Remove', function()
         if table.find(PuppywareSettings.Aiming.Whitelist.Players, PuppywareSettings.Aiming.Whitelist.Holder) then
             Remove(PuppywareSettings.Aiming.Whitelist.Players, PuppywareSettings.Aiming.Whitelist.Holder)
             Notify({
-                Title = "Puppyware",
+                Title = "Pw-Remake",
                 Description = "Removed " .. PuppywareSettings.Aiming.Whitelist.Holder,
                 Duration = 5
             })
         else
             Notify({
-                Title = "Puppyware",
+                Title = "Pw-Remake",
                 Description = PuppywareSettings.Aiming.Whitelist.Holder .. " is not whitelisted.",
                 Duration = 5
             })
         end
     else
         Notify({
-            Title = "Puppyware",
+            Title = "Pw-Remake",
             Description = "Player is not found.",
             Duration = 3
         })
@@ -1002,10 +1004,6 @@ end)
 
 ESPSection:AddToggle('Tracer ESP', false, function(onoff)
     ESP.Tracers = (onoff)
-end)
-
-ESPSection:AddToggle('Highlight', false, function(onoff)
-    ESP.Highlighted = (onoff)
 end)
 
 local ESPSettings = VisualsTab:CreateSector("ESP Settings", "right")
@@ -1142,7 +1140,7 @@ local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", f
 	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.Visible = State
 end)
 
-DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(0.284713, 0.011764, 1), function(State)
+DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(70, 70, 70), function(State)
 	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.BackgroundColor3 = State
 	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.BackgroundColor3 = State
 	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.BackgroundColor3 = State
@@ -1507,16 +1505,11 @@ MiscSector:AddButton('Fly (X)', function()
 end)
 
 MiscSector:AddButton('BackGround Autoclicker', function()
-    notify({
-        Title = "Puppyware",
-        Description = "AutoClicker - V \n Lock Mouse Position - B",
-        Duration = 8
-    })
     getgenv().Settings = {
 		["Auto Click Keybind"] = "V", -- Use an UpperCase letter or KeyCode Enum. Ex: Enum.KeyCode.Semicolon
 		["Lock Mouse Position Keybind"] = "B",
 		["Right Click"] = false,
-		["GUI"] = false, -- A drawing gui that tells you what is going on with the autoclicker.
+		["GUI"] = true, -- A drawing gui that tells you what is going on with the autoclicker.
 		["Delay"] = 0 -- 0 for RenderStepped, other numbers go to regular wait timings.
 	}
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/tayodevelup/secretinsomniac/main/asdadas"))()
@@ -1621,8 +1614,9 @@ CharacterSector:AddToggle('Anti Bag', false, function(State)
 end)
 
 CharacterSector:AddToggle('Anti Slow', false, function(State)
-    PuppywareSettings.Blatant.Character.AntiSlow = State
+    PuppywareSettings.Blatant.Character.AntiSlow2 = State
 end)
+
 
 CharacterSector:AddToggle('Anti Grab', false, function(State)
     PuppywareSettings.Blatant.Character.AntiGrab = State
@@ -2550,14 +2544,12 @@ RunService.Heartbeat:Connect(function()
                 LocalPlayer.Character:FindFirstChild("Christmas_Sock"):Destroy()
             end
         end
-        if PuppywareSettings.Blatant.Character.AntiSlow then
-            local lplayer = game.Players.LocalPlayer
-
-            game:GetService('RunService').Stepped:Connect(function()
-               pcall(function()
-                   lplayer.Character.BodyEffects.Movement:ClearAllChildren()
-               end)
-            end)
+        if PuppywareSettings.Blatant.Character.AntiSlow2 then
+            local DeletePart = game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('NoJumping') or game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('ReduceWalk') or game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('NoWalkSpeed')
+            if DeletePart then DeletePart:Destroy() end
+            if game.Players.LocalPlayer.Character.BodyEffects.Reload.Value == true then 
+                game.Players.LocalPlayer.Character.BodyEffects.Reload.Value = false 
+            end
         end
         if PuppywareSettings.Blatant.Character.AntiGrab and LocalPlayer.Character:FindFirstChild("GRABBING_CONSTRAINT") then
             LocalPlayer.Character["GRABBING_CONSTRAINT"]:Destroy()
