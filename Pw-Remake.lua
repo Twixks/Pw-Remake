@@ -1132,7 +1132,7 @@ end)
 
 local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "left")
 
-local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", false, function(State)
+local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", true, function(State)
 	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Visible = State
 	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.Visible = State
 	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.Visible = State
@@ -1188,7 +1188,7 @@ WorldSection:AddSlider("Brightness", 1, 1, 10, 2, function(Value)
     PuppywareSettings.Visuals.World.Brightness.BrightAmount = (Value)
 end)
 
-WorldSection:AddSlider("Fog Effect", 0, 100000, 100000, 1, function(Value)
+WorldSection:AddSlider("Fog Effect", 0, 5000, 10000, 1, function(Value)
     game.Lighting.FogEnd = (Value)
 end)
 
@@ -1504,19 +1504,6 @@ MiscSector:AddButton('Fly (X)', function()
     end
 end)
 
-MiscSector:AddButton('BackGround Autoclicker', function()
-    getgenv().Settings = {
-		["Auto Click Keybind"] = "V", -- Use an UpperCase letter or KeyCode Enum. Ex: Enum.KeyCode.Semicolon
-		["Lock Mouse Position Keybind"] = "B",
-		["Right Click"] = false,
-		["GUI"] = true, -- A drawing gui that tells you what is going on with the autoclicker.
-		["Delay"] = 0 -- 0 for RenderStepped, other numbers go to regular wait timings.
-	}
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/tayodevelup/secretinsomniac/main/asdadas"))()
-end)
-
-
-
 MiscSector:AddButton('Invisible', function(State)
     Invisible()
 end)
@@ -1595,12 +1582,17 @@ MeleeReachToggle:AddKeybind()
 
 local CharacterSector = BlatantTab:CreateSector("Character", "right")
 
-CharacterSector:AddToggle('Anti Stomp', false, function(State)
+local StompToggle = CharacterSector:AddToggle('Anti Stomp', false, function(State)
     PuppywareSettings.Blatant.Character.AntiStomp = State
 end)
 
+StompToggle:AddKeybind()
+
 CharacterSector:AddDropdown("Anti Stomp Type", {"Show Body", "Nil Char"}, "Nil Char", false, function(State)
     PuppywareSettings.Blatant.Character.AntiStompType = State
+end)
+
+CharacterSector:AddToggle('Auto Stomp', false, function(State)
 end)
 
 local FlingToggle = CharacterSector:AddToggle('Anti-Fling', false, function(State)
@@ -1609,17 +1601,18 @@ end)
 
 FlingToggle:AddKeybind()
 
-CharacterSector:AddToggle('Anti Bag', false, function(State)
+local BagToggle = CharacterSector:AddToggle('Anti Bag', false, function(State)
     PuppywareSettings.Blatant.Character.AntiBag = State
+end)
+
+BagToggle:AddKeybind()
+
+CharacterSector:AddToggle('Anti Grab', false, function(State)
+    PuppywareSettings.Blatant.Character.AntiGrab = State
 end)
 
 CharacterSector:AddToggle('Anti Slow', false, function(State)
     PuppywareSettings.Blatant.Character.AntiSlow2 = State
-end)
-
-
-CharacterSector:AddToggle('Anti Grab', false, function(State)
-    PuppywareSettings.Blatant.Character.AntiGrab = State
 end)
 
 CharacterSector:AddToggle('Auto Lettuce', false, function(State)
@@ -1675,7 +1668,7 @@ local AutoDropToggle = CashSector:AddToggle("Auto Drop", false, function(State)
     PuppywareSettings.Blatant.Cash.AutoDrop = State
 end)
 
-AutoDropToggle:AddSlider(1000, 5000, 10000, 1, function(Value)
+AutoDropToggle:AddSlider(1000, 3500, 10000, 1, function(Value)
     PuppywareSettings.Blatant.Cash.AutoDropAmount = Value
 end)
 
@@ -1748,9 +1741,6 @@ GunSector:AddButton("Teleport", function()
     end)
 end)
 
-LocationSector:AddButton("Teleport", function()
-    TeleportBuy(ToolName(TeleportModule.Location))
-end)
 
 local ArmorSector = TeleportTab:CreateSector("Armor Teleport", "left")
 ArmorSector:AddDropdown("Armor Selection", PuppywareModule.Teleport.Armor, PuppywareModule.Teleport.Armor[1], false, function(Value)
@@ -2130,6 +2120,7 @@ end)
 local SettingsTab = Window:CreateTab("Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
+UpdateSector:AddLabel("22/2/22 \n Added some Ui features \n Added character fture.")
 UpdateSector:AddLabel("21/2/22 \n Added Crosshair in \n Visuals \n Added for local also.")
 UpdateSector:AddLabel("20/2/22 \n Added new features \n in visuals")
 UpdateSector:AddLabel("18/2/22 \n Removed A feature \n Miscellanceous. \n Removed some useless \n features.")
@@ -2151,7 +2142,6 @@ end)
 
 local PendingSector = SettingsTab:CreateSector("Pending", "right")
 
-PendingSector:AddLabel("Adding Crosshair \n (maybe or not)")
 PendingSector:AddLabel("Fixing Underground \n Adding Background featues \n Trying to fix Aimbot")
 PendingSector:AddLabel("Adding AntiLock \n (i think or no)")
 
@@ -2170,7 +2160,6 @@ local WindowSection = SettingsTab:CreateSector("Ui Settings", "left")
 WindowSection:AddToggle("Watermark", false, function(State)
     Watermark.Visible = State
 end)
-
 
 local CreditSector = SettingsTab:CreateSector("Credits", "left")
 
