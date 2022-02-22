@@ -29,7 +29,7 @@ SilentAimFOV.Thickness = 1
 local Insert = table.insert
 local Network = GetService.NetworkClient
 local PuppywareFolder = Instance.new("Folder", workspace)
-PuppywareFolder.Name = "PWRemake-Folder"
+PuppywareFolder.Name = "PuppyWare-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
 --[[
@@ -683,7 +683,7 @@ Drawing = {
     }
 }
 
-local Window = Library:CreateWindow("Pw-Remake", Vector2.new(492, 598), Enum.KeyCode.RightShift)
+local Window = Library:CreateWindow("Puppyware", Vector2.new(492, 598), Enum.KeyCode.RightShift)
 local AimingTab = Window:CreateTab("Aiming")
 
 -- Aimbot Setion --
