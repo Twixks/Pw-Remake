@@ -1,5 +1,7 @@
 --[[
     Pw remake so cool
+    Idk how to prevent the breaking configuration thing, All though its pretty interesting when i make cool stuff
+    Anyway, I don't know how will this be Up-To-Date
 ]]
 
 local GetService = setmetatable({}, {
@@ -884,7 +886,7 @@ end, function()
             PuppywareSettings.Aiming.TargetAim.Target = NearestTarget.Name
             if PuppywareSettings.Aiming.TargetAimSettings.NotificationAlert then
                 Notify({
-                    Title = "Puppyware",
+                    Title = "Pw-Remake",
                     Description = "Target: " .. NearestTarget.Name,
                     Duration = 3
                 })
@@ -912,7 +914,7 @@ WhitelistSection:AddTextbox("Username", nil, function(Text)
         PuppywareSettings.Aiming.Whitelist.Holder = Find(Text)
     else
         Notify({
-            Title = "Puppyware",
+            Title = "Pw-Remake",
             Description = "Player is not found.",
             Duration = 3
         })
@@ -923,21 +925,21 @@ WhitelistSection:AddButton('Add', function(State)
     if PuppywareSettings.Aiming.Whitelist.Holder ~= nil and Players:FindFirstChild(PuppywareSettings.Aiming.Whitelist.Holder) then
         if table.find(PuppywareSettings.Aiming.Whitelist.Players, PuppywareSettings.Aiming.Whitelist.Holder) then
             Notify({
-                Title = "Puppyware",
+                Title = "Pw-Remake",
                 Description = PuppywareSettings.Aiming.Whitelist.Holder .. " is whitelisted.",
                 Duration = 3
             })
         else
             Insert(PuppywareSettings.Aiming.Whitelist.Players, PuppywareSettings.Aiming.Whitelist.Holder)
             Notify({
-                Title = "Puppyware",
+                Title = "Pw-Remake",
                 Description = "Whitelisted " .. PuppywareSettings.Aiming.Whitelist.Holder,
                 Duration = 3
             })
         end
     else
         Notify({
-            Title = "Puppyware",
+            Title = "Pw-Remake",
             Description = "Player is not found.",
             Duration = 3
         })
@@ -1032,6 +1034,25 @@ ESPCheckSection:AddToggle('Team Color', false, function(onoff)
     ESP.TeamColor = onoff
 end)
 ]]
+
+local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "right")
+
+local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", true, function(State)
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Visible = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.Visible = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.Visible = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.Visible = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.Visible = State
+end)
+
+DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(70, 70, 70), function(State)
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.BackgroundColor3 = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.BackgroundColor3 = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.BackgroundColor3 = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.BackgroundColor3 = State
+	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.BackgroundColor3 = State
+end)
+
 local LocalSection = VisualsTab:CreateSector("Local", "left")
 
 LocalSection:AddSlider("FOV Changer", 70, 70, 120, 1, function(Value)
@@ -1040,24 +1061,47 @@ LocalSection:AddSlider("FOV Changer", 70, 70, 120, 1, function(Value)
 	PuppywareSettings.Visuals.Local.FOVChanger = Value
 	
 end)
+
+LocalSection:AddButton("Korblox", function()
+    game.Players.LocalPlayer.Character.RightUpperLeg:Destroy()
+end)
+
 LocalSection:AddButton("Headless", function()
-    Notify({
-        Title = "Puppyware",
-        Description = "Uh, too lazy, I'll add it later",        -- Why to bother adding this shit, Make it by yourself faggot
-        Duration = 2
-    })
+    game.Players.LocalPlayer.Character.Head:BreakJoints()
+    game.Players.LocalPlayer.Character.Head.Position = Vector3.new(0,99999999999999,0)
 end)
 
 LocalSection:AddButton("No Face", function()
     game.Players.LocalPlayer.Character.Head.face:Destroy()
 end)
 
-LocalSection:AddButton("Korblox", function()
-    game.Players.LocalPlayer.Character.RightUpperLeg:Destroy()
+LocalSection:AddButton("Korblox (Cs)", function()
+    game.Players.LocalPlayer.Character.RightFoot.MeshId = "http://www.roblox.com/asset/?id=902942093"
+    game.Players.LocalPlayer.Character.RightFoot.Transparency = 1
+    game.Players.LocalPlayer.Character.RightLowerLeg.MeshId = "http://www.roblox.com/asset/?id=902942093"
+    game.Players.LocalPlayer.Character.RightLowerLeg.Transparency = 1
+    game.Players.LocalPlayer.Character.RightUpperLeg.MeshId = "http://www.roblox.com/asset/?id=902942096"
 end)
 
-LocalSection:AddButton("Hide Boombox", function()
-    game.Players.LocalPlayer.Character.BOOMBOXHANDLE:Destroy()    -- i wonder why i made this
+LocalSection:AddButton("Headless (Cs)", function()
+    game.Players.LocalPlayer.Character.Head.face.MeshId = "rbxassetid://209712379"
+    game.Players.LocalPlayer.Character.Head.face.Transparency = 1
+end)
+
+LocalSection:AddButton("Blizzard Beast Mode (Cs)", function()
+    game.Players.LocalPlayer.Character.Head.face.Texture =  "rbxassetid://209712379"
+end)
+
+LocalSection:AddButton("Beast Mode (Cs)", function()
+    game.Players.LocalPlayer.Character.Head.face.Texture = "rbxassetid://127959433"
+end)
+
+LocalSection:AddButton("Playful Vampire (Cs)", function()
+game.Players.LocalPlayer.Character.Head.face.Texture = "rbxassetid://2409281591"
+end)
+
+LocalSection:AddButton("Super Super Happy Face (Cs)", function()
+    game.Players.LocalPlayer.Character.Head.face.Texture = "rbxassetid://494290547"
 end)
 
 LocalSection:AddButton("Chat Spy", function()
@@ -1130,29 +1174,27 @@ chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Positio
 end)
 
 
-local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "left")
+local MisSector = VisualsTab:CreateSector("Miscs", "left")
 
-local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", true, function(State)
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Visible = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.Visible = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.Visible = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.Visible = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.Visible = State
+MisSector:AddButton("Hide Boombox", function()
+    game.Players.LocalPlayer.Character.BOOMBOXHANDLE:Destroy()    -- i wonder why i made this
 end)
 
-DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(70, 70, 70), function(State)
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.BackgroundColor3 = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.BackgroundColor3 = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.BackgroundColor3 = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.BackgroundColor3 = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.BackgroundColor3 = State
+MisSector:AddButton("Hide Mask", function()
+    Notify({
+        Title = "Pw-Remake",
+        Description = "Mask Hidden!",
+        Duration = 2
+    })
+    game.Players.LocalPlayer.Character:FindFirstChild('In-gameMask').Handle:Destroy()
 end)
 
-CrosshairSection:AddSlider("Coming soon", 0, 1, 5, 1, function(Value)
+MisSector:AddButton("Masked Users", function(State)
+    PuppywareSettings.Visuals.Local.Users = State
 end)
 
-CrosshairSection:AddSlider("Coming soon", 0, 3, 10, 1, function(Value)
-    
+MisSector:AddButton("Hide Boombox", function()
+    game.Players.LocalPlayer.Character.BOOMBOXHANDLE:Destroy()    -- i wonder why i made this
 end)
 
 local WorldSection = VisualsTab:CreateSector("World", "right")
@@ -1311,7 +1353,7 @@ local MiscSector = BlatantTab:CreateSector("Misc", "left")
 
 MiscSector:AddButton('Fly (X)', function()
     Notify({
-        Title = "Puppyware",
+        Title = "Pw-Remake",
         Description = "this is one time fly, Click again if resetted.",
         Duration = 2
     })
@@ -1512,12 +1554,6 @@ MiscSector:AddButton('Nil Char', function(State)
     NilBody()
 end)
 
-MiscSector:AddButton('Body Reset', function(State)
-    pcall(function()
-        LocalPlayer.Character.Humanoid:Destroy()
-    end)
-end)
-
 MiscSector:AddButton('Reset', function(State)
     game.Players.LocalPlayer.Character.Head:Destroy()
 end)
@@ -1527,21 +1563,21 @@ end, function()
     game.Players.LocalPlayer.Character.Head:Destroy()
 end)
 
-local BodyResetBind = MiscSector:AddKeybind("Body Reset Bind", false, function()
-end, function()
-    LocalPlayer.Character.Humanoid:Destroy()
-end)
-
---[[
-MiscSector:AddButton('Unjail', function(State)
-    NilBody()
-end)
-]]
 local NilCharBind = MiscSector:AddKeybind("Nil Char Bind", false, function()
     
 end, function()
     NilBody()
 end)
+
+MiscSector:AddButton('Coming Soon!', function(State)
+    Notify({
+        Title = "Pw-Remake",
+        Description = "Won't Work, Coming in 20222",
+        Duration = 3
+    })
+    NilBody()
+end)
+
 
 local GodModeSector = BlatantTab:CreateSector("God Mode", "left")
 
@@ -1593,6 +1629,7 @@ CharacterSector:AddDropdown("Anti Stomp Type", {"Show Body", "Nil Char"}, "Nil C
 end)
 
 CharacterSector:AddToggle('Auto Stomp', false, function(State)
+    game.Players.LocalPlayer.Character.MainEvent:FireServer('Stomp')
 end)
 
 local FlingToggle = CharacterSector:AddToggle('Anti-Fling', false, function(State)
@@ -1632,15 +1669,15 @@ end)
 
 local FarmingSector = BlatantTab:CreateSector("Farming", "right")
 
-FarmingSector:AddToggle('Shoe Farm', false, function(State)
-    PuppywareSettings.Blatant.Farming.ShoeFarm = State
-end)
-
 local ATMToggle = FarmingSector:AddToggle('ATM Farm', false, function(State)
     PuppywareSettings.Blatant.Farming.ATMFarm = State
 end)
 
 ATMToggle:AddKeybind()
+
+FarmingSector:AddToggle('Shoe Farm', false, function(State)
+    PuppywareSettings.Blatant.Farming.ShoeFarm = State
+end)
 
 FarmingSector:AddToggle('Hospital Farm', false, function(State)
     PuppywareSettings.Blatant.Farming.HospitalFarm = State
@@ -1697,24 +1734,28 @@ local TeleportModule = {
 
 local LocationSector = TeleportTab:CreateSector("Location Teleport", "left")
 
-LocationSector:AddButton('Bank Building', function()
-	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-327.583862, 80.4338913, -278.811951, -0.0466220938, -1.94237373e-08, 0.998912573, 1.07243459e-07, 1, 2.44502392e-08, -0.998912573, 1.08266761e-07, -0.0466220938)
+LocationSector:AddButton('Bank Roof', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-437.125885, 38.9783134, -285.587372, 0.0165725499, 5.298579e-08, -0.99986279, 1.16139711e-08, 1, 5.31855591e-08, 0.99986279, -1.24937944e-08, 0.0165725499)
 end)
 
-LocationSector:AddButton('Admin Base', function()
-	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-874.903992, -32.6492004, -525.215698)
+LocationSector:AddButton('Lava Base', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-796.256897, -39.6492004, -886.306152, -0.39699012, 2.91068263e-05, 0.917822897, 1.63490836e-06, 1, -3.10057476e-05, -0.917822897, -1.08084187e-05, -0.39699012)
 end)
 
-LocationSector:AddButton('School', function()
-	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-581.790283, 68.4947281, 331.046448, 0.220051467, -7.56681329e-05, 0.975498199, -3.96428077e-05, 0.999999583, 8.65130132e-05, -0.975498199, -5.77078645e-05, 0.22005)
-end)
-
-LocationSector:AddButton('Circus Mountain', function()
-	game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(292.643799, 122.749977, -860.128784, 0.986730993, 5.09704545e-09, 0.162363499, -9.24942123e-10, 1, -2.57716568e-08, -0.162363499, 2.52795154e-08, 0.986730993)
+LocationSector:AddButton('Sewers', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(111.514938, -26.7500305, -276.918365, -0.997865558, -1.25138016e-08, -0.0653034225, -1.74378947e-08, 1, 7.48333733e-08, 0.0653034225, 7.58124159e-08, -0.997865558)
 end)
 
 LocationSector:AddButton('UFO Mountain', function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(65.1504517, 138.999954, -691.819031, -0.935115993, -5.9791418e-08, -0.354341775, -3.10840989e-08, 1, -8.67077574e-08, 0.354341775, -7.0067415e-08, -0.935115993)
+end)
+
+LocationSector:AddButton('Safe Spot 1', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-117.270287, -58.7000618, 146.536087, 0.999873519, 5.21876942e-08, -0.0159031227, -5.22713037e-08, 1, -4.84179008e-09, 0.0159031227, 5.67245495e-09, 0.999873519)
+end)
+
+LocationSector:AddButton('Safe Spot 2', function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(207.48085, 38.25, 200014.953, 0.507315397, 0, -0.861760437, 0, 1, 0, 0.861760437, 0, 0.507315397)
 end)
 
 local FoodSector = TeleportTab:CreateSector("Food Teleport", "left")
@@ -1979,15 +2020,19 @@ end)
 
 local ServerSector = MiscellaneousTab:CreateSector("Server", "right")
 
-ServerSector:AddLabel("Crashing Rate: 0%")
+ServerSector:AddLabel("Coming Soon!")
 
-ServerSector:AddButton("Server Crash", function(State)
-    notify({
-        Title = "Puppyware",
-        Description = "Coming in 2066",
-        Duration = 6
-    })
-PuppywareSettings.Miscellaneous.Server.ServerCrasher = State
+ServerSector:AddToggle("Coming Soon!", function(State)
+    PuppywareSettings.Miscellaneous.Server.ServerCrasher = State
+end)
+
+ServerSector:AddButton("Anti-AFK", function(State)
+    local vu = game:GetService("VirtualUser") -- AntiAfk
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    wait(1)
+    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
 end)
 
 ServerSector:AddButton("Server Hop", function()
@@ -1996,7 +2041,7 @@ end)
 
 ServerSector:AddButton("Decompile Game", function()
     Notify({
-        Title = "Puppyware",
+        Title = "Pw-Remake",
         Description = "Starting Decompilement, Please be patience",
         Duration = 6
     })
@@ -2027,49 +2072,34 @@ RadioSector:AddButton("Stop", function()
 
 end)
 ]]
-local KillInsultsSector = MiscellaneousTab:CreateSector("Kill Insults", "right")
 
-KillInsultsSector:AddToggle("Kill Insults Enabled", false, function(State)
+
+local PanicSector = MiscellaneousTab:CreateSector("Coming Soon!", "right")
+
+PanicSector:AddDropdown("Real Leaks", {"Da Hood Moderator", "Player Joined"}, "Da Hood Moderator", false, function()
+
+end)
+
+PanicSector:AddToggle("Panic Enabled", false, function()
+
+end)
+
+local KillInsultsSector = MiscellaneousTab:CreateSector("Coming Soon!", "right")
+
+KillInsultsSector:AddToggle("Coming Soon!", false, function(State)
     PuppywareSettings.Miscellaneous.KillInsults.Enabled = State
 end)
 
-KillInsultsSector:AddToggle("Custom Message", false, function()
+KillInsultsSector:AddToggle("Custom Soon!", false, function()
     PuppywareSettings.Miscellaneous.KillInsults.CustomMsg = State
 end)
 
-KillInsultsSector:AddDropdown("Method", {"After Dead", "Before Dead"}, "After Dead", false, function(Option)
+KillInsultsSector:AddDropdown("LEEKS", {"AMONGUS XD", "Why are you here"}, "After Dead", false, function(Option)
     PuppywareSettings.Miscellaneous.KillInsults.Type = Option
 end)
-KillInsultsSector:AddTextbox("Message", "@Username is bad.", function(Text)
+KillInsultsSector:AddTextbox("Coming Soon", "Pw-Remake is Private idiot.", function(Text)
     PuppywareSettings.Miscellaneous.KillInsults.MsgText = Text
 end)
---[[
-local WindowSection = MiscellaneousTab:CreateSector("Window (UI)", "left")
-
-WindowSection:AddColorpicker("Background Color", (Color3.new(0.284713, 0.011764, 1), function(Color)
-    --never ever done this before
-end)
-
-WindowSection:AddColorpicker("Background Outter Color", (Color3.new(0.284713, 0.011764, 1), function(Color)
-    --never ever done this before
-end)
-
-WindowSection:AddColorpicker("Theme Color", (Color3.new(0.284713, 0.011764, 1), function(Color)
-    --never ever done this before
-end)
-
-WindowSection:AddDropdown("Background Wallpaper", {"Flower", "Snow", "Face", "Guns", "Birds"}, false, function(Option)
-    --sooner or later
-end)
-
-WindowSection:AddSlider("Background Transparency", 1, 5, 10, 2, function(Value)
-    --no-
-end)
-
-WindowSection:AddSlider("Background Outer Transparency", 1, 5, 10, 2, function(Value)
-    --no
-end)
-]]
 
 --[[
 local CustomModelSector = MiscellaneousTab:CreateSector("Custom Model", "right")
@@ -2103,24 +2133,14 @@ CustomModelSector:AddSlider("Position Rotation", 0, 0, 360, 1, function(Value)
 end)
 ]]
 
---[[
-local PanicSector = MiscellaneousTab:CreateSector("Panic", "right")
-
-PanicSector:AddDropdown("Panic Type", {"Da Hood Moderator", "Player Joined"}, "Da Hood Moderator", false, function()
-
-end)
-
-PanicSector:AddToggle("Panic Enabled", false, function()
-
-end)
-]]
 
 -- Settings Window --
 
 local SettingsTab = Window:CreateTab("Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
-UpdateSector:AddLabel("22/2/22 \n Added some Ui features \n Added character fture.")
+UpdateSector:AddLabel("23/2/22 \n Added fe and Cs \n korblox and headless.")
+UpdateSector:AddLabel("22/2/22 \n Added some Ui features \n Added character fture. \n Added More options in \n Visuals and Blatant \n Remove Useless features \n Added Coming soon features")
 UpdateSector:AddLabel("21/2/22 \n Added Crosshair in \n Visuals \n Added for local also.")
 UpdateSector:AddLabel("20/2/22 \n Added new features \n in visuals")
 UpdateSector:AddLabel("18/2/22 \n Removed A feature \n Miscellanceous. \n Removed some useless \n features.")
@@ -2133,7 +2153,7 @@ UpdateSector:AddLabel("1/2/22 \n Added some features")
 
 UpdateSector:AddButton("My Discord Server", function()
     Notify({
-        Title = "Puppyware",
+        Title = "Pw-Remake",
         Description = "Copied to clipboard!",
         Duration = 3
     })
@@ -2142,6 +2162,7 @@ end)
 
 local PendingSector = SettingsTab:CreateSector("Pending", "right")
 
+PendingSector:AddLabel("Adding Coming soon features \n (Not sure)")
 PendingSector:AddLabel("Fixing Underground \n Adding Background featues \n Trying to fix Aimbot")
 PendingSector:AddLabel("Adding AntiLock \n (i think or no)")
 
@@ -2149,7 +2170,7 @@ if syn then
     SettingsTab:CreateConfigSystem("left")
 else
     Notify({
-        Title = "Puppyware",
+        Title = "Pw-Remake",
         Description = "Your Executor Doesn't Support Config.",
         Duration = 3
     })
@@ -2169,7 +2190,7 @@ CreditSector:AddLabel("Current changes were made by \n Twix")
 
 CreditSector:AddButton("Puppyware Server", function()
     Notify({
-        Title = "Puppyware",
+        Title = "Pw-Remake",
         Description = "Copied to clipboard!",
         Duration = 3    
     })
@@ -2959,4 +2980,15 @@ while wait() do
     end
 end
 
---ends here with cool face 😎
+    if PuppywareSettings.Visuals.Local.Users then
+        for i,v in pairs(game.Workspace.Players:GetChildren()) do
+            v:FindFirstChildWhichIsA('Humanoid').DisplayDistanceType = 'Subject'
+        end
+    end
+    
+
+
+--[[
+ends here with cool face 😎
+I hope this gives me a hope that this will Work, I spent 12 hours to code this stupid script
+]]
