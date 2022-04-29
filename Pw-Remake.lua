@@ -1,9 +1,19 @@
---[[
-    Pw remake so cool
-    Idk how to prevent the breaking configuration thing, All though its pretty interesting when i make cool stuff
-    Anyway, I don't know how will this be Up-To-Date
+local Players = game:GetService("Players").LocalPlayer -- Use GetService it is important because some games change Players so use that instead of game.Players!
+local group = 13487365 -- Roblox Fan Group but put your group ID HERE
+local grouplink = "https://www.roblox.com/groups/13487365/UnknownSide"
+
+if Players:IsInGroup(group) then -- IS In group is the roblox API Reference pretty self explanatory 
+      print("Checking..")
+      wait(0.8)
+      print("Done!")
+      --[[
+Pw-Remake
 ]]
 
+
+print("Loading, Ui & stff")
+wait(0.3)
+print("Loaded!")
 local GetService = setmetatable({}, {
     __index = function(self, key)
         return game:GetService(key)
@@ -15,6 +25,9 @@ local NotifyLibrary = loadstring(game:HttpGet("https://raw.githubusercontent.com
 local Notify = NotifyLibrary.Notify
 Library.theme.accentcolor = Color3.new(0.284713, 0.011764, 1)
 local Watermark = Library:CreateWatermark("Pw-Remake | {fps} | {game}")
+Library.theme.fontsize = 14
+Library.theme.titlesize = 17
+Library.theme.topheight = 45
 
 
 local RunService = GetService.RunService
@@ -30,8 +43,8 @@ local SilentAimFOV = Drawing.new("Circle")
 SilentAimFOV.Thickness = 1
 local Insert = table.insert
 local Network = GetService.NetworkClient
-local PuppywareFolder = Instance.new("Folder", workspace)
-PuppywareFolder.Name = "PuppyWare-Folder"
+local PwRemakeFolder = Instance.new("Folder", workspace)
+PwRemakeFolder.Name = "PwRemake-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
 --[[
@@ -437,10 +450,10 @@ local PuppywareSettings = {
                 NotHitPercent = 0
             },
             AimAssistType = "Camera",
-            MovementPrediction = false,
-            MovementPredictionAmount = 0.165 * 1,
-            SmoothingTracing = false,
-            SmoothingTracingAmount = 5,
+            AimbotPrediction = false,
+            AimbotPredictionAmount = 0.165 * 1,
+            AimbotSmoothness = false,
+            AimbotSmoothnessAmount = 5,
             PingBasedPrediction = false,
             GetVelocity = 0.165
         },
@@ -485,15 +498,6 @@ local PuppywareSettings = {
             AntiAimSpeed = 100,
             JitterAngle = 180
         },
-        LegitAA = {
-            Enabled = false,
-            AntiAimAt = false,
-            AntiAimAtDistance = 20
-        },
-        FakeLag = {
-            Enabled = false,
-            TriggerAmount = 5
-        },
         Movement = {
             SpeedEnabled = false,
             SpeedType = "Default",
@@ -531,17 +535,34 @@ local PuppywareSettings = {
         },
     Miscellaneous = {
         Server = {
-            CrashRate = nil,
+            Enabled = false,
+            Value = 0,
             ServerCrasher = false,
             Rejoin = false,
             ServerHop = false,
         },
         KillInsults = {
             Enabled = false,
-            CustomMsg = false,
-            Method = "After Dead",
-            Message = "@Username is bad."
-        },
+            Type = "After Dead",
+            OldPlayer = "",
+            Cooldown = false,
+            CustomMessage = false,
+            CustomMessageText = "@s is tapped!",
+            Message = {
+                "@s is sus.",
+                "nn tapped, @s bad cheat.",
+                "puppyware on top, @s is clapped.",
+                "@s is rekted.",
+                "puppyware>us",
+                "you are just bad get puppyware",
+                "u rly thought",
+                "bad boy clique",
+                "noob",
+                "xD",
+                "why are you that bad son",
+                "you shall quit"
+            }
+        }
     },
     Teleport = {
         TeleportReturn = false,
@@ -599,13 +620,13 @@ Drawing = {
     Teleport = {
         Players = {},
         Food = {
+            "Taco",
             "Cranberry",
             "Donut",
             "Pizza",
             "Chicken",
             "Popcorn",
             "Hamburger",
-            "Taco",
             "Starblox Latte",
             "Lettuce",
             "Lemonade"
@@ -633,8 +654,8 @@ Drawing = {
             "Grenade"
         },
         Armor = {
-            "High-Medium Armor",
-            "Medium Armor"
+            "Medium Armor",
+            "High-Medium Armor"
         },
         Mask = {
             "Surgeon Mask",
@@ -652,8 +673,8 @@ Drawing = {
             "HeavyWeights"
         },
         Melee = {
-            "Shovel",
             "Bat",
+            "Shovel",
             "Pencil",
             "StopSign",
             "Knife",
@@ -685,21 +706,35 @@ Drawing = {
     }
 }
 
+
+
 local Window = Library:CreateWindow("Puppyware", Vector2.new(492, 598), Enum.KeyCode.RightShift)
 local AimingTab = Window:CreateTab("Aiming")
 
 -- Aimbot Setion --
 
+
+getgenv().RecurringPoint = "UpperTorso"     -- ANother Hitbox
+getgenv().Hitbox = "UpperTorso"     -- Hitbox 
+getgenv().Keybind = "q"     -- Toggle/untoggle
+getgenv().AimbotStrengthAmount = 0.600      -- Tracing : 900-500 or less for tracing, Pure Aimbot : 1.200 or 1.000
+getgenv().PredictionAmount = 2.5    -- \\ hood mod ping -: 300 || 300-350 ping : 2.5, 2.3 or less | 200-250 ping : 3-3.5
+getgenv().Radius = 25               -- At how near the cursor goes the easier you can toggle the Key.
+getgenv().UsePrediction = true      -- Prediction nor no prediction
+getgenv().AimbotStrength = true     -- Strength or no Strength
+getgenv().FirstPerson = true
+getgenv().ThirdPerson = true
+getgenv().TeamCheck = false
+getgenv().Enabled = true            -- Main Enabling 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/tenaaki/GenericAimbot/main/v1.0.0"))()
 local LegitSection = AimingTab:CreateSector("Aimbot", "left")
-LegitSection:AddToggle('Enabled', false, function(Boolean)
+
+local AimbotToggle = LegitSection:AddToggle('Aimbot Enabled', false, function(Boolean)
+    getgenv().Enabled = Boolean            -- Main Enabling shit
     PuppywareSettings.Aiming.Aimbot.Enabled = Boolean
 end)
 
-local AimAssistToggle = LegitSection:AddToggle('Aim Assist', false, function(Boolean)
-    PuppywareSettings.Aiming.Aimbot.AimAssist = Boolean
-end)
-
-AimAssistToggle:AddKeybind()
+AimbotToggle:AddKeybind()
 
 local AimbotFOVToggle = LegitSection:AddToggle('Show FOV', false, function(Boolean)
     PuppywareSettings.Aiming.Aimbot.ShowFOV = Boolean
@@ -709,25 +744,15 @@ AimbotFOVToggle:AddColorpicker(Color3.new(0.284713, 0.011764, 1), function(Color
     PuppywareSettings.Aiming.Aimbot.FOVColor = Color
 end)
 
-LegitSection:AddToggle('Use Nearest Distance', false, function(Boolean)
-    PuppywareSettings.Aiming.Aimbot.UseNearestDistance = Boolean
+LegitSection:AddToggle('Team Check', false, function(Boolean)
+    getgenv().TeamCheck = Boolean
 end)
 
-LegitSection:AddToggle('Wall Check', false, function(Boolean)
-    PuppywareSettings.Aiming.Aimbot.WallCheck = Boolean
+LegitSection:AddDropdown('Hitboxes', {"Head", "HumanoidRootPart", "UpperTorso", "LowerTorso"}, {"Choose a hitbox"}, false, function(Value)
+    getgenv().RecurringPoint = Value     -- ANother Hitbox
+    getgenv().Hitbox = Value     -- Hitbox 
 end)
 
-LegitSection:AddToggle('Knock Out Check', false, function(Boolean)
-    PuppywareSettings.Aiming.Aimbot.KnockedOutCheck = Boolean
-end)
-
-LegitSection:AddToggle('Grabbed Check', false, function(Boolean)
-    PuppywareSettings.Aiming.Aimbot.GrabbedCheck = Boolean
-end)
-
-LegitSection:AddDropdown('Hitboxes', {"Head", "HumanoidRootPart"}, {"Head"}, true, function(Value)
-    PuppywareSettings.Aiming.Aimbot.Hitboxes = Value
-end)
 
 -- Silent Aim Setion --
 
@@ -746,8 +771,8 @@ SilentAimFOVToggle:AddColorpicker(Color3.new(0.284713, 0.011764, 1), function(Co
     PuppywareSettings.Aiming.SilentAim.FOVColor = Color
 end)
 
-RageSection:AddToggle('Use Nearest Distance', false, function(Boolean)
-    PuppywareSettings.Aiming.SilentAim.NearestDistance = Boolean
+RageSection:AddToggle('Nearest Distance', false, function(Boolean)
+    PuppywareSettings.Aiming.SilentAim.UseNearestDistance = Boolean
 end)
 
 RageSection:AddToggle('Wall Check', false, function(Boolean)
@@ -802,12 +827,13 @@ end)
 -- Aim Assist FOV Section --
 
 local AimbotFOVSection = AimingTab:CreateSector("FOV", "right")
+
 AimbotFOVSection:AddToggle('FOV Filled', false, function(Boolean)
     PuppywareSettings.Aiming.FOV.FOVFilled = Boolean
 end)
 
-AimbotFOVSection:AddSlider("Aim Assist Size", 0, 100, 500, 1, function(Value)
-    PuppywareSettings.Aiming.FOV.AimAssistSize = Value
+AimbotFOVSection:AddSlider("Aimbot Size", 0, 100, 500, 1, function(Value)
+    PuppywareSettings.Aiming.FOV.AimbotSize = Value
 end)
 
 AimbotFOVSection:AddSlider("Silent Aim Size", 0, 100, 500, 1, function(Value)
@@ -816,6 +842,14 @@ end)
 
 AimbotFOVSection:AddSlider("FOV Transparency", 0, 5, 9, 1, function(Value)
     PuppywareSettings.Aiming.FOV.Transparency = tonumber("0." .. Value)
+end)
+
+AimbotFOVSection:AddSlider("FOV Num Size", 1, 100, 100, 1, function(Value)
+    PuppywareSettings.Aiming.FOV.NumSides = Value
+end)
+
+AimbotFOVSection:AddDropdown('FOV Shapes', {"Custom", "Octagon", "Circle"}, "Custom", false, function(Value)
+    PuppywareSettings.Aiming.FOV.FOVShapes = Value
 end)
 
 -- Trigger Bot Section -- 
@@ -832,7 +866,7 @@ local TValue = TriggerbotSection:AddToggle('Trigger Bot Delay (ms)', false, func
     PuppywareSettings.Aiming.TriggerBot.Delay = State
 end)
 
-TValue:AddSlider(1, 0, 60, 1, function(Value)
+TValue:AddSlider(1, 0, 60, 3, function(Value)
     PuppywareSettings.Aiming.TriggerBot.DelayAmount = Value
 end)
 
@@ -844,24 +878,30 @@ AimingSettings:AddToggle('Ping Based Prediction', false, function(Boolean)
     PuppywareSettings.Aiming.AimingSettings.PingBasedPrediction = Boolean
 end)
 
-AimingSettings:AddDropdown('Aim Assist Type', {"Camera", "Mouse"}, "Camera", false, function(Option)
-    PuppywareSettings.Aiming.AimingSettings.AimAssistType = Option
+AimingSettings:AddDropdown("Aim Type", {"Mouse", "Distance"}, "Mouse", false, function(Value)
+    PuppywareSettings.Aiming.AimingSettings.AimAssistType = Value
 end)
 
-local SmoothingTracing = AimingSettings:AddToggle('Smoothing Tracing', false, function(Boolean)
-    PuppywareSettings.Aiming.AimingSettings.SmoothingTracing = Boolean
+local SmoothnessToggle = AimingSettings:AddToggle('Aimbot Smoothness', false, function(Boolean)
+    getgenv().AimbotStrength = Boolean
 end)
 
-SmoothingTracing:AddSlider(2, 5, 10, 1, function(Value)
-    PuppywareSettings.Aiming.AimingSettings.SmoothingTracingAmount = Value
+SmoothnessToggle:AddSlider(-0.000, 0.500, 2.000, 20, function(Value)
+    getgenv().AimbotStrengthAmount = Value
 end)
 
-local MovementPredToggle2 = AimingSettings:AddToggle('Custom Prediction', false, function(Boolean)
-    PuppywareSettings.Aiming.AimingSettings.MovementPrediction = Boolean
+AimingSettings:AddSlider("Aim Radius", 1, 30, 100, 1, function(Value)
+    getgenv().Radius = Value
 end)
 
-MovementPredToggle2:AddSlider(1, 1, 5, 1, function(Value)
-    PuppywareSettings.Aiming.AimingSettings.MovementPredictionAmount = 0.165 * tonumber("1." ..Value)
+local PredictionToggle = AimingSettings:AddToggle('Aimbot Prediction', false, function(Boolean)
+    getgenv().UsePrediction = Boolean
+    PuppywareSettings.Aiming.AimingSettings.AimbotPrediction = Boolean
+end)
+
+PredictionToggle:AddSlider(1, 5, 10, 2, function(Value)
+    getgenv().PredictionAmount = Value
+    PuppywareSettings.Aiming.AimingSettings.AimbotPredictionAmount = Value
 end)
 
 local HitChanceToggle2 = AimingSettings:AddToggle('Hit Chance', false, function(Boolean)
@@ -871,6 +911,21 @@ end)
 HitChanceToggle2:AddSlider(0, 100, 100, 1, function(Value)
     PuppywareSettings.Aiming.AimingSettings.HitChanceAmount.HitPercent = tonumber(Value)
     PuppywareSettings.Aiming.AimingSettings.HitChanceAmount.NotHitPercent = tonumber(100 - PuppywareSettings.Aiming.AimingSettings.HitChanceAmount.HitPercent)
+end)
+
+
+local AimbotSettings = AimingTab:CreateSector("Aimbot Settings", "right")
+
+local AimbotBind = AimbotSettings:AddTextbox('Bind', " (small letter only).", function(Key)
+    getgenv().Keybind = Key
+end)
+
+local FirstPersonToggle = AimbotSettings:AddToggle('1st Person', true, function(State)
+    getgenv().FirstPerson = State
+end)
+
+local ThirdPersonToggle = AimbotSettings:AddToggle('3rd Person', true, function(State)
+    getgenv().ThirdPerson = State
 end)
 
 -- Target Aim Settings Section --
@@ -887,7 +942,7 @@ end, function()
             if PuppywareSettings.Aiming.TargetAimSettings.NotificationAlert then
                 Notify({
                     Title = "Pw-Remake",
-                    Description = "Target: " .. NearestTarget.Name,
+                    Description = "Target: " .. NearestTarget.Name .. " (" .. NearestTarget.DisplayName .. ")",
                     Duration = 3
                 })
             end
@@ -979,12 +1034,11 @@ WhitelistSection:AddToggle('Friends Whitelist', false, function(State)
     PuppywareSettings.Aiming.Whitelist.FriendsWhitelist = State
 end)
 
--- Visuals Window --
-
+-- Visuals Tab --
     
 local VisualsTab = Window:CreateTab("Visuals")
 local ESPSection = VisualsTab:CreateSector("ESP", "left")
-local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Twixks/Pw-Remake/main/ESP.lua"))() --// ESP Library Kiriot
+local ESP = loadstring(game:HttpGet("https://twixkz.000webhostapp.com/Esp.Lua"))() --// ESP Library Kiriot
 local ESPToggle = ESPSection:AddToggle('ESP Enabled', false, function(onoff)
     ESP:Toggle(onoff)
     ESP.Players = onoff
@@ -992,7 +1046,7 @@ end)
 
 ESPToggle:AddKeybind()
 
-ESPToggle:AddColorpicker(Color3.new(0.284713, 0.011764, 1), function(Color)
+ESPToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
     ESP.Color = Color
 end)
 
@@ -1010,7 +1064,7 @@ end)
 
 local ESPSettings = VisualsTab:CreateSector("ESP Settings", "right")
 
-ESPSettings:AddSlider('Attach Shift', 1, 1, 10, 1, function(Value)
+ESPSettings:AddSlider('Attach Shift', 1, 1, 15, 1, function(Value)
     ESP.AttachShift = (Value)
 end)
 
@@ -1018,48 +1072,53 @@ ESPSettings:AddSlider('Thickness', 1, 1, 15, 2, function(Value)
     ESP.Thickness = (Value)
 end)
 
---[[
+-- ESP check Section --
 
 local ESPCheckSection = VisualsTab:CreateSector("ESP Check", "right")
 
-ESPCheckSection:AddToggle('Player Check', false, function(onoff)
+ESPCheckSection:AddToggle('Player Check', true, function(onoff)
     ESP.Players = onoff
 end)
 
-ESPCheckSection:AddToggle('Team Check', false, function(onoff)
+ESPCheckSection:AddToggle('Team Check', true, function(onoff)
     ESP.TeamMates = onoff
 end)
 
 ESPCheckSection:AddToggle('Team Color', false, function(onoff)
     ESP.TeamColor = onoff
 end)
-]]
+
+ESPCheckSection:AddLabel("Turn on : \n PlayerCheck & TeamCheck \n (this will show all users)")
+
+-- Crosshair stuff --
 
 local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "right")
 
 local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", true, function(State)
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Visible = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.Visible = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.Visible = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.Visible = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.Visible = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Visible = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.Visible = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.Visible = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.Visible = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.Visible = State
 end)
 
-DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(70, 70, 70), function(State)
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.BackgroundColor3 = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.BackgroundColor3 = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.BackgroundColor3 = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.BackgroundColor3 = State
-	game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.BackgroundColor3 = State
+DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(State)
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.BackgroundColor3 = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.BackgroundColor3 = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.BackgroundColor3 = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.BackgroundColor3 = State
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.BackgroundColor3 = State
 end)
+
+-- local stuff --
 
 local LocalSection = VisualsTab:CreateSector("Local", "left")
 
-LocalSection:AddSlider("FOV Changer", 70, 70, 120, 1, function(Value)
-	local InputFOV = (Value)local L_418_ = game.Players.LocalPlayer
-	game:GetService("Workspace").Camera.FieldOfView = (Value)
-	PuppywareSettings.Visuals.Local.FOVChanger = Value
-	
+LocalSection:AddSlider("Field Of View", 70, 70, 120, 1, function(Value)
+    if Value then
+        Amount = (Value)
+    game:GetService'Workspace'.Camera.FieldOfView = Amount
+    end
 end)
 
 LocalSection:AddButton("Korblox", function()
@@ -1075,17 +1134,18 @@ LocalSection:AddButton("No Face", function()
     game.Players.LocalPlayer.Character.Head.face:Destroy()
 end)
 
+LocalSection:AddButton("Headless (Cs)", function()
+    game.Players.LocalPlayer.Character.Head.Transparency = 1
+    game.Players.LocalPlayer.Character.Head.face:Destroy()
+end)
+
 LocalSection:AddButton("Korblox (Cs)", function()
     game.Players.LocalPlayer.Character.RightFoot.MeshId = "http://www.roblox.com/asset/?id=902942093"
     game.Players.LocalPlayer.Character.RightFoot.Transparency = 1
     game.Players.LocalPlayer.Character.RightLowerLeg.MeshId = "http://www.roblox.com/asset/?id=902942093"
     game.Players.LocalPlayer.Character.RightLowerLeg.Transparency = 1
     game.Players.LocalPlayer.Character.RightUpperLeg.MeshId = "http://www.roblox.com/asset/?id=902942096"
-end)
-
-LocalSection:AddButton("Headless (Cs)", function()
-    game.Players.LocalPlayer.Character.Head.face.MeshId = "rbxassetid://209712379"
-    game.Players.LocalPlayer.Character.Head.face.Transparency = 1
+    game.Players.LocalPlayer.Character.RightUpperLeg.TextureID = "http://roblox.com/asset/?id=902843398"
 end)
 
 LocalSection:AddButton("Blizzard Beast Mode (Cs)", function()
@@ -1105,6 +1165,11 @@ LocalSection:AddButton("Super Super Happy Face (Cs)", function()
 end)
 
 LocalSection:AddButton("Chat Spy", function()
+    Notify({
+        Title = "Pw-Remake",
+        Description = "/spy to toggle, /me to stand out",
+        Duration = 5
+    })
 
 --chat "/spy" to toggle!
 enabled = true
@@ -1116,9 +1181,9 @@ public = false
 publicItalics = true
 --customize private logs
 privateProperties = {
-	Color = Color3.fromRGB(0,255,255); 
-	Font = Enum.Font.SourceSansBold;
-	TextSize = 18;
+    Color = Color3.fromRGB(0,255,255); 
+    Font = Enum.Font.SourceSansBold;
+    TextSize = 18;
 }
 --////////////////////////////////////////////////////////////////
 local StarterGui = game:GetService("StarterGui")
@@ -1130,39 +1195,39 @@ local instance = (_G.chatSpyInstance or 0) + 1
 _G.chatSpyInstance = instance
 
 local function onChatted(p,msg)
-	if _G.chatSpyInstance == instance then
-		if p==player and msg:lower():sub(1,4)=="/spy" then
-			enabled = not enabled
-			wait(0.3)
-			privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
-			StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
-		elseif enabled and (spyOnMyself==true or p~=player) then
-			msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
-			local hidden = true
-			local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
-				if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
-					hidden = false
-				end
-			end)
-			wait(1)
-			conn:Disconnect()
-			if hidden and enabled then
-				if public then
-					saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
-				else
-					privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
-					StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
-				end
-			end
-		end
-	end
+    if _G.chatSpyInstance == instance then
+        if p==player and msg:lower():sub(1,4)=="/spy" then
+            enabled = not enabled
+            wait(0.3)
+            privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
+            StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+        elseif enabled and (spyOnMyself==true or p~=player) then
+            msg = msg:gsub("[\n\r]",''):gsub("\t",' '):gsub("[ ]+",' ')
+            local hidden = true
+            local conn = getmsg.OnClientEvent:Connect(function(packet,channel)
+                if packet.SpeakerUserId==p.UserId and packet.Message==msg:sub(#msg-#packet.Message+1) and (channel=="All" or (channel=="Team" and public==false and Players[packet.FromSpeaker].Team==player.Team)) then
+                    hidden = false
+                end
+            end)
+            wait(1)
+            conn:Disconnect()
+            if hidden and enabled then
+                if public then
+                    saymsg:FireServer((publicItalics and "/me " or '').."{SPY} [".. p.Name .."]: "..msg,"All")
+                else
+                    privateProperties.Text = "{SPY} [".. p.Name .."]: "..msg
+                    StarterGui:SetCore("ChatMakeSystemMessage",privateProperties)
+                end
+            end
+        end
+    end
 end
 
 for _,p in ipairs(Players:GetPlayers()) do
-	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+    p.Chatted:Connect(function(msg) onChatted(p,msg) end)
 end
 Players.PlayerAdded:Connect(function(p)
-	p.Chatted:Connect(function(msg) onChatted(p,msg) end)
+    p.Chatted:Connect(function(msg) onChatted(p,msg) end)
 end)
 
 privateProperties.Text = "{SPY "..(enabled and "EN" or "DIS").."ABLED}"
@@ -1176,25 +1241,130 @@ end)
 
 local MisSector = VisualsTab:CreateSector("Miscs", "left")
 
-MisSector:AddButton("Hide Boombox", function()
-    game.Players.LocalPlayer.Character.BOOMBOXHANDLE:Destroy()    -- i wonder why i made this
+local BoomboxTogle = MisSector:AddToggle("Boombox Transparency", false, function(State)
+    PuppywareSettings.Visuals.Miscs.BoomboxTransparency = State
 end)
+
+MisSector:AddSlider("Boombox Transparency", 0, 0, 1, 2, function(Value)
+    PuppywareSettings.Visuals.Miscs.BoomboxAmount = State
+end)
+MisSector:AddButton("Hide Boombox", function()
+    if game.Players.LocalPlayer.Character.BOOMBOXHANDLE then
+        game.Players.LocalPlayer.Character.BOOMBOXHANDLE:Destroy()
+        Notify({
+            Title = "Pw-Remake",
+            Description = "Boombox Destroyed.",
+            Duration = 3
+        })
+    else
+        Notify({
+            Title = "Pw-Remake",
+            Description = "You are not holding boombox",
+            Duration = 3
+        })
+    end
+end)
+
 
 MisSector:AddButton("Hide Mask", function()
+    if game.Players.LocalPlayer.Character:FindFirstChild('In-gameMask') then
+        game.Players.LocalPlayer.Character:FindFirstChild('In-gameMask').Handle:Destroy()
+        Notify({
+            Title = "Pw-Remake",
+            Description = "Mask Hidden!",
+            Duration = 3
+        })
+    else
+        Notify({
+            Title = "Pw-Remake",
+            Description = "Your not wearing a mask.",
+            Duration = 3
+        })
+    end
+end)
+
+MisSector:AddButton("AutoClicker", function()
+
     Notify({
         Title = "Pw-Remake",
-        Description = "Mask Hidden!",
-        Duration = 2
+        Description = "Click n to on/off autoclicker",
+        Duration = 5
     })
-    game.Players.LocalPlayer.Character:FindFirstChild('In-gameMask').Handle:Destroy()
+
+    local Player = game:GetService("Players").LocalPlayer
+    local Mouse = Player:GetMouse()
+    local Clicking = false
+    Mouse.KeyDown:Connect(function(Key)
+        if Key == "n" then
+            Clicking = not Clicking
+            if Clicking == true then
+                repeat
+                    mouse1click()
+                    wait(0.001)    
+                until Clicking == false
+            end
+        end
+    end)
 end)
 
-MisSector:AddButton("Masked Users", function(State)
-    PuppywareSettings.Visuals.Local.Users = State
-end)
 
-MisSector:AddButton("Hide Boombox", function()
-    game.Players.LocalPlayer.Character.BOOMBOXHANDLE:Destroy()    -- i wonder why i made this
+
+MisSector:AddButton("Speed Glitch", function()
+    Notify({
+        Title = "Pw-Remake",
+        Description = "Click V to on/off Speedglitch",
+        Duration = 5
+    })
+
+    local Player = game:GetService("Players").LocalPlayer
+    local Mouse = Player:GetMouse()
+    local SpeedGlitch = false
+    local Wallet = Player.Backpack:FindFirstChild("Wallet")
+
+    local UniversalAnimation = Instance.new("Animation")
+
+    function stopTracks()
+        for _, v in next, game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):GetPlayingAnimationTracks() do
+            if (v.Animation.AnimationId:match("rbxassetid")) then
+                v:Stop()
+            end
+        end
+    end
+
+    function loadAnimation(id)
+        if UniversalAnimation.AnimationId == id then
+            stopTracks()
+            UniversalAnimation.AnimationId = "1"
+        else
+            UniversalAnimation.AnimationId = id
+            local animationTrack = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):LoadAnimation(UniversalAnimation)
+            animationTrack:Play()
+        end
+    end
+
+    Mouse.KeyDown:Connect(function(Key)
+        if Key == "v" then
+            SpeedGlitch = not SpeedGlitch
+            if SpeedGlitch == true then
+                loadAnimation("rbxassetid://3189777795")
+                wait(1.5)
+                Wallet.Parent = Player.Character
+                wait(0.15)
+                Player.Character:FindFirstChild("Wallet").Parent = Player.Backpack
+                wait(0.05)
+                repeat game:GetService("RunService").Heartbeat:wait()
+                    keypress(0x49)
+                    game:GetService("RunService").Heartbeat:wait()
+                    keypress(0x4F)
+                    game:GetService("RunService").Heartbeat:wait()
+                    keyrelease(0x49)
+                    game:GetService("RunService").Heartbeat:wait()
+                    keyrelease(0x4F)
+                    game:GetService("RunService").Heartbeat:wait()
+                until SpeedGlitch == false
+            end
+        end
+    end)
 end)
 
 local WorldSection = VisualsTab:CreateSector("World", "right")
@@ -1213,7 +1383,7 @@ end)
 
 WorldSection:AddColorpicker("Ambient Color", Color3.fromRGB(70, 70, 70), function(Color)
     game.Lighting.Ambient = (Color)
-    PuppywareSettings.Visuals.World.Ambient.AmbientColor = Color
+    PuppywareSettings.Visuals.World.Ambient.AmbientColor = (Color)
 end)
 
 WorldSection:AddColorpicker("OutAmbient Color", Color3.fromRGB(127, 127, 127), function(Color)
@@ -1221,11 +1391,11 @@ WorldSection:AddColorpicker("OutAmbient Color", Color3.fromRGB(127, 127, 127), f
 end)
 
 WorldSection:AddButton("FullBright", function(Button)
-    game.Lighting.Brightness = 6
+    game.Lighting.Brightness = 15
     PuppywareSettings.Visuals.World.FullBright = (Button)
 end)
 
-WorldSection:AddSlider("Brightness", 1, 1, 10, 2, function(Value)
+WorldSection:AddSlider("Brightness", 1, 1, 20, 2, function(Value)
     game.Lighting.Brightness = (Value)
     PuppywareSettings.Visuals.World.Brightness.BrightAmount = (Value)
 end)
@@ -1239,7 +1409,7 @@ WorldSection:AddSlider("Time", 1, 14, 24, 2, function(Value)
     PuppywareSettings.Visuals.World.Time = (Value)
 end)
 
-WorldSection:AddSlider("Latitude", 1, 25, 360, 1, function(Value)
+WorldSection:AddSlider("Sun/Moon Latitude", 1, 25, 360, 1, function(Value)
     game.Lighting.GeographicLatitude = (Value)
     PuppywareSettings.Visuals.World.Latitude = (Value)
 end)
@@ -1250,9 +1420,7 @@ end)
 
 local BlatantTab = Window:CreateTab("Blatant")
 
-local MovementSector = BlatantTab:CreateSector("Movement", "right")
-
-local BlatantAntiAimSector = BlatantTab:CreateSector("Blatant Anti Aim", "left")
+local MovementSector = BlatantTab:CreateSector("Player Movement", "right")
 
 local SpeedToggle = MovementSector:AddToggle('Speed Enabled', false, function(State)
     PuppywareSettings.Blatant.Movement.SpeedEnabled = State
@@ -1260,7 +1428,7 @@ end)
 
 SpeedToggle:AddKeybind()
 
-SpeedToggle:AddSlider(1, 3, 10, 1, function(Value)
+SpeedToggle:AddSlider(1, 3, 10, 2, function(Value)
     PuppywareSettings.Blatant.Movement.SpeedAmount = Value
 end)
 
@@ -1268,11 +1436,13 @@ MovementSector:AddDropdown("Speed Type", {"CFrame"}, "CFrame", false, function(V
     PuppywareSettings.Blatant.Movement.SpeedType = Value
 end)
 
-MovementSector:AddDropdown("Speed Render Type", {"Default", "Fast"}, "Default", false, function(Value)
+MovementSector:AddDropdown("Speed Render Type", {"Slower", "Default", "Faster"}, "Default", false, function(Value)
     PuppywareSettings.Blatant.Movement.SpeedRenderType = Value
 end)
 
-local AntiAimToggle = BlatantAntiAimSector:AddToggle('Blatant AA Enabled', false, function(State)
+local BlatantAntiAimSector = BlatantTab:CreateSector("Anti-Aim", "left")
+
+local AntiAimToggle = BlatantAntiAimSector:AddToggle('Anti-Aim Enabled', false, function(State)
     PuppywareSettings.Blatant.BlatantAA.Enabled = State
 end)
 
@@ -1285,30 +1455,36 @@ end)
 local UndergroundWallBangToggle = BlatantAntiAimSector:AddToggle('Underground Wallbang', false, function(State)
     pcall(function()
         if State then
-			wait(0.5)
-			Float = Instance.new("BodyVelocity")
-			Float.Parent = LocalPlayer.Character.HumanoidRootPart
-			Float.MaxForce = Vector3.new(100000, 100000, 100000)
-			Float.Velocity = Vector3.new(0, 0, 0)
-			wait(0.25)
-			LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -9.5, 0)
-			Cham(LocalPlayer, true)
-			PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang = true
+            wait(0.5)
+            Float = Instance.new("BodyVelocity")
+            Float.Parent = LocalPlayer.Character.HumanoidRootPart
+            Float.MaxForce = Vector3.new(100000, 100000, 100000)
+            Float.Velocity = Vector3.new(0, 0, 0)
+            wait(0.10)
+            LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -9.5, 0)
+            Cham(LocalPlayer, true)
+            PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang = true
             SpeedToggle:Set(true)
-		else
-			LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 9.5, 0)
-			Cham(LocalPlayer, false)
-			Float:Destroy()
-			PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang = false
+        else
+            LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 9.5, 0)
+            Cham(LocalPlayer, false)
+            Float:Destroy()
+            PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang = false
             SpeedToggle:Set(false)
-		end
+        end
     end)
 end)
 
 UndergroundWallBangToggle:AddKeybind()
 
-BlatantAntiAimSector:AddToggle('Underground', false, function(State)
-    PuppywareSettings.Blatant.BlatantAA.Underground = State
+BlatantAntiAimSector:AddToggle('Underground Lay', false, function(State)
+    if State then
+        PuppywareSettings.Blatant.BlatantAA.Underground = true
+        PuppywareModule.Functions.Underground(true)
+    else                                                    --\\ Why to make this bullshit
+        PuppywareSettings.Blatant.BlatantAA.Underground = false
+        PuppywareModule.Functions.Underground(false)
+    end
 end)
 
 BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin"}, "Jitter", false, function(Value)
@@ -1322,7 +1498,7 @@ end)
 BlatantAntiAimSector:AddSlider("Jitter Angle", 0, 180, 360, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.JitterAngle = Value
 end)
-
+--[[
 local LegitAntiAimSector = BlatantTab:CreateSector("Legit Anti Aim", "left")
 
 local LegitAntiAimToggle = LegitAntiAimSector:AddToggle('Legit AA Enabled', false, function(State)
@@ -1333,25 +1509,77 @@ LegitAntiAimSector:AddToggle('Anti Aim At', false, function(State)
     PuppywareSettings.Blatant.LegitAA.AntiAimAt = State
 end)
 
-LegitAntiAimSector:AddSlider("Anti Aim At Distance", 2.5, 20, 100, 1, function(Value)
+LegitAntiAimSector:AddSlider("Anti Aim At Distance", 1, 20, 100, 1, function(Value)
     PuppywareSettings.Blatant.LegitAA.AntiAimAtDistance = Value
 end)
+]]
+local AntilockSector = BlatantTab:CreateSector("Anti Lock", "left")
 
-local FakeLagSector = BlatantTab:CreateSector("Fake Lag", "left")
-
-local FakeLagToggle = FakeLagSector:AddToggle('Fake Lag Enabled', false, function(State)
-    PuppywareSettings.Blatant.FakeLag.Enabled = State
+AntilockSector:AddTextbox("Anti lock Speed", "-0.5 or -0.3 or -0.6", function(Value)
+    getgenv().Multiplier = Value
 end)
 
-FakeLagToggle:AddKeybind()
+AntilockSector:AddButton("Anti Lock (Z)", function(State)
+    Notify({
+        Title = "Pw-Remake",
+        Description = "Make sure Speed number is added after activating.",
+        Duration = 3
+    })
+    local userInput = game:service('UserInputService')
+    local runService = game:service('RunService')
 
-FakeLagToggle:AddSlider(1, 5, 10, 1, function(Value)
-    PuppywareSettings.Blatant.FakeLag.TriggerAmount = Value
+    userInput.InputBegan:connect(function(Key)
+    if Key.KeyCode == Enum.KeyCode.Z then
+        Enabled = not Enabled
+        if Enabled == true then
+            repeat
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * getgenv().Multiplier
+                runService.Stepped:wait()
+                until Enabled == false
+            end
+        end
+    end)
 end)
 
-local MiscSector = BlatantTab:CreateSector("Misc", "left")
+AntilockSector:AddButton("Fix Anti lock", function(State)
+    Notify({
+        Title = "Pw-Remake",
+        Description = "You should be able to shoot people.",
+        Duration = 3
+    })
+    for _, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+        if v:IsA("Script") and v.Name ~= "Health" and v.Name ~= "Sound" and v:FindFirstChild("LocalScript") then
+            v:Destroy()
+        end
+    end
+    game.Players.LocalPlayer.CharacterAdded:Connect(function(char)
+        repeat
+            wait()
+        until game.Players.LocalPlayer.Character
+        char.ChildAdded:connect(function(child)
+        if child.IsA("Script") then
+            wait(0.1)
+            if child:FindFirstChild("LocalScript") then
+                child.LocalScript:FireServer()
+            end
+        end
+    end)
+end)
+end)
 
-MiscSector:AddButton('Fly (X)', function()
+
+local FlySector = BlatantTab:CreateSector("Fly", "left")
+
+FlySector:AddButton('Increase Speed (+)', function()
+    Notify({
+        Title = "Pw-Remake",
+        Description = "Increased Speed",
+        Duration = 3
+    })
+    FLYSPEED = FLYSPEED + 3
+end)
+
+FlySector:AddButton('Fly (X)', function()
     Notify({
         Title = "Pw-Remake",
         Description = "this is one time fly, Click again if resetted.",
@@ -1546,6 +1774,39 @@ MiscSector:AddButton('Fly (X)', function()
     end
 end)
 
+FlySector:AddSlider('Fly Speed', 0, 15, 100, 1, function(Value)
+    FLYSPEED = FLYSPEED - FLYSPEED + (Value)
+end)
+--[[
+FlySector:AddButton('Change FlyMode', function()
+    if FLYMODE == 'Default' then
+        FLYMODE = 'IY'
+        Notify({
+            Title = "Pw-Remake",
+            Description = "Coming Soon.",
+            Duration = 3
+        })                                      -- \\ Maybe sooner
+    else
+        FLYMODE = 'Default'
+        Notify({
+            Title = "Pw-Remake",
+            Description = "Change To Default, Reset and click fly again.",
+            Duration = 3
+        })
+    end
+end)
+]]
+FlySector:AddButton('Decrease Speed (-)', function()
+    Notify({
+        Title = "Pw-Remake",
+        Description = "Decreased Speed",
+        Duration = 3
+    })
+    FLYSPEED = FLYSPEED - 3
+end)
+
+local MiscSector = BlatantTab:CreateSector("Misc", "left")
+
 MiscSector:AddButton('Invisible', function(State)
     Invisible()
 end)
@@ -1555,7 +1816,7 @@ MiscSector:AddButton('Nil Char', function(State)
 end)
 
 MiscSector:AddButton('Reset', function(State)
-    game.Players.LocalPlayer.Character.Head:Destroy()
+    game.Players.LocalPlayer.Character.Humanoid:Destroy()
 end)
 
 local ResetBind = MiscSector:AddKeybind("Rest Bind", false, function()
@@ -1568,16 +1829,6 @@ local NilCharBind = MiscSector:AddKeybind("Nil Char Bind", false, function()
 end, function()
     NilBody()
 end)
-
-MiscSector:AddButton('Coming Soon!', function(State)
-    Notify({
-        Title = "Pw-Remake",
-        Description = "Won't Work, Coming in 20222",
-        Duration = 3
-    })
-    NilBody()
-end)
-
 
 local GodModeSector = BlatantTab:CreateSector("God Mode", "left")
 
@@ -1599,6 +1850,7 @@ end)
 GodModeSector:AddButton("God Block", function()
     pcall(function()
         LocalPlayer.Character.BodyEffects.Defense.CurrentTimeBlock:Destroy()
+        NilBody()
     end)
 end)
 
@@ -1610,11 +1862,24 @@ end)
 
 FistReachToggle:AddKeybind()
 
+ReachingSector:AddSlider("Fists Transparency", 0, 0, 1, 2, function(Value)
+    if Value then
+        LocalPlayer.Character.RightHand.Transparency = Value
+        LocalPlayer.Character.LeftHand.Transparency = Value
+    end
+end)
+
 local MeleeReachToggle = ReachingSector:AddToggle('Melee Reach', false, function(State)
     PuppywareSettings.Blatant.Reaching.MeleeReach = State
 end)
 
 MeleeReachToggle:AddKeybind()
+
+ReachingSector:AddSlider("Melee Transparency", 0, 0, 1, 2, function(Value)
+    if Value then
+        Tool.Handle.Transparency = Value
+    end
+end)
 
 local CharacterSector = BlatantTab:CreateSector("Character", "right")
 
@@ -1629,14 +1894,19 @@ CharacterSector:AddDropdown("Anti Stomp Type", {"Show Body", "Nil Char"}, "Nil C
 end)
 
 CharacterSector:AddToggle('Auto Stomp', false, function(State)
-    game.Players.LocalPlayer.Character.MainEvent:FireServer('Stomp')
+    autostomp = State
+    game:GetService("RunService").Stepped:connect(function()
+        if autostomp then
+            game.ReplicatedStorage.MainEvent:FireServer("Stomp")
+        end
+    end)
+    game.Players.LocalPlayer:GetMouse().KeyDown:connect(function(state)
+        if state == "." then
+            autostomp = not autostomp
+            game.ReplicatedStorage.MainEvent:FireServer("Stomp")
+        end
+    end)
 end)
-
-local FlingToggle = CharacterSector:AddToggle('Anti-Fling', false, function(State)
-    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = State
-end)
-
-FlingToggle:AddKeybind()
 
 local BagToggle = CharacterSector:AddToggle('Anti Bag', false, function(State)
     PuppywareSettings.Blatant.Character.AntiBag = State
@@ -1644,12 +1914,26 @@ end)
 
 BagToggle:AddKeybind()
 
+local FlingToggle = CharacterSector:AddToggle('Anti-Fling', false, function(State)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.Anchored = State
+end)
+
+FlingToggle:AddKeybind()
+
 CharacterSector:AddToggle('Anti Grab', false, function(State)
     PuppywareSettings.Blatant.Character.AntiGrab = State
 end)
 
 CharacterSector:AddToggle('Anti Slow', false, function(State)
     PuppywareSettings.Blatant.Character.AntiSlow2 = State
+end)
+
+CharacterSector:AddToggle('No Jumpcooldown', false, function(State)
+    PuppywareSettings.Blatant.Character.NoJumpCooldown = State
+end)
+
+CharacterSector:AddToggle('Anti Effects', false, function(State)
+    PuppywareSettings.Blatant.Character.AntiEffects = State
 end)
 
 CharacterSector:AddToggle('Auto Lettuce', false, function(State)
@@ -1662,10 +1946,42 @@ end)
 
 ArmorToggle:AddKeybind()
 
+
 CharacterSector:AddToggle('Auto Reload', false, function(State)
     PuppywareSettings.Blatant.Character.AutoReload = State
 end)
 
+CharacterSector:AddButton('High Tool', function()
+    if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool') then
+        game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool').Grip = CFrame.new(0, -12, 0, 1, 0, 0, 0, 1, 0, 0, 0, -1)
+    else
+        Notify({
+            Title = "Pw-Remake",
+            Description = "Your not Holding a tool, Please hold a tool.",
+            Duration = 3
+        })
+    end
+end)
+
+CharacterSector:AddButton('Longer Lasting Bullet', function()
+    if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool') then
+        if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool'):FindFirstChild('Handle'):FindFirstChildWhichIsA('BillboardGui') then
+            game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool'):FindFirstChild('Handle'):FindFirstChildWhichIsA('BillboardGui'):Destroy()
+        else
+            Notify({
+                Title = "Pw-Remake",
+                Description = "Your not Holding a gun, Please hold a gun.",
+                Duration = 3
+            })
+        end
+    else
+        Notify({
+            Title = "Pw-Remake",
+            Description = "Your not Holding a gun, Please hold a gun.",
+            Duration = 3
+        })
+    end
+end)
 
 local FarmingSector = BlatantTab:CreateSector("Farming", "right")
 
@@ -1689,15 +2005,15 @@ end)
 
 BoxFarmToggle:AddKeybind()
 
-FarmingSector:AddDropdown("Muscle Farming Type", {"Normal", "Heavy"}, "Normal", false, function(State)
-    PuppywareSettings.Blatant.Farming.MuscleFarmingType = State
-end)
-
 local MuscleToggle = FarmingSector:AddToggle('Muscle Farm', false, function(State)
     PuppywareSettings.Blatant.Farming.MuscleFarm = State
 end)
 
 MuscleToggle:AddKeybind()
+
+FarmingSector:AddDropdown("Muscle Farming Type", {"Normal", "Heavy"}, "Normal", false, function(State)
+    PuppywareSettings.Blatant.Farming.MuscleFarmingType = State
+end)
 
 local CashSector = BlatantTab:CreateSector("Cash", "right")
 
@@ -1734,29 +2050,58 @@ local TeleportModule = {
 
 local LocationSector = TeleportTab:CreateSector("Location Teleport", "left")
 
-LocationSector:AddButton('Bank Roof', function()
+LocationSector:AddButton("Bank Roof", function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-437.125885, 38.9783134, -285.587372, 0.0165725499, 5.298579e-08, -0.99986279, 1.16139711e-08, 1, 5.31855591e-08, 0.99986279, -1.24937944e-08, 0.0165725499)
 end)
 
-LocationSector:AddButton('Lava Base', function()
+LocationSector:AddButton("Playground", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-259.516907, 22.1498718, -762.971558, 0.992310345, 0, 0.12377467, 0, 1, 0, -0.12377467, 0, 0.992310345)
+end)
+
+LocationSector:AddButton("Circus", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(170.510178, 59.6617432, -944.884216, 0.806685388, -8.34191383e-08, 0.590979934, 9.47717194e-09, 1, 1.28217792e-07, -0.590979934, -9.78305081e-08, 0.806685388)
+end)
+
+LocationSector:AddButton("Lava Base", function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-796.256897, -39.6492004, -886.306152, -0.39699012, 2.91068263e-05, 0.917822897, 1.63490836e-06, 1, -3.10057476e-05, -0.917822897, -1.08084187e-05, -0.39699012)
 end)
 
-LocationSector:AddButton('Sewers', function()
+LocationSector:AddButton("School", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-581.790283, 68.4947281, 331.046448, 0.220051467, -7.56681329e-05, 0.975498199, -3.96428077e-05, 0.999999583, 8.65130132e-05, -0.975498199, -5.77078645e-05, 0.22005)
+end)
+
+LocationSector:AddButton("Sewers", function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(111.514938, -26.7500305, -276.918365, -0.997865558, -1.25138016e-08, -0.0653034225, -1.74378947e-08, 1, 7.48333733e-08, 0.0653034225, 7.58124159e-08, -0.997865558)
 end)
 
-LocationSector:AddButton('UFO Mountain', function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(65.1504517, 138.999954, -691.819031, -0.935115993, -5.9791418e-08, -0.354341775, -3.10840989e-08, 1, -8.67077574e-08, 0.354341775, -7.0067415e-08, -0.935115993)
+LocationSector:AddButton("GYM", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-76.178093, 56.6998138, -629.940979, -0.9998914, -1.09370752e-07, 0.0147391548, -1.0945012e-07, 1, -4.57786342e-09, -0.0147391548, -6.1905685e-09, -0.9998914)
 end)
 
-LocationSector:AddButton('Safe Spot 1', function()
+LocationSector:AddButton("Gas Station", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(591.680725, 49.0000458, -256.818298, -0.0874911696, -3.41755495e-08, -0.996165276, 1.23318324e-08, 1, -3.53901868e-08, 0.996165276, -1.53808717e-08, -0.0874911696)
+end)
+
+LocationSector:AddButton("UFO", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(71.7331619, 139, -691.154419, 0.602706313, 7.78292178e-06, 0.797962964, 7.63640458e-07, 1, -1.03302691e-05, -0.797962964, 6.83547478e-06, 0.602706313)
+end)
+
+LocationSector:AddButton("Gun Shop 1", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-591.085022, 8.31477833, -742.803528, 0.994070172, 5.60480942e-08, 0.108740292, -6.51724079e-08, 1, 8.03552425e-08, -0.108740292, -8.69656134e-08, 0.994070172)
+end)
+
+LocationSector:AddButton("Gun Shop 2", function()
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(488.347412, 48.0705032, -630.454285, -0.0453165509, -4.20173549e-08, -0.998972654, -4.23235385e-08, 1, -4.01406339e-08, 0.998972654, 4.04610248e-08, -0.0453165509)
+end)
+
+LocationSector:AddButton("Safe Spot 1", function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-117.270287, -58.7000618, 146.536087, 0.999873519, 5.21876942e-08, -0.0159031227, -5.22713037e-08, 1, -4.84179008e-09, 0.0159031227, 5.67245495e-09, 0.999873519)
 end)
 
-LocationSector:AddButton('Safe Spot 2', function()
+LocationSector:AddButton("Safe Spot 2", function()
     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(207.48085, 38.25, 200014.953, 0.507315397, 0, -0.861760437, 0, 1, 0, 0.861760437, 0, 0.507315397)
 end)
+
 
 local FoodSector = TeleportTab:CreateSector("Food Teleport", "left")
 FoodSector:AddDropdown("Food Selection", PuppywareModule.Teleport.Food, PuppywareModule.Teleport.Food[1], false, function(Value)
@@ -1851,7 +2196,7 @@ TeleportSettings:AddToggle("Teleport Return", false, function(State)
     PuppywareSettings.Teleport.TeleportReturn = State
 end)
 
-TeleportSettings:AddSlider("Return Delay", 0, 1, 100, 1, function(Value)
+TeleportSettings:AddSlider("Return Delay", 0, 1, 100, 2, function(Value)
     PuppywareSettings.Teleport.ReturnDelay = Value
 end)
 
@@ -1937,7 +2282,7 @@ LocalPlayer.CharacterAdded:Connect(function()
         Float.Parent = LocalPlayer.Character.HumanoidRootPart
         Float.MaxForce = Vector3.new(100000, 100000, 100000)
         Float.Velocity = Vector3.new(0, 0, 0)
-        wait(0.25)
+        wait(0.10)
         LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, -11.5, 0)
         Cham(LocalPlayer, true)
         PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang = true
@@ -1964,7 +2309,7 @@ AnimSector:AddDropdown("Animations", AnimsName, "none", false, function(State)
         LocalPlayer.Character.Animate.run.RunAnim.AnimationId = AnimModule[State][4]
         LocalPlayer.Character.Animate.jump.JumpAnim.AnimationId = AnimModule[State][5]
         LocalPlayer.Character.Animate.climb.ClimbAnim.AnimationId = AnimModule[State][6]
-        LocalPlayer.Character.Animate.fall.FallAnim.AnimationId = AnimModule[State][7]
+        LocalPlayer.Character.Animate.fall.FallAnim.AnimationId = AnimModule[State][7]      --- Some fucking animation Setups
         AnimState.Idle = State
         AnimState.Walk = State
         AnimState.Run = State
@@ -2020,23 +2365,23 @@ end)
 
 local ServerSector = MiscellaneousTab:CreateSector("Server", "right")
 
-ServerSector:AddLabel("Coming Soon!")
-
-ServerSector:AddToggle("Coming Soon!", function(State)
-    PuppywareSettings.Miscellaneous.Server.ServerCrasher = State
-end)
-
-ServerSector:AddButton("Anti-AFK", function(State)
-    local vu = game:GetService("VirtualUser") -- AntiAfk
-game:GetService("Players").LocalPlayer.Idled:connect(function()
-    vu:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-    wait(1)
-    vu:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
-end)
+ServerSector:AddButton("Rejoin", function()
+    game.Players.LocalPlayer:Kick("Rejoining")
+    wait(0.3)
+    game:GetService('TeleportService'):Teleport(game.PlaceId, game.Players.LocalPlayer)
 end)
 
 ServerSector:AddButton("Server Hop", function()
-game:GetService("TeleportService"):Teleport(2788229376, game:GetService("Players").LocalPlayer)
+    game:GetService("TeleportService"):Teleport(2788229376, game:GetService("Players").LocalPlayer)
+end)
+
+ServerSector:AddButton("Anti-AFK", function(State)
+    local afk = game:GetService("VirtualUser") -- AntiAfk
+game:GetService("Players").LocalPlayer.Idled:connect(function()
+    afk:Button2Down(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+    wait(1)
+    afk:Button2Up(Vector2.new(0,0),workspace.CurrentCamera.CFrame)
+end)
 end)
 
 ServerSector:AddButton("Decompile Game", function()
@@ -2047,6 +2392,8 @@ ServerSector:AddButton("Decompile Game", function()
     })
     saveinstance({decomptype = new})
 end)
+
+
 --[[
 local RadioSector = MiscellaneousTab:CreateSector("Radio Playlist", "left")
 
@@ -2073,7 +2420,7 @@ RadioSector:AddButton("Stop", function()
 end)
 ]]
 
-
+--[[
 local PanicSector = MiscellaneousTab:CreateSector("Coming Soon!", "right")
 
 PanicSector:AddDropdown("Real Leaks", {"Da Hood Moderator", "Player Joined"}, "Da Hood Moderator", false, function()
@@ -2083,22 +2430,32 @@ end)
 PanicSector:AddToggle("Panic Enabled", false, function()
 
 end)
+]]
 
-local KillInsultsSector = MiscellaneousTab:CreateSector("Coming Soon!", "right")
 
-KillInsultsSector:AddToggle("Coming Soon!", false, function(State)
+-- KillInsults Section -- 
+local KillInsultsSector = MiscellaneousTab:CreateSector("Kill Insults", "right")
+
+KillInsultsSector:AddToggle("Enabled", false, function(State)
     PuppywareSettings.Miscellaneous.KillInsults.Enabled = State
 end)
 
-KillInsultsSector:AddToggle("Custom Soon!", false, function()
-    PuppywareSettings.Miscellaneous.KillInsults.CustomMsg = State
+KillInsultsSector:AddToggle("Custom Message Enabled", false, function(State)
+    PuppywareSettings.Miscellaneous.KillInsults.CustomMessage = State
 end)
 
-KillInsultsSector:AddDropdown("LEEKS", {"AMONGUS XD", "Why are you here"}, "After Dead", false, function(Option)
+--[[
+KillInsultsSector:AddSlider("Delay (ms)", 1, 1, 10, 1, function(Value)
+    PuppywareSettings.Miscellaneous.KillInsults.Delay = Value
+end)
+]]
+
+KillInsultsSector:AddDropdown("Method", {"Before Dead", "After Dead"}, "After Dead", false, function(Option)
     PuppywareSettings.Miscellaneous.KillInsults.Type = Option
 end)
-KillInsultsSector:AddTextbox("Coming Soon", "Pw-Remake is Private idiot.", function(Text)
-    PuppywareSettings.Miscellaneous.KillInsults.MsgText = Text
+
+KillInsultsSector:AddTextbox("Custom Message", "Pw-Remake is Private idiot.", function(Text)
+    PuppywareSettings.Miscellaneous.KillInsults.CustomMessageText = Text
 end)
 
 --[[
@@ -2136,35 +2493,37 @@ end)
 
 -- Settings Window --
 
-local SettingsTab = Window:CreateTab("Info")
+local SettingsTab = Window:CreateTab("Settings & Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
-UpdateSector:AddLabel("23/2/22 \n Added fe and Cs \n korblox and headless.")
-UpdateSector:AddLabel("22/2/22 \n Added some Ui features \n Added character fture. \n Added More options in \n Visuals and Blatant \n Remove Useless features \n Added Coming soon features")
-UpdateSector:AddLabel("21/2/22 \n Added Crosshair in \n Visuals \n Added for local also.")
-UpdateSector:AddLabel("20/2/22 \n Added new features \n in visuals")
-UpdateSector:AddLabel("18/2/22 \n Removed A feature \n Miscellanceous. \n Removed some useless \n features.")
-UpdateSector:AddLabel("17/2/22 \n Added Few beta features \n and world.")
-UpdateSector:AddLabel("16/2/22 \n Added extra options \n for world.")
-UpdateSector:AddLabel("15/2/22 \n Added options in Visuals. \n Added options in Local. \n Added options in world.")
-UpdateSector:AddLabel("8/2/22 \n Improved ESP and Options")
-UpdateSector:AddLabel("5/2/22 \n Added Visuals and ESP")
-UpdateSector:AddLabel("1/2/22 \n Added some features")
+UpdateSector:AddLabel("17/4/22 \n-Sorry for the downtime. \n-Removed WalkSpeed \n-Added AC Bypasser \n-Added \n NoJumpCooldown")
+UpdateSector:AddLabel("14/4/22 \n-Added Aimbot bind \n-Fixed Cframe Speed Type \n-Added WalkSpeed \n (not safe)\n-Added Boombox \n trasparency.")
+UpdateSector:AddLabel("3/4/22 \n-Aim radius is now\nwith FOV AimbotSize \n-Removed Auto Aimbot \n Prediction (broke it) \n-Fixed Underground lay")
+UpdateSector:AddLabel("31/3/22 \n-Added Aimbot Sector \n-Aimbot supports ping-based \n Prediction \n-Removed Use nearest Distance for \n Silent Aim \n-Added FOV NumSides \n-Aimbot supports FOV \n-Fixed FlySpeed Slider \n-Added WalkSpeed \n-Sorry for the downtime \n Pw-Remake should work fine.")
+UpdateSector:AddLabel("30/3/22 \n-Added New Aimbot \n(Thanks to tenaki) \n-Fixed FOV for Aimbot \n-Replaced Smooth tracing \n with Aimbot Smoothness.")
+UpdateSector:AddLabel("17/3/22 \n-Added Kill Insults \n(Will not work ig)")
+UpdateSector:AddLabel("16/3/22 \n-Added back Antilock \n(took me time to fix)")
+UpdateSector:AddLabel("15/3/22 \n-Removed Antilock \n(Broken)")
+UpdateSector:AddLabel("15/3/22 \n-Added external options in \n -visuals & blatant \n -Removed killinsults \n(due to it being broken) \n-Added extra options in \nlocation \n-added external options in \nESP")
+UpdateSector:AddLabel("10/3/22 \n-Added Extra features in \n Blatant (guns) \n-Fixed Headless (cs)")
+UpdateSector:AddLabel("7/3/22 \n-Added some features in \n Blatant \n-Added Options for fly \n ")
+UpdateSector:AddLabel("24/2/22 \n-Added Kill Insults \n-Added more local features")
+UpdateSector:AddLabel("23/2/22 \n-Added fe and Cs \nkorblox and headless.")
+UpdateSector:AddLabel("22/2/22 \n-Added some Ui features \n-Added character features. \n-Added More options in \n -Visuals and Blatant \n-Remove Useless features \n-Added Coming soon features")
+UpdateSector:AddLabel("21/2/22 \n-Added Crosshair in \n Visuals \n-Added for local also.")
+UpdateSector:AddLabel("20/2/22 \n-Added new features \n in visuals")
+UpdateSector:AddLabel("18/2/22 \n-Removed A feature \nMiscellanceous. \n-Removed some useless \nfeatures.")
+UpdateSector:AddLabel("17/2/22 \n-Added Few beta features \n and world.")
+UpdateSector:AddLabel("16/2/22 \n-Added extra options \n for world.")
+UpdateSector:AddLabel("15/2/22 \n-Added options in Visuals. \n -Added options in Local. \n -Added options in world.")
+UpdateSector:AddLabel("8/2/22 \n-Improved ESP and Options")
+UpdateSector:AddLabel("5/2/22 \n-Added Visuals and ESP")
+UpdateSector:AddLabel("1/2/22 \n-Added some features")
 
-UpdateSector:AddButton("My Discord Server", function()
-    Notify({
-        Title = "Pw-Remake",
-        Description = "Copied to clipboard!",
-        Duration = 3
-    })
-    setclipboard("https://discord.gg/D83UdBWrV2")
-end)
 
 local PendingSector = SettingsTab:CreateSector("Pending", "right")
 
-PendingSector:AddLabel("Adding Coming soon features \n (Not sure)")
-PendingSector:AddLabel("Fixing Underground \n Adding Background featues \n Trying to fix Aimbot")
-PendingSector:AddLabel("Adding AntiLock \n (i think or no)")
+PendingSector:AddLabel("Add better ESP? \nCustom Bullet color? \n-Custom Skin? \n uh what else?")
 
 if syn then
     SettingsTab:CreateConfigSystem("left")
@@ -2182,11 +2541,14 @@ WindowSection:AddToggle("Watermark", false, function(State)
     Watermark.Visible = State
 end)
 
+WindowSection:AddColorpicker("Accent Color", Color3.new(0.284713, 0.011764, 1), function(Color)
+    Library.theme.accentcolor = (Color)
+end)
+
 local CreditSector = SettingsTab:CreateSector("Credits", "left")
 
-
-CreditSector:AddLabel("I give Loni all the \n Credits since he made it \n all and his team")
-CreditSector:AddLabel("Current changes were made by \n Twix")
+CreditSector:AddLabel("Special credits to \n Tenkai, Vanis")
+CreditSector:AddLabel("Credits to Loni \n all his team")
 
 CreditSector:AddButton("Puppyware Server", function()
     Notify({
@@ -2197,8 +2559,29 @@ CreditSector:AddButton("Puppyware Server", function()
     setclipboard("https://discord.gg/Puppyware")
 end)
 
+CreditSector:AddButton("My Discord Server", function()
+    Notify({
+        Title = "Pw-Remake",
+        Description = "Copied to clipboard!",
+        Duration = 3
+    })
+    setclipboard("https://discord.gg/D83UdBWrV2")
+end)
+
 
 -- Init --
+
+if PuppywareSettings.Miscellaneous.KillInsults.Enabled then
+    game:GetService("Workspace").Players.ChildRemoved:Connect(function(PlayerThatIsGone)
+        if PlayerThatIsGone.Name == PuppywareSettings.KillInsults.OldPlayer and PuppywareSettings.Miscellaneous.KillInsults.Type == "After Dead" then
+            if PuppywareSettings.Miscellaneous.KillInsults.CustomMessage then
+                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(PuppywareSettings.Miscellaneous.KillInsults.CustomMessageText:gsub("@s", PuppywareSettings.KillInsults.OldPlayer), "All")
+            else
+                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(PuppywareSettings.Miscellaneous.KillInsults.Message[math.random(1, 4)]:gsub("@s", PuppywareSettings.KillInsults.OldPlayer), "All")
+            end
+        end
+    end)
+end
 
 for _, v in next, Players:GetPlayers() do
     if v ~= LocalPlayer and v:IsFriendsWith(LocalPlayer.UserId) then
@@ -2495,8 +2878,8 @@ function Cham(Data, State)
                     BoxVar.AlwaysOnTop = true
                     BoxVar.ZIndex = 4
                     BoxVar.Adornee = v
-                    BoxVar.Color3 = Color3.fromRGB(0, 153, 153)
-                    BoxVar.Transparency = 0.5
+                    BoxVar.Color3 = Color3.new(0.284713, 0.011764, 1)
+                    BoxVar.Transparency = 0.7
                     BoxVar.Size = v.Size + Vector3.new(0.02, 0.02, 0.02)
                 end
             end
@@ -2514,17 +2897,6 @@ function Cham(Data, State)
     end
 end
 
-UserInputService.InputBegan:Connect(function(Key, Event)
-    if Key.UserInputType == Enum.UserInputType.MouseButton2 and not Event then
-        PuppywareSettings.Aiming.Aimbot.IsAiming = true
-    end
-end)
-
-UserInputService.InputEnded:Connect(function(Key, Event)
-    if Key.UserInputType == Enum.UserInputType.MouseButton2 and not Event then
-        PuppywareSettings.Aiming.Aimbot.IsAiming = false
-    end
-end)
 
 RunService.Heartbeat:Connect(function()
     if Alive(LocalPlayer) then
@@ -2549,11 +2921,13 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end
+        -- Anti bag --
         if PuppywareSettings.Blatant.Character.AntiBag then
             if LocalPlayer.Character:FindFirstChild("Christmas_Sock") then
                 LocalPlayer.Character:FindFirstChild("Christmas_Sock"):Destroy()
             end
         end
+        -- Anti Slow --
         if PuppywareSettings.Blatant.Character.AntiSlow2 then
             local DeletePart = game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('NoJumping') or game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('ReduceWalk') or game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('NoWalkSpeed')
             if DeletePart then DeletePart:Destroy() end
@@ -2561,6 +2935,14 @@ RunService.Heartbeat:Connect(function()
                 game.Players.LocalPlayer.Character.BodyEffects.Reload.Value = false 
             end
         end
+        if PuppywareSettings.Blatant.Character.NoJumpCooldown then
+            local DeletePart = game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('NoJumping') or game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('ReduceWalk') or game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('NoWalkSpeed')
+            if DeletePart then DeletePart:Destroy() end
+            if game.Players.LocalPlayer.Character.BodyEffects.Movement.NoJumping == true then 
+                game.Players.LocalPlayer.Character.BodyEffects.Movement.NoJumping = false 
+            end
+        end
+        --Anti Grab --
         if PuppywareSettings.Blatant.Character.AntiGrab and LocalPlayer.Character:FindFirstChild("GRABBING_CONSTRAINT") then
             LocalPlayer.Character["GRABBING_CONSTRAINT"]:Destroy()
         end
@@ -2568,28 +2950,29 @@ RunService.Heartbeat:Connect(function()
 end)
 
 RunService.Stepped:Connect(function()
-	if PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang then
-		for i, v in pairs(LocalPlayer.Character:GetDescendants()) do
-			if v:IsA("BasePart") and v.CanCollide == true then
-				v.CanCollide = false
-			end
-		end
-	end
+    if PuppywareSettings.Blatant.BlatantAA.UndergroundWallbang then
+        for i, v in pairs(LocalPlayer.Character:GetDescendants()) do
+            if v:IsA("BasePart") and v.CanCollide == true then
+                v.CanCollide = false
+            end
+        end
+    end
 end)
 
 spawn(function()
     while wait() do
         if Alive(LocalPlayer) then
-            if PuppywareSettings.Blatant.Character.AutoLettuce then
+            if PuppywareSettings.Blatant.Character.AutoLettuce then     -- Auto Lettuce init --
                 pcall(function()
-                    Buy("[Lettuce] - $5", 1)
+                    Buy("[Lettuce] - $5", 0.3)
                     if LocalPlayer.Backpack:FindFirstChild("[Lettuce]") then
                         LocalPlayer.Character.Humanoid:EquipTool(LocalPlayer.Backpack["[Lettuce]"])
                     end
-                    wait(0.5)
+                    wait(0.3)
                     LocalPlayer.Character["[Lettuce]"]:Activate()
                 end)
             end
+            -- Auto reload Init --
             if PuppywareSettings.Blatant.Character.AutoReload then
                 local Gun = LocalPlayer.Character:FindFirstChildOfClass("Tool")
                 if Gun ~= nil and Gun:FindFirstChild("MaxAmmo") then
@@ -2598,16 +2981,29 @@ spawn(function()
                     end
                 end
             end
+            -- auto Armor init --
             if PuppywareSettings.Blatant.Character.AutoArmor then
                 if LocalPlayer.Character.BodyEffects.Armor.Value == 0 then
-                    Buy("[High-Medium Armor] - $2300", 0.5, true)
+                    Buy("[High-Medium Armor] - $2300", 0.3, true)
                 end
             end
+            --Anti Effect --
+            if PuppywareSettings.Blatant.Character.AntiEffects then
+                local Particle = game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('ElectricuteParticle') or game.Players.LocalPlayer.Character.UpperTorso:FindFirstChild('FlamethrowerFireParticle')
+                if Particle then Particle:Destroy()
+                end
+                for i,v in pairs(game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Humanoid'):GetPlayingAnimationTracks()) do
+                    if v.Animation.AnimationId == 'rbxassetid://5641749824' then
+                        v:Stop()
+                    end
+                end
+            end
+            -- Muscle Farm Init --
             if PuppywareSettings.Blatant.Farming.MuscleFarm then
                 pcall(function()
                     if PuppywareSettings.Blatant.Farming.MuscleFarmingType == "Normal" then
                         if not LocalPlayer.Backpack:FindFirstChild("[Weights]") then
-                            Buy("[Weights] - $120", 1)
+                            Buy("[Weights] - $120", 0.5)
                         end
                         if LocalPlayer.Backpack:FindFirstChild("[Weights]") then
                             LocalPlayer.Character.Humanoid:EquipTool(LocalPlayer.Backpack["[Weights]"])
@@ -2616,7 +3012,7 @@ spawn(function()
                     end
                     if PuppywareSettings.Blatant.Farming.MuscleFarmingType == "Heavy" then
                         if not LocalPlayer.Backpack:FindFirstChild("[HeavyWeights]") then
-                            Buy("[HeavyWeights] - $250", 1)
+                            Buy("[HeavyWeights] - $250", 0.5)
                         end
                         if LocalPlayer.Backpack:FindFirstChild("[HeavyWeights]") then
                             LocalPlayer.Character.Humanoid:EquipTool(LocalPlayer.Backpack["[HeavyWeights]"])
@@ -2625,6 +3021,7 @@ spawn(function()
                     end
                 end)
             end
+            -- Shoe Farm Init --
             if PuppywareSettings.Blatant.Farming.ShoeFarm then
                 pcall(function()
                     for i, v in pairs(Workspace.Ignored.Drop:GetChildren()) do
@@ -2640,26 +3037,28 @@ spawn(function()
                     end
                 end)
             end
+            -- Hospital Farm init --
             if PuppywareSettings.Blatant.Farming.HospitalFarm then
                 LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(116, 23, -479)
                 for _, v in pairs(Workspace.Ignored.HospitalJob:GetChildren()) do
                     if v.Name == "Can I get the Green bottle" then
                         fireclickdetector(v.Parent.Green.ClickDetector)
-                        wait(1)
+                        wait(0.5)
                         fireclickdetector(v.ClickDetector)
                     end
                     if v.Name == "Can I get the Blue bottle" then
                         fireclickdetector(v.Parent.Blue.ClickDetector)
-                        wait(1)
+                        wait(0.5)
                         fireclickdetector(v.ClickDetector)
                     end
                     if v.Name == "Can I get the Red bottle" then
                         fireclickdetector(v.Parent.Red.ClickDetector)
-                        wait(1)
+                        wait(0.5)
                         fireclickdetector(v.ClickDetector)
                     end
                 end
             end
+            -- Box farm Init --
             if PuppywareSettings.Blatant.Farming.BoxFarm then
                 pcall(function()
                     LocalPlayer.Character.HumanoidRootPart.CFrame = Workspace.MAP.Map.ArenaBOX.PunchingBagInGame["pretty ransom"].CFrame * CFrame.new(0, -1, 3)
@@ -2675,7 +3074,7 @@ end)
 
 spawn(function()
     while wait() do
-        if PuppywareSettings.Blatant.Farming.ATMFarm then
+        if PuppywareSettings.Blatant.Farming.ATMFarm then       -- ATM FARM --
             for _, v in pairs(Workspace.Cashiers:GetChildren()) do
                 if v:FindFirstChild("Head") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
                     repeat
@@ -2706,12 +3105,12 @@ end)
 
 RunService.RenderStepped:Connect(function()
     if Alive(LocalPlayer) then
-        if PuppywareSettings.Aiming.AimingSettings.PingBasedPrediction then
+        if PuppywareSettings.Aiming.AimingSettings.PingBasedPrediction then -- Easy ping based prediction init --
             local PingStats = GetService.Stats.Network.ServerStatsItem["Data Ping"]:GetValueString()
             local Value = tostring(PingStats)
             local PingValue = Value:split(" ")
             local PingNumber = tonumber(PingValue[1])
-    
+
             if PingNumber < 130 then
                 PuppywareSettings.Aiming.AimingSettings.GetVelocity = PingNumber / 1000 + 0.037
             else
@@ -2720,10 +3119,12 @@ RunService.RenderStepped:Connect(function()
         else
             PuppywareSettings.Aiming.AimingSettings.GetVelocity = 0.165
         end
-        if PuppywareSettings.Blatant.Cash.AutoDrop then
+        -- Auto Drop init --
+        if PuppywareSettings.Blatant.Cash.AutoDrop then     
             ReplicatedStorage.MainEvent:FireServer("DropMoney", tostring(PuppywareSettings.Blatant.Cash.AutoDropAmount))
         end
-        if PuppywareSettings.Blatant.Cash.AutoPickCash then
+        -- Auto Pickup init --
+        if PuppywareSettings.Blatant.Cash.AutoPickCash then     
             pcall(function()
                 for _, v in pairs(Workspace.Ignored.Drop:GetChildren()) do
                     if v.Name == "MoneyDrop" then
@@ -2735,8 +3136,9 @@ RunService.RenderStepped:Connect(function()
                 end
             end)
         end
+        -- ATM pick init --
         if PuppywareSettings.Blatant.Farming.ATMPick then
-            pcall(function()
+            pcall(function()        
                 for _, v in pairs(Workspace.Ignored.Drop:GetChildren()) do
                     if v.Name == "MoneyDrop" then
                         local MoneyMagnitude = (v.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
@@ -2746,16 +3148,28 @@ RunService.RenderStepped:Connect(function()
                     end
                 end
             end)
-        end
+        end        
+            -- Speed Movement (faster) --
         if PuppywareSettings.Blatant.Movement.SpeedEnabled and PuppywareSettings.Blatant.Movement.SpeedType == "CFrame" then
-            if PuppywareSettings.Blatant.Movement.SpeedRenderType == "Fast" and Alive(LocalPlayer) then
+            if PuppywareSettings.Blatant.Movement.SpeedRenderType == "Faster" and Alive(LocalPlayer) then
                 if LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
-                    for i = 1, PuppywareSettings.Blatant.Movement.SpeedAmount do
+                    for i = 0.5, PuppywareSettings.Blatant.Movement.SpeedAmount do
                         LocalPlayer.Character:TranslateBy(LocalPlayer.Character.Humanoid.MoveDirection)
                     end
                 end
             end
         end
+            -- Speed movement (slower) --
+        if PuppywareSettings.Blatant.Movement.SpeedEnabled and PuppywareSettings.Blatant.Movement.SpeedType == "CFrame" then
+            if PuppywareSettings.Blatant.Movement.SpeedRenderType == "Slower" and Alive(LocalPlayer) then
+                if LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 then
+                    for i = 2, PuppywareSettings.Blatant.Movement.SpeedAmount do
+                        LocalPlayer.Character:TranslateBy(LocalPlayer.Character.Humanoid.MoveDirection)
+                    end
+                end
+            end
+        end
+        -- Fist reach init --
         if PuppywareSettings.Blatant.Reaching.FistReach and LocalPlayer.Character.LeftHand.Transparency ~= 1 then
             LocalPlayer.Character.LeftHand.Size = Vector3.new(45, 45, 45)
             LocalPlayer.Character.RightHand.Size = Vector3.new(45, 45, 45)
@@ -2764,6 +3178,7 @@ RunService.RenderStepped:Connect(function()
             LocalPlayer.Character.RightHand.Transparency = 1
             LocalPlayer.Character.LeftHand.Transparency = 1
         end
+        -- Melee Reach init --
         if PuppywareSettings.Blatant.Reaching.MeleeReach then
             local Tool = LocalPlayer.Character:FindFirstChildOfClass("Tool")
             if Tool ~= nil and not Tool:FindFirstChild("Ammo") and TableLowerFind(PuppywareModule.Teleport.Melee, Tool.Name) ~= nil and Tool:FindFirstChild("Handle") then
@@ -2795,24 +3210,8 @@ RunService.RenderStepped:Connect(function()
                 end
             end
         end
-        if PuppywareSettings.Blatant.LegitAA.Enabled then
-            if PuppywareSettings.Blatant.LegitAA.AntiPointAt then
-                for i, v in next, Players:GetPlayers() do
-                    if v ~= LocalPlayer and Alive(v) and Alive(LocalPlayer) then
-                        local BodyEffects = v.Character:FindFirstChild("BodyEffects")
-                        local MousePos = BodyEffects:FindFirstChild("MousePos")
-                        if BodyEffects ~= nil and MousePos ~= nil then
-                            local EnemyMouseMagnitude = (LocalPlayer.Character.HumanoidRootPart.Position - MousePos.Value).Magnitude
-                            if PuppywareSettings.Blatant.LegitAA.AntiAimAtDistance > EnemyMouseMagnitude then
-                                Root.CFrame = Root.CFrame * CFrame.new(math.random(1, 2) == 1 and 2 or -2, 0, 0)
-                            end
-                        end
-                    end
-                end
-            end
-        end
         if PuppywareSettings.Blatant.BlatantAA.Enabled then
-                if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Jitter" then
+                if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Jitter" then     -- Jitter Init--
                     Jitter(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed, PuppywareSettings.Blatant.BlatantAA.JitterAngle)
                 else
                     Spin(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
@@ -2826,19 +3225,20 @@ RunService.RenderStepped:Connect(function()
             LocalPlayer.Character.Humanoid.AutoRotate = true
         end
     end
-    if PuppywareSettings.Aiming.TargetAimSettings.UnlockTargetKnocked then
+    if PuppywareSettings.Aiming.TargetAimSettings.UnlockTargetKnocked then      -- Unlock Target Knocked init --
         if PuppywareSettings.Aiming.TargetAimSettings.Target ~= nil and Players:FindFirstChild(PuppywareSettings.Aiming.TargetAimSettings.Target) then
             if Knocked(Players:FindFirstChild(PuppywareSettings.Aiming.TargetAimSettings.Target)) then
                 PuppywareSettings.Aiming.TargetAimSettings.Target = nil
             end
         end
     end
+    -- FOV Init --
     if PuppywareSettings.Aiming.SilentAim.ShowFOV then
         SilentAimFOV.Visible = true
         SilentAimFOV.Radius = PuppywareSettings.Aiming.FOV.SilentAimSize
-        SilentAimFOV.Filled = PuppywareSettings.Aiming.FOV.FOVFilled
-        SilentAimFOV.Transparency = PuppywareSettings.Aiming.FOV.Transparency
-        SilentAimFOV.NumSides = 100
+        SilentAimFOV.Filled = PuppywareSettings.Aiming.FOV.FOVFilled            -- Fill -- 
+        SilentAimFOV.Transparency = PuppywareSettings.Aiming.FOV.Transparency   -- Transparency --
+        SilentAimFOV.NumSides = PuppywareSettings.Aiming.FOV.NumSides    --Num Sides --      -- Silent Aim Fov Init --
         SilentAimFOV.Color = PuppywareSettings.Aiming.SilentAim.FOVColor
         SilentAimFOV.Position = Vector2.new(Mouse.X, Mouse.Y + GuiInset.Y)
     else
@@ -2847,79 +3247,30 @@ RunService.RenderStepped:Connect(function()
     if PuppywareSettings.Aiming.Aimbot.Enabled then
         if PuppywareSettings.Aiming.Aimbot.ShowFOV then
             AimbotFOV.Visible = true
-            AimbotFOV.Radius = PuppywareSettings.Aiming.FOV.AimAssistSize
+            AimbotFOV.Radius = PuppywareSettings.Aiming.FOV.AimbotSize
             AimbotFOV.Filled = PuppywareSettings.Aiming.FOV.FOVFilled
-            AimbotFOV.Transparency = PuppywareSettings.Aiming.FOV.Transparency
-            AimbotFOV.NumSides = 100
+            AimbotFOV.Transparency = PuppywareSettings.Aiming.FOV.Transparency      -- Aimbot/AimAssist Fov Init --
+            AimbotFOV.NumSides = PuppywareSettings.Aiming.FOV.NumSides
             AimbotFOV.Color = PuppywareSettings.Aiming.Aimbot.FOVColor
             AimbotFOV.Position = Vector2.new(Mouse.X, Mouse.Y + GuiInset.Y)
         else
             AimbotFOV.Visible = false
         end
-        if PuppywareSettings.Aiming.Aimbot.AimAssist and PuppywareSettings.Aiming.Aimbot.IsAiming then
-            local NearestTarget, NearestDistance = NearestType(PuppywareSettings.Aiming.Aimbot.UseNearestDistance and "Distance" or "Mouse")
-
-            if NearestTarget and (not PuppywareSettings.Aiming.Aimbot.GrabbedCheck or not Grabbing(NearestTarget)) and (not PuppywareSettings.Aiming.Aimbot.KnockedOutCheck or not Knocked(NearestTarget)) and (not PuppywareSettings.Aiming.Aimbot.ShowFOV or PuppywareSettings.Aiming.FOV.AimAssistSize > NearestDistance) and (not PuppywareSettings.Aiming.Aimbot.WallCheck or Visible(NearestTarget.Character.HumanoidRootPart, LocalPlayer.Character.HumanoidRootPart)) then
-                local TargetPart = (NearestTarget.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall and NearestTarget.Character.LeftFoot or NearestTarget.Character[RandomTable(PuppywareSettings.Aiming.Aimbot.Hitboxes)])
-                local Prediction = (PuppywareSettings.Aiming.TargetAimSettings.MovementPrediction and TargetPart.CFrame + (TargetPart.Velocity * PuppywareSettings.Aiming.TargetAimSettings.MovementPredictionAmount) or TargetPart.CFrame + (TargetPart.Velocity * PuppywareSettings.Aiming.AimingSettings.GetVelocity))
-                
-                if PuppywareSettings.Aiming.AimbotSettings.AimAssistType == "Mouse" then
-                    local NearestPosition, NearestVisible = CurrentCamera:WorldToScreenPoint(Prediction.Position)
-                    local MouseLocation = CurrentCamera:WorldToScreenPoint(Mouse.Hit.Position)
-                    local EndPosition = (PuppywareSettings.Aiming.AimbotSettings.SmoothingTracing and Vector2.new((NearestPosition.X - MouseLocation.X) / PuppywareSettings.Aiming.AimbotSettings.SmoothingTracingAmount, (NearestPosition.Y - MouseLocation.Y) / PuppywareSettings.Aiming.AimbotSettings.SmoothingTracingAmount) or Vector2.new((NearestPosition.X - MouseLocation.X) / 1.4, (NearestPosition.Y - MouseLocation.Y) / 1.4))
-                    
-                    if NearestVisible then
-                        mousemoverel(EndPosition.X, EndPosition.Y)
-                    end
-                elseif PuppywareSettings.Aiming.AimbotSettings.AimAssistType == "Camera" then
-                    CurrentCamera.CFrame = CFrame.lookAt(CurrentCamera.CFrame.Position, Prediction.Position)
-                end
-            end
-        end
-    else
-        AimbotFOV.Visible = false
     end
-end)
-
-spawn(function()
-    while wait(1 / 16) do
-        LagTick = math.clamp(PuppywareModule.LagTick + 1, 0, PuppywareSettings.Blatant.FakeLag.TriggerAmount)
-        if Alive(Player) and PuppywareSettings.Blatant.FakeLag.Enabled then
-            if LagTick == math.random(1, PuppywareSettings.Blatant.FakeLag.TriggerAmount) then
-                Network:SetOutgoingKBPSLimit(9e9)
-                PuppywareFolder:ClearAllChildren()
-                LagTick = 0
-                --[[
-                    if Settings.Visuals.PlayerESP.FakeLag.Cham then
-                        for i, v in pairs(Player.Character:GetChildren()) do
-                            if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
-                                local ShadowPart = Instance.new("Part")
-                                ShadowPart.CFrame = v.CFrame
-                                ShadowPart.Anchored = true
-                                ShadowPart.CanCollide = false
-                                ShadowPart.Material = Enum.Material.ForceField
-                                ShadowPart.Color = Settings.Visuals.PlayerESP.FakeLag.Color
-                                ShadowPart.Name = v.Name
-                                ShadowPart.Transparency = 0
-                                ShadowPart.Size = v.Size
-                                ShadowPart.Parent = FakeLagFolder
-                            end
-                        end
-                    end
-                ]]
-            else
-                if PuppywareSettings.Blatant.FakeLag.Enabled then
-                    Network:SetOutgoingKBPSLimit(1)
-                end
-            end
-        else
-            PuppywareFolder:ClearAllChildren()
-            Network:SetOutgoingKBPSLimit(9e9)
+    if PuppywareSettings.Aiming.FOV.FOVShapes then
+        if PuppywareSettings.Aiming.FOV.FOVShapes == "Custom" then
+            AimbotFOV.NumSides = PuppywareSettings.Aiming.FOV.NumSides
+            SilentAimFOV.NumSides = PuppywareSettings.Aiming.FOV.NumSides
+        elseif PuppywareSettings.Aiming.FOV.FOVShapes == "Octagon" then
+            AimbotFOV.NumSides = 12.5
+            SilentAimFOV.NumSides = 12.5
+        elseif PuppywareSettings.Aiming.FOV.FOVShapes == "Circle" then
+            AimbotFOV.NumSides = 100
         end
     end
 end)
-
-local __namecall -- cock ;)
+            -- Hookatamethod --
+local __namecall -- flol ;)
 __namecall = hookmetamethod(game, "__namecall", function(self, ...)
     local Args = {...}
     local Method = getnamecallmethod()
@@ -2932,7 +3283,7 @@ __namecall = hookmetamethod(game, "__namecall", function(self, ...)
 
     return __namecall(self, ...)
 end)
-
+--  Target Aim Init --
 local __index -- <3
 __index = hookmetamethod(game, "__index", function(self, key)
     if self == Mouse and (tostring(key) == "Hit" or tostring(key) == "Target") then
@@ -2945,7 +3296,7 @@ __index = hookmetamethod(game, "__index", function(self, key)
                     return (tostring(key) == "Hit" and Prediction or tostring(key) == "Target" and TargetPart)
                 end
             end
-        else    
+        else    -- Silent aim shit --
             if PuppywareSettings.Aiming.SilentAim.Enabled and ChanceTable(PuppywareSettings.Aiming.AimingSettings.HitChanceAmount) == "HitPercent" then
                 local NearestTarget, NearestDistance = NearestType(PuppywareSettings.Aiming.SilentAim.UseNearestDistance and "Distance" or "Mouse")
     
@@ -2965,7 +3316,7 @@ end)
 
 while wait() do
     if PuppywareSettings.Aiming.TriggerBot.Enabled then
-        for i, v in next, Players:GetPlayers() do 
+        for i, v in next, Players:GetPlayers() do           -- TriggerBot Init --
             if Alive(v) then 
                 if Mouse.Target:IsDescendantOf(v.Character) then 
                     mouse1press()
@@ -2979,16 +3330,212 @@ while wait() do
         end
     end
 end
-
-    if PuppywareSettings.Visuals.Local.Users then
-        for i,v in pairs(game.Workspace.Players:GetChildren()) do
-            v:FindFirstChildWhichIsA('Humanoid').DisplayDistanceType = 'Subject'
+-- Kill Insults init--
+while wait() do
+    if PuppywareSettings.Miscellaneous.KillInsults.Type == "Before Dead" and PuppywareSettings.KillInsults.OldPlayer ~= nil then
+        if Players[PuppywareSettings.KillInsults.OldPlayer].Character.BodyEffects.Dead then
+            if PuppywareSettings.Miscellaneous.KillInsults.CustomMessage then
+                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(PuppywareSettings.Miscellaneous.KillInsults.CustomMessageText:gsub("@s", PuppywareSettings.KillInsults.OldPlayer), "All")
+            else
+                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(PuppywareSettings.Miscellaneous.KillInsults.Message[math.random(1, 4)]:gsub("@s", PuppywareSettings.KillInsults.OldPlayer), "All")
+            end
         end
     end
     
+    while wait(3) do
+        if PuppywareSettings.KillInsults.Cooldown then
+            PuppywareSettings.KillInsults.OldPlayer = ""
+        end
+    end
+end
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|--Aimbot-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Aimbot Shit stuff init --
+local Players, Uis, RService, SGui = game:GetService"Players", game:GetService"UserInputService", game:GetService"RunService", game:GetService"StarterGui";
+local Client, Mouse, Camera, CF, RNew, Vec3, Vec2 = Players.LocalPlayer, Players.LocalPlayer:GetMouse(), workspace.CurrentCamera, CFrame.new, Ray.new, Vector3.new, Vector2.new;
+local MousePressed, CanNotify = false, false;
+local AimlockTarget;
+local OldPre;
+
+getgenv().WorldToViewportPoint = function(P)
+    return Camera:WorldToViewportPoint(P)
+end
+
+getgenv().WorldToScreenPoint = function(P)
+    return Camera.WorldToScreenPoint(Camera, P)
+end
+
+getgenv().GetObscuringObjects = function(T)
+    if T and T:FindFirstChild(getgenv().AimPart) and Client and Client.Character:FindFirstChild("Head") then 
+        local RayPos = workspace:FindPartOnRay(RNew(
+            T[getgenv().AimPart].Position, Client.Character.Head.Position)
+        )
+        if RayPos then return RayPos:IsDescendantOf(T) end
+    end
+end
+
+getgenv().GetNearestTarget = function()
+    -- Credits to whoever made this, i didnt make it, and my own mouse2plr function kinda sucks
+    local players = {}
+    local PLAYER_HOLD  = {}
+    local DISTANCES = {}
+    for i, v in pairs(Players:GetPlayers()) do
+        if v ~= Client then
+            table.insert(players, v)
+        end
+    end
+    for i, v in pairs(players) do
+        if v.Character ~= nil then
+            local AIM = v.Character:FindFirstChild("Head")
+            if getgenv().TeamCheck == true and v.Team ~= Client.Team then
+                local DISTANCE = (v.Character:FindFirstChild("Head").Position - game.Workspace.CurrentCamera.CFrame.p).magnitude
+                local RAY = Ray.new(game.Workspace.CurrentCamera.CFrame.p, (Mouse.Hit.p - game.Workspace.CurrentCamera.CFrame.p).unit * DISTANCE)
+                local HIT,POS = game.Workspace:FindPartOnRay(RAY, game.Workspace)
+                local DIFF = math.floor((POS - AIM.Position).magnitude)
+                PLAYER_HOLD[v.Name .. i] = {}
+                PLAYER_HOLD[v.Name .. i].dist= DISTANCE
+                PLAYER_HOLD[v.Name .. i].plr = v
+                PLAYER_HOLD[v.Name .. i].diff = DIFF
+                table.insert(DISTANCES, DIFF)
+            elseif getgenv().TeamCheck == false and v.Team == Client.Team then 
+                local DISTANCE = (v.Character:FindFirstChild("Head").Position - game.Workspace.CurrentCamera.CFrame.p).magnitude
+                local RAY = Ray.new(game.Workspace.CurrentCamera.CFrame.p, (Mouse.Hit.p - game.Workspace.CurrentCamera.CFrame.p).unit * DISTANCE)
+                local HIT,POS = game.Workspace:FindPartOnRay(RAY, game.Workspace)
+                local DIFF = math.floor((POS - AIM.Position).magnitude)
+                PLAYER_HOLD[v.Name .. i] = {}
+                PLAYER_HOLD[v.Name .. i].dist= DISTANCE
+                PLAYER_HOLD[v.Name .. i].plr = v
+                PLAYER_HOLD[v.Name .. i].diff = DIFF
+                table.insert(DISTANCES, DIFF)
+            end
+        end
+    end
+    
+    if unpack(DISTANCES) == nil then
+        return nil
+    end
+    
+    local L_DISTANCE = math.floor(math.min(unpack(DISTANCES)))
+    if L_DISTANCE > getgenv().AimRadius then
+        return nil
+    end
+    
+    for i, v in pairs(PLAYER_HOLD) do
+        if v.diff == L_DISTANCE then
+            return v.plr
+        end
+    end
+    return nil
+end
+
+Mouse.KeyDown:Connect(function(a)
+    if not (Uis:GetFocusedTextBox()) then 
+        if a == AimlockKey and AimlockTarget == nil then
+            pcall(function()
+                if MousePressed ~= true then MousePressed = true end 
+                local Target;Target = GetNearestTarget()
+                if Target ~= nil then 
+                    AimlockTarget = Target
+                end
+            end)
+        elseif a == AimlockKey and AimlockTarget ~= nil then
+            if AimlockTarget ~= nil then AimlockTarget = nil end
+            if MousePressed ~= false then 
+                MousePressed = false 
+            end
+        end
+    end
+end)
+
+RService.RenderStepped:Connect(function()
+
+    local AimPartOld = getgenv().OldAimPart
+    if getgenv().ThirdPerson == true and getgenv().FirstPerson == true then 
+        if (Camera.Focus.p - Camera.CoordinateFrame.p).Magnitude > 1 or (Camera.Focus.p - Camera.CoordinateFrame.p).Magnitude <= 1 then 
+            CanNotify = true 
+        else 
+            CanNotify = false 
+        end
+    elseif getgenv().ThirdPerson == true and getgenv().FirstPerson == false then 
+        if (Camera.Focus.p - Camera.CoordinateFrame.p).Magnitude > 1 then 
+            CanNotify = true 
+        else 
+            CanNotify = false 
+        end
+    elseif getgenv().ThirdPerson == false and getgenv().FirstPerson == true then 
+        if (Camera.Focus.p - Camera.CoordinateFrame.p).Magnitude <= 1 then 
+            CanNotify = true 
+        else 
+            CanNotify = false 
+        end
+    end
+    if getgenv().Aimlock == true and MousePressed == true then 
+        if AimlockTarget and AimlockTarget.Character and AimlockTarget.Character:FindFirstChild(getgenv().AimPart) then 
+            if getgenv().FirstPerson == true then
+                if CanNotify == true then
+                    if getgenv().PredictMovement == true then 
+                        Camera.CFrame = CF(Camera.CFrame.p, AimlockTarget.Character[getgenv().AimPart].Position + AimlockTarget.Character[getgenv().AimPart].Velocity/PredictionVelocity)
+                    elseif getgenv().PredictMovement == false then 
+                        Camera.CFrame = CF(Camera.CFrame.p, AimlockTarget.Character[getgenv().AimPart].Position)
+                    end
+                end
+            elseif getgenv().ThirdPerson == true then 
+                if CanNotify == true then
+                    if getgenv().PredictMovement == true then 
+                        Camera.CFrame = CF(Camera.CFrame.p, AimlockTarget.Character[getgenv().AimPart].Position + AimlockTarget.Character[getgenv().AimPart].Velocity/PredictionVelocity)
+                    elseif getgenv().PredictMovement == false then 
+                        Camera.CFrame = CF(Camera.CFrame.p, AimlockTarget.Character[getgenv().AimPart].Position)
+                    end
+                end 
+            end
+        end
+    end
+    if getgenv().CheckIfJumped == true then
+        if AimlockTarget.Character.Humanoid.FloorMaterial == Enum.Material.Air and AimlockTarget.Character.Humanoid.Jump == true then
+            getgenv().AimPart = "RightLowerLeg"
+        else
+            getgenv().AimPart = AimPartOld
+        end
+    end
+
+end)
 
 
 --[[
-ends here with cool face 😎
-I hope this gives me a hope that this will Work, I spent 12 hours to code this stupid script
+    Wow, Im sure good at this, You may know a little bit more on me
+    Rewrote it happy?
 ]]
+else
+      Players:kick("Not In Group") -- Doesn't have to be kicked
+      setclipboard(grouplink)
+end
