@@ -1,6 +1,6 @@
 
 --[[
-Pw-Remake
+Pw-Remake, Updated
 ]]
 
 
@@ -841,10 +841,6 @@ AimbotFOVSection:AddSlider("FOV Num Size", 1, 100, 100, 1, function(Value)
     PuppywareSettings.Aiming.FOV.NumSides = Value
 end)
 
-AimbotFOVSection:AddDropdown('FOV Shapes', {"Custom", "Octagon", "Circle"}, "Custom", false, function(Value)
-    PuppywareSettings.Aiming.FOV.FOVShapes = Value
-end)
-
 -- Trigger Bot Section -- 
 
 local TriggerbotSection = AimingTab:CreateSector("Trigger Bot", "left")
@@ -879,7 +875,7 @@ local SmoothnessToggle = AimingSettings:AddToggle('Aimbot Smoothness', false, fu
     getgenv().AimbotStrength = Boolean
 end)
 
-SmoothnessToggle:AddSlider(-0.000, 0.500, 2.000, 20, function(Value)
+SmoothnessToggle:AddSlider(0.100, 0.500, 1.000, 20, function(Value)
     getgenv().AimbotStrengthAmount = Value
 end)
 
@@ -1066,7 +1062,7 @@ ESPSettings:AddSlider('Thickness', 1, 1, 15, 2, function(Value)
 end)
 
 -- ESP check Section --
-
+--[[
 local ESPCheckSection = VisualsTab:CreateSector("ESP Check", "right")
 
 ESPCheckSection:AddToggle('Player Check', true, function(onoff)
@@ -1082,7 +1078,7 @@ ESPCheckSection:AddToggle('Team Color', false, function(onoff)
 end)
 
 ESPCheckSection:AddLabel("Turn on : \n PlayerCheck & TeamCheck \n (this will show all users)")
-
+]]
 -- Crosshair stuff --
 
 local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "right")
@@ -1921,12 +1917,28 @@ CharacterSector:AddToggle('Anti Slow', false, function(State)
     PuppywareSettings.Blatant.Character.AntiSlow2 = State
 end)
 
-CharacterSector:AddToggle('No Jumpcooldown', false, function(State)
-    PuppywareSettings.Blatant.Character.NoJumpCooldown = State
-end)
-
 CharacterSector:AddToggle('Anti Effects', false, function(State)
     PuppywareSettings.Blatant.Character.AntiEffects = State
+end)
+
+CharacterSector:AddToggle('No jumpCooldown', false, function(State)
+    -- init, for autoexec support
+if not game.IsLoaded(game) then
+    game.Loaded.Wait(game.Loaded);
+ end
+ 
+ -- variables
+ local IsA = game.IsA;
+ local newindex = nil
+ 
+ -- main hook
+ newindex = hookmetamethod(game, "__newindex", function(self, Index, Value)
+    if not checkcaller() and IsA(self, "Humanoid") and Index == "JumpPower" then
+        return
+    end
+    
+    return newindex(self, Index, Value);
+ end)
 end)
 
 CharacterSector:AddToggle('Auto Lettuce', false, function(State)
@@ -1942,6 +1954,10 @@ ArmorToggle:AddKeybind()
 
 CharacterSector:AddToggle('Auto Reload', false, function(State)
     PuppywareSettings.Blatant.Character.AutoReload = State
+end)
+
+CharacterSector:AddButton('No Recoil', function()
+
 end)
 
 CharacterSector:AddButton('High Tool', function()
@@ -2386,6 +2402,52 @@ ServerSector:AddButton("Decompile Game", function()
     saveinstance({decomptype = new})
 end)
 
+ServerSector:AddButton("Bypass Cheats (hood mod)", function()
+    if game.PlaceId == 5602055394 then
+        Notify({
+            Title = "Pw-Remake",
+            Description = "Bypassed, Resetting you.",
+            Duration = 4
+        })
+    else
+        Notify({
+            Title = "Pw-Remake",
+            Description = "You are not in Hood Modded",
+            Duration = 4
+        })
+        -- init, by xaxa (bypasses anti-silent aim too)
+    local GetService, IsLoaded, Loaded = game.GetService, game.IsLoaded, game.Loaded; do 
+        if not IsLoaded(game) then 
+            Loaded.Wait(Loaded);
+        end
+    end
+    
+    -- variables
+    local client, connect = GetService(game, "Players").LocalPlayer, Loaded.Connect;
+    
+    -- main hook
+    function griefgc(Index, Value)
+        if type(Value) == "function" and getfenv(Value).script and getfenv(Value).script.Name == "Camera" then 
+            table.foreach(getupvalues(Value), function(Index, Value)
+                if type(Value) == "table" then 
+                    table.foreach(Value, function(Index, Value)
+                        if type(Value) == "function" and (tostring(Index) == "DoThings" or tostring(Index) == "Alive") then 
+                            hookfunction(Value, function()
+                                return
+                            end)
+                        end
+                    end)
+                end
+            end)
+        end
+    end; table.foreach(getgc(), griefgc);
+    
+    connect(client.CharacterAdded, function()
+        table.foreach(getgc(), griefgc);
+    end);
+end
+end)    
+
 
 --[[
 local RadioSector = MiscellaneousTab:CreateSector("Radio Playlist", "left")
@@ -2489,6 +2551,7 @@ end)
 local SettingsTab = Window:CreateTab("Settings & Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
+UpdateSector:AddLabel("30/4/22 \n-Fixed no Jumpcooldown. \n-Removed ESP Check \n (was breaking esp) \n-Aimbot Smoothes \n 0.5 > 0.55 \n-Added Hood Mod bypasser \n (in miscellaneous)")
 UpdateSector:AddLabel("17/4/22 \n-Sorry for the downtime. \n-Removed WalkSpeed \n-Added AC Bypasser \n-Added \n NoJumpCooldown")
 UpdateSector:AddLabel("14/4/22 \n-Added Aimbot bind \n-Fixed Cframe Speed Type \n-Added WalkSpeed \n (not safe)\n-Added Boombox \n trasparency.")
 UpdateSector:AddLabel("3/4/22 \n-Aim radius is now\nwith FOV AimbotSize \n-Removed Auto Aimbot \n Prediction (broke it) \n-Fixed Underground lay")
@@ -2563,18 +2626,6 @@ end)
 
 
 -- Init --
-
-if PuppywareSettings.Miscellaneous.KillInsults.Enabled then
-    game:GetService("Workspace").Players.ChildRemoved:Connect(function(PlayerThatIsGone)
-        if PlayerThatIsGone.Name == PuppywareSettings.KillInsults.OldPlayer and PuppywareSettings.Miscellaneous.KillInsults.Type == "After Dead" then
-            if PuppywareSettings.Miscellaneous.KillInsults.CustomMessage then
-                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(PuppywareSettings.Miscellaneous.KillInsults.CustomMessageText:gsub("@s", PuppywareSettings.KillInsults.OldPlayer), "All")
-            else
-                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(PuppywareSettings.Miscellaneous.KillInsults.Message[math.random(1, 4)]:gsub("@s", PuppywareSettings.KillInsults.OldPlayer), "All")
-            end
-        end
-    end)
-end
 
 for _, v in next, Players:GetPlayers() do
     if v ~= LocalPlayer and v:IsFriendsWith(LocalPlayer.UserId) then
@@ -2928,13 +2979,6 @@ RunService.Heartbeat:Connect(function()
                 game.Players.LocalPlayer.Character.BodyEffects.Reload.Value = false 
             end
         end
-        if PuppywareSettings.Blatant.Character.NoJumpCooldown then
-            local DeletePart = game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('NoJumping') or game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('ReduceWalk') or game.Players.LocalPlayer.Character.BodyEffects.Movement:FindFirstChild('NoWalkSpeed')
-            if DeletePart then DeletePart:Destroy() end
-            if game.Players.LocalPlayer.Character.BodyEffects.Movement.NoJumping == true then 
-                game.Players.LocalPlayer.Character.BodyEffects.Movement.NoJumping = false 
-            end
-        end
         --Anti Grab --
         if PuppywareSettings.Blatant.Character.AntiGrab and LocalPlayer.Character:FindFirstChild("GRABBING_CONSTRAINT") then
             LocalPlayer.Character["GRABBING_CONSTRAINT"]:Destroy()
@@ -3250,17 +3294,6 @@ RunService.RenderStepped:Connect(function()
             AimbotFOV.Visible = false
         end
     end
-    if PuppywareSettings.Aiming.FOV.FOVShapes then
-        if PuppywareSettings.Aiming.FOV.FOVShapes == "Custom" then
-            AimbotFOV.NumSides = PuppywareSettings.Aiming.FOV.NumSides
-            SilentAimFOV.NumSides = PuppywareSettings.Aiming.FOV.NumSides
-        elseif PuppywareSettings.Aiming.FOV.FOVShapes == "Octagon" then
-            AimbotFOV.NumSides = 12.5
-            SilentAimFOV.NumSides = 12.5
-        elseif PuppywareSettings.Aiming.FOV.FOVShapes == "Circle" then
-            AimbotFOV.NumSides = 100
-        end
-    end
 end)
             -- Hookatamethod --
 local __namecall -- flol ;)
@@ -3324,6 +3357,19 @@ while wait() do
     end
 end
 -- Kill Insults init--
+
+if PuppywareSettings.Miscellaneous.KillInsults.Enabled then
+    game:GetService("Workspace").Players.ChildRemoved:Connect(function(PlayerThatIsGone)
+        if PlayerThatIsGone.Name == PuppywareSettings.KillInsults.OldPlayer and PuppywareSettings.Miscellaneous.KillInsults.Type == "After Dead" then
+            if PuppywareSettings.Miscellaneous.KillInsults.CustomMessage then
+                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(PuppywareSettings.Miscellaneous.KillInsults.CustomMessageText:gsub("@s", PuppywareSettings.KillInsults.OldPlayer), "All")
+            else
+                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(PuppywareSettings.Miscellaneous.KillInsults.Message[math.random(1, 4)]:gsub("@s", PuppywareSettings.KillInsults.OldPlayer), "All")
+            end
+        end
+    end)
+end
+
 while wait() do
     if PuppywareSettings.Miscellaneous.KillInsults.Type == "Before Dead" and PuppywareSettings.KillInsults.OldPlayer ~= nil then
         if Players[PuppywareSettings.KillInsults.OldPlayer].Character.BodyEffects.Dead then
@@ -3523,8 +3569,3 @@ RService.RenderStepped:Connect(function()
 
 end)
 
-
---[[
-    Wow, Im sure good at this, You may know a little bit more on me
-    Rewrote it happy?
-]]
