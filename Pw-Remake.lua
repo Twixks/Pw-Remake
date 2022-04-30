@@ -2551,7 +2551,7 @@ end)
 local SettingsTab = Window:CreateTab("Settings & Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
-UpdateSector:AddLabel("30/4/22 \n-Fixed no Jumpcooldown. \n-Removed ESP Check \n (was breaking esp) \n-Aimbot Smoothes \n 0.5 > 0.55 \n-Added Hood Mod bypasser \n (in miscellaneous)")
+UpdateSector:AddLabel("30/4/22 \n-Fixed no Jumpcooldown. \n-Removed ESP Check \n (was breaking esp) \n-Aimbot Smoothess \n 0.5 > 0.55 \n-Added Hood Mod bypasser \n (in miscellaneous)")
 UpdateSector:AddLabel("17/4/22 \n-Sorry for the downtime. \n-Removed WalkSpeed \n-Added AC Bypasser \n-Added \n NoJumpCooldown")
 UpdateSector:AddLabel("14/4/22 \n-Added Aimbot bind \n-Fixed Cframe Speed Type \n-Added WalkSpeed \n (not safe)\n-Added Boombox \n trasparency.")
 UpdateSector:AddLabel("3/4/22 \n-Aim radius is now\nwith FOV AimbotSize \n-Removed Auto Aimbot \n Prediction (broke it) \n-Fixed Underground lay")
