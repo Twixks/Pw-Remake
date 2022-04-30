@@ -1027,7 +1027,7 @@ end)
     
 local VisualsTab = Window:CreateTab("Visuals")
 local ESPSection = VisualsTab:CreateSector("ESP", "left")
-local ESP = loadstring(game:HttpGet("https://twixkz.000webhostapp.com/Esp.Lua"))() --// ESP Library Kiriot
+local ESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/Twixks/Pw-Remake/main/ESP.lua"))() --// ESP Library Kiriot
 local ESPToggle = ESPSection:AddToggle('ESP Enabled', false, function(onoff)
     ESP:Toggle(onoff)
     ESP.Players = onoff
@@ -1062,7 +1062,7 @@ ESPSettings:AddSlider('Thickness', 1, 1, 15, 2, function(Value)
 end)
 
 -- ESP check Section --
---[[
+
 local ESPCheckSection = VisualsTab:CreateSector("ESP Check", "right")
 
 ESPCheckSection:AddToggle('Player Check', true, function(onoff)
@@ -1078,7 +1078,6 @@ ESPCheckSection:AddToggle('Team Color', false, function(onoff)
 end)
 
 ESPCheckSection:AddLabel("Turn on : \n PlayerCheck & TeamCheck \n (this will show all users)")
-]]
 -- Crosshair stuff --
 
 local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "right")
@@ -2551,7 +2550,7 @@ end)
 local SettingsTab = Window:CreateTab("Settings & Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
 
-UpdateSector:AddLabel("30/4/22 \n-Fixed no Jumpcooldown. \n-Removed ESP Check \n (was breaking esp) \n-Aimbot Smoothess \n 0.5 > 0.55 \n-Added Hood Mod bypasser \n (in miscellaneous)")
+UpdateSector:AddLabel("30/4/22 \n-Fixed no Jumpcooldown. \n-Fixed ESP \n-Aimbot Smoothes \n 0.5 > 0.55 \n-Added Hood Mod bypasser \n (in miscellaneous)")
 UpdateSector:AddLabel("17/4/22 \n-Sorry for the downtime. \n-Removed WalkSpeed \n-Added AC Bypasser \n-Added \n NoJumpCooldown")
 UpdateSector:AddLabel("14/4/22 \n-Added Aimbot bind \n-Fixed Cframe Speed Type \n-Added WalkSpeed \n (not safe)\n-Added Boombox \n trasparency.")
 UpdateSector:AddLabel("3/4/22 \n-Aim radius is now\nwith FOV AimbotSize \n-Removed Auto Aimbot \n Prediction (broke it) \n-Fixed Underground lay")
