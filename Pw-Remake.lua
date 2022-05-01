@@ -1921,8 +1921,9 @@ CharacterSector:AddToggle('Anti Effects', false, function(State)
 end)
 
 CharacterSector:AddToggle('No jumpCooldown', false, function(State)
-    -- init, for autoexec support
-if not game.IsLoaded(game) then
+    if State then
+         NilBody()
+        if not game.IsLoaded(game) then
     game.Loaded.Wait(game.Loaded);
  end
  
@@ -1938,7 +1939,10 @@ if not game.IsLoaded(game) then
     
     return newindex(self, Index, Value);
  end)
+    end
 end)
+
+
 
 CharacterSector:AddToggle('Auto Lettuce', false, function(State)
     PuppywareSettings.Blatant.Character.AutoLettuce = State
@@ -2403,6 +2407,7 @@ end)
 
 ServerSector:AddButton("Bypass Cheats (hood mod)", function()
     if game.PlaceId == 5602055394 then
+        NilBody()
         Notify({
             Title = "Pw-Remake",
             Description = "Bypassed, Resetting you.",
@@ -3567,4 +3572,3 @@ RService.RenderStepped:Connect(function()
     end
 
 end)
-
