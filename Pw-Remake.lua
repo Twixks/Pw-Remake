@@ -40,79 +40,7 @@ local PwRemakeFolder = Instance.new("Folder", workspace)
 PwRemakeFolder.Name = "PwRemake-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
---[[
-local AnimModule = {
-    Sweat = {
-        "rbxassetid://782841498",
-        "rbxassetid://782845736",
-        "rbxassetid://616168032",
-        "rbxassetid://616163682",
-        "rbxassetid://1083218792",
-        "rbxassetid://1083182000",
-        "rbxassetid://1083189019"
-    },
-    Professional = {
-        "rbxassetid://1083445855",
-        "rbxassetid://1083450166",
-        "rbxassetid://616168032",
-        "rbxassetid://616163682",
-        "rbxassetid://5319839762",
-        "rbxassetid://5319852613",
-        "rbxassetid://782846423"
-    },
-    Barbie = {
-        "rbxassetid://910004836",
-        "rbxassetid://910009958",
-        "rbxassetid://910034870",
-        "rbxassetid://910025107",
-        "rbxassetid://910016857",
-        "rbxassetid://616139451",
-        "rbxassetid://910030921",
-        "rbxassetid://616134815"
-    },
-    Astro = {
-        "rbxassetid://891621366",
-        "rbxassetid://891633237",
-        "rbxassetid://616168032",
-        "rbxassetid://616163682",
-        "rbxassetid://891627522",
-        "rbxassetid://507765644",
-        "rbxassetid://891617961"
-    },
-    DTB = {
-        "rbxassetid://782841498",
-        "rbxassetid://782845736",       -- Forgor to do shitty stuff
-        "rbxassetid://616168032",
-        "rbxassetid://616163682",
-        "rbxassetid://656117878",
-        "rbxassetid://507765644",
-        "rbxassetid://656115606"
-    },
-    Default = {
-        "http://www.roblox.com/asset/?id=507766666",
-        "http://www.roblox.com/asset/?id=507766951",
-        "http://www.roblox.com/asset/?id=507777826",
-        "http://www.roblox.com/asset/?id=507767714",
-        "http://www.roblox.com/asset/?id=507765000",
-        "http://www.roblox.com/asset/?id=507765644",
-        "http://www.roblox.com/asset/?id=507767968"
-    }
-}
 
-local AnimsName = {
-    "DTB",
-    "Professional",
-    "Sweat",
-    "Barbie",
-    "Astro",
-    "Default",
-    "none"
-}
-
-local AnimState = {
-    Animation = "none"
-}
-]]
 local AnimationModule = {
     Astronaut = {
         "rbxassetid://891621366",
@@ -865,6 +793,10 @@ local AimingSettings = AimingTab:CreateSector("Aiming Settings", "right")
 
 AimingSettings:AddToggle('Ping Based Prediction', false, function(Boolean)
     PuppywareSettings.Aiming.AimingSettings.PingBasedPrediction = Boolean
+end)
+
+AimingSettings:AddTextbox('Velocity Prediction', "0.167", function(Value)
+PuppywareSettings.Aiming.AimingSettings.GetVelocity = Value
 end)
 
 AimingSettings:AddDropdown("Aim Type", {"Mouse", "Distance"}, "Mouse", false, function(Value)
@@ -2554,7 +2486,7 @@ end)
 
 local SettingsTab = Window:CreateTab("Settings & Info")
 local UpdateSector = SettingsTab:CreateSector("Update Logs", "right")
-
+--[[
 UpdateSector:AddLabel("30/4/22 \n-Fixed no Jumpcooldown. \n-Fixed ESP \n-Aimbot Smoothes \n 0.5 > 0.55 \n-Added Hood Mod bypasser \n (in miscellaneous)")
 UpdateSector:AddLabel("17/4/22 \n-Sorry for the downtime. \n-Removed WalkSpeed \n-Added AC Bypasser \n-Added \n NoJumpCooldown")
 UpdateSector:AddLabel("14/4/22 \n-Added Aimbot bind \n-Fixed Cframe Speed Type \n-Added WalkSpeed \n (not safe)\n-Added Boombox \n trasparency.")
@@ -2584,7 +2516,7 @@ UpdateSector:AddLabel("1/2/22 \n-Added some features")
 local PendingSector = SettingsTab:CreateSector("Pending", "right")
 
 PendingSector:AddLabel("Add better ESP? \nCustom Bullet color? \n-Custom Skin? \n uh what else?")
-
+]]
 if syn then
     SettingsTab:CreateConfigSystem("left")
 else
