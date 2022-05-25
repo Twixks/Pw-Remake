@@ -1354,9 +1354,11 @@ end)
 
 SpeedToggle:AddKeybind()
 
-MovementSector:AddToggle('Bunny Hop', false, function(State)
+local Bunnyhop = MovementSector:AddToggle('Bunny Hop', false, function(State)
     PuppywareSettings.Blatant.Movement.Bunnyhop = State
 end)
+
+bunnyhop:AddKeybind()
 
 SpeedToggle:AddSlider(1, 3, 10, 2, function(Value)
     PuppywareSettings.Blatant.Movement.SpeedAmount = Value
