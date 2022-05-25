@@ -2715,13 +2715,6 @@ function SlingShot(Speed)
     end
 end
 
-function Bhop()
-    if Alive(LocalPlayer) then
-        LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.570, 0)
-        wait(0.2)
-    end
-end
-
 
 function TeleportBuy(Target, AutoSetDelay)
     if workspace.Ignored.Shop:FindFirstChild(Target) and Alive(LocalPlayer) then
@@ -3171,6 +3164,7 @@ RunService.RenderStepped:Connect(function()
                 end
             end
         end
+
         -- Fist reach init --
         if PuppywareSettings.Blatant.Reaching.FistReach and LocalPlayer.Character.LeftHand.Transparency ~= 1 then
             LocalPlayer.Character.LeftHand.Size = Vector3.new(45, 45, 45)
@@ -3232,6 +3226,8 @@ RunService.RenderStepped:Connect(function()
     end
 
     if PuppywareSettings.Blatant.Movement.Bunnyhop then
+        LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.570, 0)
+    end
 
 
     if PuppywareSettings.Aiming.TargetAimSettings.UnlockTargetKnocked then      -- Unlock Target Knocked init --
