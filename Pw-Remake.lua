@@ -955,20 +955,38 @@ end)
 
 ESPToggle:AddKeybind()
 
-ESPToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
-    ESP.Color = Color
+ESPToggle:AddSlider(0, 5000, 10000, 1, function(Value)
+    ESP.DistanceS = (Value)
 end)
 
-ESPSection:AddToggle('Box ESP', false, function(onoff)
+ESPToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    ESP.Color = Color
+    ESP.ToolColor = Color
+end)
+
+ESPSection:AddToggle('Boxes', false, function(onoff)
     ESP.Boxes = (onoff)
 end)
 
-ESPSection:AddToggle('Name ESP', false, function(onoff)
+ESPSection:AddToggle('Health', false, function(onoff)
+    ESP.Health = (onoff)
+end)
+
+ESPSection:AddToggle('Names', false, function(onoff)
     ESP.Names = (onoff)
 end)
 
-ESPSection:AddToggle('Tracer ESP', false, function(onoff)
+ESPSection:AddToggle('Distance', false, function(onoff)
+    ESP.Distance = (onoff)
+end)
+
+
+ESPSection:AddToggle('Tracer', false, function(onoff)
     ESP.Tracers = (onoff)
+end)
+
+ESPSection:AddToggle('Player Tool', false, function(onoff)
+    ESP.Tool = (onoff)
 end)
 
 local ESPSettings = VisualsTab:CreateSector("ESP Settings", "right")
@@ -980,19 +998,6 @@ end)
 ESPSettings:AddSlider('Thickness', 1, 1, 15, 2, function(Value)
     ESP.Thickness = (Value)
 end)
-
-local ChamsSection = VisualsTab:CreateSector("Chams", "Left")
-
-local Gunschamtoggle = ChamsSection:AddToggle("Gun Chams Enabled", false, function(State)
-    if State then
-        local Client = game.GetService(game, "Players").LocalPlayer
-        Client.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.ForceField
-    else
-        local Client = game.GetService(game, "Players").LocalPlayer
-        Client.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.Plastic
-    end
-end)
-
 
 -- ESP check Section --
 
@@ -1009,6 +1014,20 @@ end)
 ESPCheckSection:AddToggle('Team Color', false, function(onoff)
     ESP.TeamColor = onoff
 end)
+
+
+local ChamsSection = VisualsTab:CreateSector("Chams", "Left")
+
+local Gunschamtoggle = ChamsSection:AddToggle("Gun Chams Enabled", false, function(State)
+    if State then
+        local Client = game.GetService(game, "Players").LocalPlayer
+        Client.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.ForceField
+    else
+        local Client = game.GetService(game, "Players").LocalPlayer
+        Client.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.Plastic
+    end
+end)
+
 
 ESPCheckSection:AddLabel("Turn on : \n PlayerCheck & TeamCheck \n (this will show all users)")
 -- Crosshair stuff --
