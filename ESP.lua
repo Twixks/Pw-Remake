@@ -12,6 +12,7 @@ local ESP = {
 	Health = false,
     Tool = false,
 	TeamColor = false,
+	FontSize = 19,
 	Thickness = 1.5,
 	AttachShift = 1,
 	TeamMates = true,
@@ -358,28 +359,28 @@ function ESP:Add(obj, options)
 		Color = box.Color,
 		Center = true,
 		Outline = true,
-		Size = 15,
+		Size = self.FontSize,
 		Visible = self.Enabled and self.Names
 	})
 	box.Components["Distance"] = Draw("Text", {
 		Color = box.Color,
 		Center = true,
 		Outline = true,
-		Size = 15,
+		Size = self.FontSize,
 		Visible = self.Enabled and self.Distance
 	})
 	box.Components["Health"] = Draw("Text", {
 		Color = box.Color,
 		Center = true,
 		Outline = true,
-		Size = 15,
+		Size = self.FontSize,
 		Visible = self.Enabled and self.Health
 	})
     box.Components["Tool"] = Draw("Text", {
 		Color = box.Color,
 		Center = true,
 		Outline = true,
-		Size = 15,
+		Size = self.FontSize,
 		Visible = self.Enabled and self.Tool
 	})
 	box.Components["Tracer"] = Draw("Line", {
