@@ -2,6 +2,7 @@
 local ESP = {
 	Enabled = false,
 	Boxes = false,
+    BoxFill = false,
 	BoxShift = CFrame.new(0,-1.5,0),
 	BoxSize = Vector3.new(4,6,0),
 	Color = Color3.fromRGB(199, 255, 255),
@@ -353,7 +354,7 @@ function ESP:Add(obj, options)
 		Thickness = self.Thickness,
 		Color = color,
 		Transparency = 1,
-		Filled = false,
+		Filled = self.BoxFill,
 		Visible = self.Enabled and self.Boxes
 	})
 	box.Components["Name"] = Draw("Text", {
