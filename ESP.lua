@@ -18,6 +18,8 @@ local ESP = {
 	TeamMates = true,
 	Players = true,
     DistanceS = 2000,
+    TracerTransparency = 1,
+    Outline = true
 
 	Objects = setmetatable({}, {__mode="kv"}),
 	Overrides = {}
@@ -350,7 +352,7 @@ function ESP:Add(obj, options)
 	box.Components["Quad"] = Draw("Quad", {
 		Thickness = self.Thickness,
 		Color = color,
-		Transparency = 1,
+		Transparency = self.TracerTransparency,
 		Filled = false,
 		Visible = self.Enabled and self.Boxes
 	})
@@ -358,35 +360,35 @@ function ESP:Add(obj, options)
 		Text = box.Name,
 		Color = box.Color,
 		Center = true,
-		Outline = true,
+		Outline = self.Outline,
 		Size = self.FontSize,
 		Visible = self.Enabled and self.Names
 	})
 	box.Components["Distance"] = Draw("Text", {
 		Color = box.Color,
 		Center = true,
-		Outline = true,
+		Outline = self.Outline,
 		Size = self.FontSize,
 		Visible = self.Enabled and self.Distance
 	})
 	box.Components["Health"] = Draw("Text", {
 		Color = box.Color,
 		Center = true,
-		Outline = true,
+		Outline = self.Outline,
 		Size = self.FontSize,
 		Visible = self.Enabled and self.Health
 	})
     box.Components["Tool"] = Draw("Text", {
 		Color = box.Color,
 		Center = true,
-		Outline = true,
+		Outline = self.Outline,
 		Size = self.FontSize,
 		Visible = self.Enabled and self.Tool
 	})
 	box.Components["Tracer"] = Draw("Line", {
 		Thickness = ESP.Thickness,
 		Color = box.Color,
-		Transparency = 1,
+		Transparency = self.TracerTransparency,
 		Visible = self.Enabled and self.Tracers
 	})
 	self.Objects[obj] = box
