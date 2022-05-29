@@ -19,7 +19,7 @@ local ESP = {
 	Players = true,
     DistanceS = 2000,
     TracerTransparency = 1,
-    Outline = true
+    Outline = true,
 
 	Objects = setmetatable({}, {__mode="kv"}),
 	Overrides = {}
