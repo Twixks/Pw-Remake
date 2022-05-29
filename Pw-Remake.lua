@@ -1,8 +1,4 @@
 
-
-print("Loading, Ui & stff")
-wait(0.3)
-print("Loaded!")
 local GetService = setmetatable({}, {
     __index = function(self, key)
         return game:GetService(key)
@@ -955,10 +951,6 @@ end)
 
 ESPToggle:AddKeybind()
 
-ESPToggle:AddSlider(0, 5000, 10000, 1, function(Value)
-    ESP.DistanceS = (Value)
-end)
-
 ESPToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
     ESP.Color = Color
     ESP.ToolColor = Color
@@ -990,12 +982,29 @@ ESPSection:AddToggle('Player Tool', false, function(onoff)
 end)
 
 local ESPSettings = VisualsTab:CreateSector("ESP Settings", "right")
+--[[
+ESPSettings:AddToggle('ESP Outlines', true, function(State)
+    ESP.Outline = (State)
+end)
+]]
 
-ESPSettings:AddSlider('Attach Shift', 1, 1, 15, 1, function(Value)
+ESPSettings:AddSlider("ESP Distance Limit", 0, 5000, 20000, 1, function(Value)
+    ESP.DistanceS = (Value)
+end)
+--[[
+ESPSettings:AddSlider("ESP Font Size", 10, 19, 21, 1, function(Value)
+    ESP.FontSize = (Value)
+end)
+
+ESPSettings:AddSlider("Tracer Transparency", 0, 1, 1, 5, function(Value)
+    ESP.TracerTransparency = (Value)
+end)
+]]
+ESPSettings:AddSlider('Tracer Position', 1, 1, 20, 1, function(Value)
     ESP.AttachShift = (Value)
 end)
 
-ESPSettings:AddSlider('Thickness', 1, 1, 15, 2, function(Value)
+ESPSettings:AddSlider('Tracer Thickness', 1, 1, 15, 2, function(Value)
     ESP.Thickness = (Value)
 end)
 
