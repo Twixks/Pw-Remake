@@ -1439,15 +1439,13 @@ end)
 
 BlatantAntiAimSector:AddToggle('Underground Lay', false, function(State)
     if State then
-        PuppywareSettings.Blatant.BlatantAA.Underground = true
-        PuppywareModule.Functions.Underground(true)
-    else                                                    --\\ Why to make this bullshit
-        PuppywareSettings.Blatant.BlatantAA.Underground = false
-        PuppywareModule.Functions.Underground(false)
+        game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
+        game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
+        game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
     end
 end)
 
-BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "SlingShot"}, "Jitter", false, function(Value)
+BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin"}, "Jitter", false, function(Value)
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
