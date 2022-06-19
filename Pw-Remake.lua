@@ -1526,13 +1526,15 @@ end)
 ]]
 local AntilockSector = BlatantTab:CreateSector("Anti Lock", "left")
 
-AntilockSector:AddTextbox("Anti lock Speed", "-0.5 or -0.3 or -0.6", function(Value)
+AntilockSector:AddTextbox("Anti lock Speed", "0.5 or 0.7 or 0.6", function(Value)
     getgenv().Multiplier = Value
 end)
 
-AntilockSector:AddToggle("Anti Lock", false, function(State)
+local AntilockToggle = AntilockSector:AddToggle("Anti Lock", false, function(State)
     getgenv().AntiLock = State
 end)
+
+AntilockToggle:AddKeybind()
 
 AntilockSector:AddButton("Fix Anti lock", function(State)
     Notify({
