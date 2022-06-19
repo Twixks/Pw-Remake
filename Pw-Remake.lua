@@ -1044,7 +1044,7 @@ Gunschamtoggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(State)
     LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.BrickColor = BrickColor.new(State)
 end)
 
-ChamsSection:AddDropdown("Gun Cham Material", {"ForceField", "Glass", "SmoothPlastic", "Plastic"}, "Plastic", false, function(Value)
+ChamsSection:AddDropdown("Gun Cham Material", {"ForceField", "Neon", "SmoothPlastic", "Plastic"}, "Plastic", false, function(Value)
     local Client = game.GetService(game, "Players").LocalPlayer
     Client.Character:FindFirstChildOfClass("Tool").Default.Material = (Value)
 end)
@@ -1068,7 +1068,7 @@ ChamsSection:AddColorpicker("Self Chams", Color3.fromRGB(255, 255, 255), functio
     LocalPlayer.Character.Head.Color = Color 
 end)
 
-ChamsSection:AddDropdown("Self Cham Material", {"ForceField", "Plastic", "SmoothPlastic"}, "Plastic", false, function(Value)
+ChamsSection:AddDropdown("Self Cham Material", {"ForceField", "Neon", "Plastic", "SmoothPlastic"}, "Plastic", false, function(Value)
     game.Players.LocalPlayer.Character.LeftHand.Material = (Value)
     game.Players.LocalPlayer.Character.RightHand.Material = (Value)
     game.Players.LocalPlayer.Character.LeftLowerArm.Material = (Value)
