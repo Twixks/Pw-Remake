@@ -1,3 +1,5 @@
+--pw-remake
+
 
 local GetService = setmetatable({}, {
     __index = function(self, key)
@@ -1027,16 +1029,62 @@ end)
 
 local ChamsSection = VisualsTab:CreateSector("Chams", "Left")
 
-local Gunschamtoggle = ChamsSection:AddToggle("Gun Chams Enabled", false, function(State)
+local Gunschamtoggle = ChamsSection:AddToggle("Gun Chams", false, function(State)
     if State then
         local Client = game.GetService(game, "Players").LocalPlayer
         Client.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.ForceField
+        Client.Character:FindFirstChildOfClass("Tool").Default.BrickColor  = BrickColor.new(255, 255, 255)
     else
         local Client = game.GetService(game, "Players").LocalPlayer
         Client.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.Plastic
     end
 end)
 
+Gunschamtoggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(State)
+    LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.BrickColor = BrickColor.new(State)
+end)
+
+ChamsSection:AddDropdown("Gun Cham Material", {"ForceField", "Glass", "SmoothPlastic", "Plastic"}, "Plastic", false, function(Value)
+    local Client = game.GetService(game, "Players").LocalPlayer
+    Client.Character:FindFirstChildOfClass("Tool").Default.Material = (Value)
+end)
+
+
+ChamsSection:AddColorpicker("Self Chams", Color3.fromRGB(255, 255, 255), function(Color)
+    LocalPlayer.Character.LeftHand.Color = Color
+    LocalPlayer.Character.RightHand.Color = Color
+    LocalPlayer.Character.LeftLowerArm.Color = Color
+    LocalPlayer.Character.RightLowerArm.Color = Color
+    LocalPlayer.Character.LeftUpperArm.Color = Color
+    LocalPlayer.Character.RightUpperArm.Color = Color
+    LocalPlayer.Character.LeftFoot.Color = Color
+    LocalPlayer.Character.RightFoot.Color = Color
+    LocalPlayer.Character.LeftLowerLeg.Color = Color
+    LocalPlayer.Character.RightLowerLeg.Color = Color
+    LocalPlayer.Character.UpperTorso.Color = Color
+    LocalPlayer.Character.LowerTorso.Color = Color
+    LocalPlayer.Character.LeftUpperLeg.Color = Color
+    LocalPlayer.Character.RightUpperLeg.Color = Color
+    LocalPlayer.Character.Head.Color = Color 
+end)
+
+ChamsSection:AddDropdown("Self Cham Material", {"ForceField", "Plastic", "SmoothPlastic"}, "Plastic", false, function(Value)
+    game.Players.LocalPlayer.Character.LeftHand.Material = (Value)
+    game.Players.LocalPlayer.Character.RightHand.Material = (Value)
+    game.Players.LocalPlayer.Character.LeftLowerArm.Material = (Value)
+    game.Players.LocalPlayer.Character.RightLowerArm.Material = (Value)
+    game.Players.LocalPlayer.Character.LeftUpperArm.Material = (Value)
+    game.Players.LocalPlayer.Character.RightUpperArm.Material = (Value)
+    game.Players.LocalPlayer.Character.LeftFoot.Material = (Value)
+    game.Players.LocalPlayer.Character.RightFoot.Material = (Value)
+    game.Players.LocalPlayer.Character.LeftLowerLeg.Material = (Value)
+    game.Players.LocalPlayer.Character.RightLowerLeg.Material = (Value)
+    game.Players.LocalPlayer.Character.UpperTorso.Material = (Value)
+    game.Players.LocalPlayer.Character.LowerTorso.Material = (Value)
+    game.Players.LocalPlayer.Character.LeftUpperLeg.Material = (Value)
+    game.Players.LocalPlayer.Character.RightUpperLeg.Material = (Value)
+    game.Players.LocalPlayer.Character.Head.Material = (Value)
+end)
 
 ESPCheckSection:AddLabel("Turn on : \n PlayerCheck & TeamCheck \n (this will show all users)")
 -- Crosshair stuff --
@@ -1378,11 +1426,16 @@ end)
 
 SpeedToggle:AddKeybind()
 
-local Bunnyhop = MovementSector:AddToggle('Bunny Hop', false, function(State)
-    PuppywareSettings.Blatant.Movement.Bunnyhop = State
+local BunnyHop = MovementSector:AddToggle('Bunny Hop', false, function(State)
+    PuppywareSettings.Blatant.Movement.BunnyHop = State
 end)
 
-Bunnyhop:AddKeybind()
+BunnyHop:AddKeybind()
+
+local JumpStrafe = MovementSector:AddToggle('Jump Strafe', false, function(State)
+    PuppywareSettings.Blatant.Movement.JumpStrafe = State
+end)
+
 
 SpeedToggle:AddSlider(1, 3, 10, 2, function(Value)
     PuppywareSettings.Blatant.Movement.SpeedAmount = Value
@@ -1477,26 +1530,8 @@ AntilockSector:AddTextbox("Anti lock Speed", "-0.5 or -0.3 or -0.6", function(Va
     getgenv().Multiplier = Value
 end)
 
-AntilockSector:AddButton("Anti Lock (Z)", function(State)
-    Notify({
-        Title = "Pw-Remake",
-        Description = "Make sure Speed number is added after activating.",
-        Duration = 3
-    })
-    local userInput = game:service('UserInputService')
-    local runService = game:service('RunService')
-
-    userInput.InputBegan:connect(function(Key)
-    if Key.KeyCode == Enum.KeyCode.Z then
-        Enabled = not Enabled
-        if Enabled == true then
-            repeat
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame + game.Players.LocalPlayer.Character.Humanoid.MoveDirection * getgenv().Multiplier
-                runService.Stepped:wait()
-                until Enabled == false
-            end
-        end
-    end)
+AntilockSector:AddToggle("Anti Lock", false, function(State)
+    getgenv().AntiLock = State
 end)
 
 AntilockSector:AddButton("Fix Anti lock", function(State)
@@ -1891,25 +1926,11 @@ CharacterSector:AddToggle('Anti Effects', false, function(State)
 end)
 
 CharacterSector:AddToggle('No jumpCooldown', false, function(State)
+    PuppywareSettings.Blatant.Character.NoJumpCooldown = State
     if State then
-         NilBody()
-        if not game.IsLoaded(game) then
-    game.Loaded.Wait(game.Loaded);
- end
- 
- -- variables
- local IsA = game.IsA;
- local newindex = nil
- 
- -- main hook
- newindex = hookmetamethod(game, "__newindex", function(self, Index, Value)
-    if not checkcaller() and IsA(self, "Humanoid") and Index == "JumpPower" then
-        return
-    end
-    
-    return newindex(self, Index, Value);
- end)
-    end
+        local a;
+        a = hookfunction(wait, function(b) if b == 1.5 and PuppywareSettings.Blatant.Character.NoJumpCooldown then return a() end return a(b) end)
+    end        
 end)
 
 
@@ -2947,6 +2968,12 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end
+        if getgenv().AntiLock then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame +
+                - game.Players.LocalPlayer.Character.Humanoid.MoveDirection * getgenv().Multiplier
+        end
+
         -- Anti bag --
         if PuppywareSettings.Blatant.Character.AntiBag then
             if LocalPlayer.Character:FindFirstChild("Christmas_Sock") then
@@ -3122,6 +3149,7 @@ spawn(function()
     end
 end)
 
+
 RunService.RenderStepped:Connect(function()
     if Alive(LocalPlayer) then
         if PuppywareSettings.Aiming.AimingSettings.PingBasedPrediction then -- Easy ping based prediction init --
@@ -3249,10 +3277,21 @@ RunService.RenderStepped:Connect(function()
         SlingShot(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
     end
 
-    if PuppywareSettings.Blatant.Movement.Bunnyhop then
-        LocalPlayer.Character.HumanoidRootPart.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0.570, 0)
+    if PuppywareSettings.Blatant.Movement.BunnyHop then
+        if LocalPlayer.Character.Humanoid:GetState() ~= Enum.HumanoidStateType.Freefall 
+        then
+            LocalPlayer.Character.Humanoid:ChangeState("Jumping")
+        end
     end
 
+    if PuppywareSettings.Blatant.Movement.JumpStrafe then
+        if LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 and
+            LocalPlayer.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall
+        then
+            LocalPlayer.Character:TranslateBy(LocalPlayer.Character.Humanoid.MoveDirection / 3.1)
+        end
+    end
+    
 
     if PuppywareSettings.Aiming.TargetAimSettings.UnlockTargetKnocked then      -- Unlock Target Knocked init --
         if PuppywareSettings.Aiming.TargetAimSettings.Target ~= nil and Players:FindFirstChild(PuppywareSettings.Aiming.TargetAimSettings.Target) then
