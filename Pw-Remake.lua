@@ -754,7 +754,39 @@ end)
 AimbotFOVSection:AddSlider("FOV Num Size", 1, 100, 100, 1, function(Value)
     PuppywareSettings.Aiming.FOV.NumSides = Value
 end)
+--[[
+-- Target Strafe --
+local TargetStrafeSection = AimingTab:CreateSector("Target Strafe", "left")
+local Strafe = loadstring(game:HttpGet("https://raw.githubusercontent.com/ao-0/Yun/main/32d_api.lua"))()
+local Circle = Strafe:New3DCircle()
+Circle.ZIndex = 1
+Circle.Transparency = 1
+Circle.Thickness = 1
+local delta = 0
+local duration = 1
+local d32_ui_color3 = Color3.fromRGB(255, 255, 255)
 
+
+local TargetStrafeToggle = TargetStrafeSection:AddToggle("Enabled", false, function(State)
+    Circle.Visible = State
+end)
+
+TargetStrafeSection:AddTextbox("Target Strafe Key", "(small letter only)", function(Key)
+    PuppywareSettings.Aiming.TargetStrafe.Keybind = Key
+end)
+
+TargetStrafeToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    Circle.Color = Color
+end)
+
+TargetStrafeSection:AddSlider("Target Distance", 0, 1, 100, 1, function(Value)
+    Circle.Radius = Value
+end)
+
+TargetStrafeSection:AddSlider("Rotation Speed", 0, 1, 50, 1, function(Value)
+    duration = Value
+end)
+]]
 -- Trigger Bot Section -- 
 
 local TriggerbotSection = AimingTab:CreateSector("Trigger Bot", "left")
@@ -769,7 +801,7 @@ local TValue = TriggerbotSection:AddToggle('Trigger Bot Delay (ms)', false, func
     PuppywareSettings.Aiming.TriggerBot.Delay = State
 end)
 
-TValue:AddSlider(1, 0, 60, 3, function(Value)
+TValue:AddSlider(0.1, 0.1, 10, 10, function(Value)
     PuppywareSettings.Aiming.TriggerBot.DelayAmount = Value
 end)
 
@@ -782,7 +814,7 @@ AimingSettings:AddToggle('Ping Based Prediction', false, function(Boolean)
 end)
 
 AimingSettings:AddTextbox('Velocity Prediction', "0.167", function(Value)
-PuppywareSettings.Aiming.AimingSettings.GetVelocity = Value
+    PuppywareSettings.Aiming.AimingSettings.GetVelocity = Value
 end)
 
 AimingSettings:AddDropdown("Aim Type", {"Mouse", "Distance"}, "Mouse", false, function(Value)
@@ -793,7 +825,7 @@ local SmoothnessToggle = AimingSettings:AddToggle('Aimbot Smoothness', false, fu
     getgenv().AimbotStrength = Boolean
 end)
 
-SmoothnessToggle:AddSlider(0.100, 0.500, 1.000, 20, function(Value)
+SmoothnessToggle:AddSlider(0.100, 0.500, 1.000, 50, function(Value)
     getgenv().AimbotStrengthAmount = Value
 end)
 
@@ -806,7 +838,7 @@ local PredictionToggle = AimingSettings:AddToggle('Aimbot Prediction', false, fu
     PuppywareSettings.Aiming.AimingSettings.AimbotPrediction = Boolean
 end)
 
-PredictionToggle:AddSlider(1, 5, 10, 2, function(Value)
+PredictionToggle:AddSlider(1, 5, 10, 10, function(Value)
     getgenv().PredictionAmount = Value
     PuppywareSettings.Aiming.AimingSettings.AimbotPredictionAmount = Value
 end)
@@ -1028,7 +1060,109 @@ end)
 
 
 local ChamsSection = VisualsTab:CreateSector("Chams", "Left")
+--[[
+local BulletTracers = ChamsSection:AddToggle("Bullet tracers", false, function(State)
+    BulletTracers = State
+    if State then
+        BulletTracers = false
+local Services = {
+    Players = game:GetService("Players"),
+    UserInputService = game:GetService("UserInputService"),
+    RunService = game:GetService("RunService"),
+}
 
+local Local = {
+    Player = Services.Players.LocalPlayer,
+    Mouse = Services.Players.LocalPlayer:GetMouse(),
+}
+local Other = {
+    Camera = workspace.CurrentCamera,
+    BeamPart = Instance.new("Part", workspace)
+}
+
+Other.BeamPart.Name = "BeamPart"
+Other.BeamPart.Transparency = 1
+local Settings = {
+    StartColor = MainAccentColor,
+    EndColor = MainAccentColor,
+    StartWidth = 3,
+    EndWidth = 3,
+    ShowImpactPoint = false,
+    ImpactTransparency = 0.5,
+    ImpactColor = Color3.new(1, 1, 1),
+    Time = 1,
+}
+game:GetService "RunService".Heartbeat:Connect(function()
+    if game:GetService("Workspace").Ignored:FindFirstChild 'BULLET_RAYS' and BulletTracers then
+        game:GetService("Workspace").Ignored.BULLET_RAYS:Destroy()
+    end
+end)
+local funcs = {}
+Local.Mouse.TargetFilter = Other.BeamPart
+function funcs:Beam(v1, v2)
+    v2 = Vector3.new(v2.X - 0.1, v2.Y + 0.2, v2.Z)
+    local Part = Instance.new("Part", Other.BeamPart)
+    Part.Size = Vector3.new(0, 0, 0)
+    Part.Massless = true
+    Part.Transparency = 1
+    Part.CanCollide = false
+    Part.Position = v1
+    Part.Anchored = true
+    local Attachment = Instance.new("Attachment", Part)
+    local Part2 = Instance.new("Part", Other.BeamPart)
+    Part2.Size = Vector3.new(0, 0, 0)
+    Part2.Transparency = 0
+    Part2.CanCollide = false
+    Part2.Position = v2
+    Part2.Anchored = true
+    Part2.Material = Enum.Material.ForceField
+    Part2.Color = Settings.ImpactColor
+    Part2.Massless = true
+    local Attachment2 = Instance.new("Attachment", Part2)
+    local Beam = Instance.new("Beam", Part)
+    Beam.FaceCamera = true
+    Beam.Color = colorSequence
+    Beam.Attachment0 = Attachment
+    Beam.Attachment1 = Attachment2
+    Beam.LightEmission = 6
+    Beam.LightInfluence = 1
+    Beam.Width0 = Settings.StartWidth
+    Beam.Width1 = Settings.EndWidth
+    Beam.Texture = "http://www.roblox.com/asset/?id=9150663556"
+    Beam.TextureSpeed = 2
+    Beam.TextureLength = 1
+    delay(Settings.Time, function()
+        Part:Destroy()
+        Part2:Destroy()
+    end)
+end
+
+spawn(function()
+    while task.wait(0.5) do
+        gun = GetGun()
+        if gun then
+            LastAmmo = gun.Ammo.Value
+            gun.Ammo:GetPropertyChangedSignal("Value"):Connect(function()
+                if BulletTracers and gun.Ammo.Value < LastAmmo then
+                    LastAmmo = gun.Ammo.Value
+                    funcs:Beam(gun.Handle.Position, Local.Mouse.hit.p)
+                end
+            end)
+        end
+    end
+end)
+end
+return
+end)
+
+BulletTracers:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    local colorSequence = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color),
+        ColorSequenceKeypoint.new(1, Color),
+    })
+
+end)
+]]
 local Gunschamtoggle = ChamsSection:AddToggle("Gun Chams", false, function(State)
     if State then
         local Client = game.GetService(game, "Players").LocalPlayer
@@ -1436,8 +1570,11 @@ local JumpStrafe = MovementSector:AddToggle('Jump Strafe', false, function(State
     PuppywareSettings.Blatant.Movement.JumpStrafe = State
 end)
 
+MovementSector:AddSlider('Jump Strafe Speed', 1.0, 3.1, 5.0, 10, function(Value)
+    PuppywareSettings.Blatant.Movement.JumpStrafeSpeed = Value
+end)
 
-SpeedToggle:AddSlider(1, 3, 10, 2, function(Value)
+MovementSector:AddSlider("Speed Movemnt", 1, 3, 10, 1, function(Value)
     PuppywareSettings.Blatant.Movement.SpeedAmount = Value
 end)
 
@@ -1495,6 +1632,10 @@ BlatantAntiAimSector:AddToggle('Underground Lay', false, function(State)
         game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
         game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
         game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
+    else
+        game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = nil
+        game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = nil
+        game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = nil
     end
 end)
 
@@ -1952,8 +2093,32 @@ CharacterSector:AddToggle('Auto Reload', false, function(State)
     PuppywareSettings.Blatant.Character.AutoReload = State
 end)
 
-CharacterSector:AddButton('No Recoil', function()
-
+CharacterSector:AddButton('No Recoil', function(NoRecoil)
+    if NoRecoil then
+        local mt = getrawmetatable(game)
+        local newindex = mt.newindex
+        setreadonly(mt,false)
+        function isframework(scriptInstance)
+            if tostring(scriptInstance) == "Framework" then
+                return true
+            end
+            return false
+        end
+        function checkArgs(instance,index)
+            if tostring(instance):lower():find("camera") and tostring(index) == "CFrame" then
+                return true
+            end
+            return false
+        end
+        mt.newindex = newcclosure(function(self,index,value)
+            local callingScr = getcallingscript()
+            if isframework(callingScr) and checkArgs(self,index) then
+               return;
+            end
+            return newindex(self,index,value)
+        end)
+        setreadonly(mt,true)
+    end   
 end)
 
 CharacterSector:AddButton('High Tool', function()
@@ -1987,39 +2152,39 @@ CharacterSector:AddButton('Longer Lasting Bullet', function()
         })
     end
 end)
+if game.PlaceId == 2788229376 then
+    local FarmingSector = BlatantTab:CreateSector("Farming", "right")
 
-local FarmingSector = BlatantTab:CreateSector("Farming", "right")
+    local ATMToggle = FarmingSector:AddToggle('ATM Farm', false, function(State)
+        PuppywareSettings.Blatant.Farming.ATMFarm = State
+    end)
 
-local ATMToggle = FarmingSector:AddToggle('ATM Farm', false, function(State)
-    PuppywareSettings.Blatant.Farming.ATMFarm = State
-end)
+    ATMToggle:AddKeybind()
 
-ATMToggle:AddKeybind()
+    FarmingSector:AddToggle('Shoe Farm', false, function(State)
+        PuppywareSettings.Blatant.Farming.ShoeFarm = State
+    end)
 
-FarmingSector:AddToggle('Shoe Farm', false, function(State)
-    PuppywareSettings.Blatant.Farming.ShoeFarm = State
-end)
+    FarmingSector:AddToggle('Hospital Farm', false, function(State)
+        PuppywareSettings.Blatant.Farming.HospitalFarm = State
+    end)
 
-FarmingSector:AddToggle('Hospital Farm', false, function(State)
-    PuppywareSettings.Blatant.Farming.HospitalFarm = State
-end)
+    local BoxFarmToggle = FarmingSector:AddToggle('Box Farm', false, function(State)
+        PuppywareSettings.Blatant.Farming.BoxFarm = State
+    end)
 
-local BoxFarmToggle = FarmingSector:AddToggle('Box Farm', false, function(State)
-    PuppywareSettings.Blatant.Farming.BoxFarm = State
-end)
+    BoxFarmToggle:AddKeybind()
 
-BoxFarmToggle:AddKeybind()
+    local MuscleToggle = FarmingSector:AddToggle('Muscle Farm', false, function(State)
+        PuppywareSettings.Blatant.Farming.MuscleFarm = State
+    end)
 
-local MuscleToggle = FarmingSector:AddToggle('Muscle Farm', false, function(State)
-    PuppywareSettings.Blatant.Farming.MuscleFarm = State
-end)
+    MuscleToggle:AddKeybind()
 
-MuscleToggle:AddKeybind()
-
-FarmingSector:AddDropdown("Muscle Farming Type", {"Normal", "Heavy"}, "Normal", false, function(State)
-    PuppywareSettings.Blatant.Farming.MuscleFarmingType = State
-end)
-
+    FarmingSector:AddDropdown("Muscle Farming Type", {"Normal", "Heavy"}, "Normal", false, function(State)
+        PuppywareSettings.Blatant.Farming.MuscleFarmingType = State
+    end)
+end
 local CashSector = BlatantTab:CreateSector("Cash", "right")
 
 local AutoDropToggle = CashSector:AddToggle("Auto Drop", false, function(State)
@@ -2054,59 +2219,31 @@ local TeleportModule = {
 }
 
 local LocationSector = TeleportTab:CreateSector("Location Teleport", "left")
+if game.PlaceId == 2788229376 then
+    LocationSector:AddButton("Bank", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-333.468445, 80.2145081, -259.203644, 0.0113044931, -4.16143209e-09, 0.999936104, 7.39171568e-08, 1, 3.32604877e-09, -0.999936104, 7.38748298e-08, 0.0113044931)
+    end)
 
-LocationSector:AddButton("Bank Roof", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-437.125885, 38.9783134, -285.587372, 0.0165725499, 5.298579e-08, -0.99986279, 1.16139711e-08, 1, 5.31855591e-08, 0.99986279, -1.24937944e-08, 0.0165725499)
-end)
+    LocationSector:AddButton("Casino", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-1006.07953, 57.5999298, -86.7553329, 0.854325175, 6.44815117e-08, -0.519738913, -9.9541694e-08, 1, -3.95572783e-08, 0.519738913, 8.55304663e-08, 0.854325175)
+    end)
+        
+    LocationSector:AddButton("Lava Base", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-796.256897, -39.6492004, -886.306152, -0.39699012, 2.91068263e-05, 0.917822897, 1.63490836e-06, 1, -3.10057476e-05, -0.917822897, -1.08084187e-05, -0.39699012)
+    end)
 
-LocationSector:AddButton("Playground", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-259.516907, 22.1498718, -762.971558, 0.992310345, 0, 0.12377467, 0, 1, 0, -0.12377467, 0, 0.992310345)
-end)
-
-LocationSector:AddButton("Circus", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(170.510178, 59.6617432, -944.884216, 0.806685388, -8.34191383e-08, 0.590979934, 9.47717194e-09, 1, 1.28217792e-07, -0.590979934, -9.78305081e-08, 0.806685388)
-end)
-
-LocationSector:AddButton("Lava Base", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-796.256897, -39.6492004, -886.306152, -0.39699012, 2.91068263e-05, 0.917822897, 1.63490836e-06, 1, -3.10057476e-05, -0.917822897, -1.08084187e-05, -0.39699012)
-end)
-
-LocationSector:AddButton("School", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-581.790283, 68.4947281, 331.046448, 0.220051467, -7.56681329e-05, 0.975498199, -3.96428077e-05, 0.999999583, 8.65130132e-05, -0.975498199, -5.77078645e-05, 0.22005)
-end)
-
-LocationSector:AddButton("Sewers", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(111.514938, -26.7500305, -276.918365, -0.997865558, -1.25138016e-08, -0.0653034225, -1.74378947e-08, 1, 7.48333733e-08, 0.0653034225, 7.58124159e-08, -0.997865558)
-end)
-
-LocationSector:AddButton("GYM", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-76.178093, 56.6998138, -629.940979, -0.9998914, -1.09370752e-07, 0.0147391548, -1.0945012e-07, 1, -4.57786342e-09, -0.0147391548, -6.1905685e-09, -0.9998914)
-end)
-
-LocationSector:AddButton("Gas Station", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(591.680725, 49.0000458, -256.818298, -0.0874911696, -3.41755495e-08, -0.996165276, 1.23318324e-08, 1, -3.53901868e-08, 0.996165276, -1.53808717e-08, -0.0874911696)
-end)
-
-LocationSector:AddButton("UFO", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(71.7331619, 139, -691.154419, 0.602706313, 7.78292178e-06, 0.797962964, 7.63640458e-07, 1, -1.03302691e-05, -0.797962964, 6.83547478e-06, 0.602706313)
-end)
-
-LocationSector:AddButton("Gun Shop 1", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-591.085022, 8.31477833, -742.803528, 0.994070172, 5.60480942e-08, 0.108740292, -6.51724079e-08, 1, 8.03552425e-08, -0.108740292, -8.69656134e-08, 0.994070172)
-end)
-
-LocationSector:AddButton("Gun Shop 2", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(488.347412, 48.0705032, -630.454285, -0.0453165509, -4.20173549e-08, -0.998972654, -4.23235385e-08, 1, -4.01406339e-08, 0.998972654, 4.04610248e-08, -0.0453165509)
-end)
-
-LocationSector:AddButton("Safe Spot 1", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-117.270287, -58.7000618, 146.536087, 0.999873519, 5.21876942e-08, -0.0159031227, -5.22713037e-08, 1, -4.84179008e-09, 0.0159031227, 5.67245495e-09, 0.999873519)
-end)
-
-LocationSector:AddButton("Safe Spot 2", function()
-    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(207.48085, 38.25, 200014.953, 0.507315397, 0, -0.861760437, 0, 1, 0, 0.861760437, 0, 0.507315397)
-end)
-
+    LocationSector:AddButton("UFO", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(71.7331619, 139, -691.154419, 0.602706313, 7.78292178e-06, 0.797962964, 7.63640458e-07, 1, -1.03302691e-05, -0.797962964, 6.83547478e-06, 0.602706313)
+    end)
+    
+    LocationSector:AddButton("Safe Spot 1", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-117.270287, -58.7000618, 146.536087, 0.999873519, 5.21876942e-08, -0.0159031227, -5.22713037e-08, 1, -4.84179008e-09, 0.0159031227, 5.67245495e-09, 0.999873519)
+    end)
+    
+    LocationSector:AddButton("Safe Spot 2", function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(207.48085, 38.25, 200014.953, 0.507315397, 0, -0.861760437, 0, 1, 0, 0.861760437, 0, 0.507315397)
+    end)
+end
 
 local FoodSector = TeleportTab:CreateSector("Food Teleport", "left")
 FoodSector:AddDropdown("Food Selection", PuppywareModule.Teleport.Food, PuppywareModule.Teleport.Food[1], false, function(Value)
@@ -3152,6 +3289,8 @@ spawn(function()
 end)
 
 
+
+
 RunService.RenderStepped:Connect(function()
     if Alive(LocalPlayer) then
         if PuppywareSettings.Aiming.AimingSettings.PingBasedPrediction then -- Easy ping based prediction init --
@@ -3290,10 +3429,9 @@ RunService.RenderStepped:Connect(function()
         if LocalPlayer.Character.Humanoid.MoveDirection.Magnitude > 0 and
             LocalPlayer.Character.Humanoid:GetState() == Enum.HumanoidStateType.Freefall
         then
-            LocalPlayer.Character:TranslateBy(LocalPlayer.Character.Humanoid.MoveDirection / 3.1)
+            LocalPlayer.Character:TranslateBy(LocalPlayer.Character.Humanoid.MoveDirection / PuppywareSettings.Blatant.Movement.JumpStrafeSpeed)
         end
     end
-    
 
     if PuppywareSettings.Aiming.TargetAimSettings.UnlockTargetKnocked then      -- Unlock Target Knocked init --
         if PuppywareSettings.Aiming.TargetAimSettings.Target ~= nil and Players:FindFirstChild(PuppywareSettings.Aiming.TargetAimSettings.Target) then
