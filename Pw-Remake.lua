@@ -1989,33 +1989,34 @@ GodModeSector:AddButton("God Block", function()
         NilBody()
     end)
 end)
+if game.PlaceId == 2788229376 then
+    local ReachingSector = BlatantTab:CreateSector("Reaching", "right")
 
-local ReachingSector = BlatantTab:CreateSector("Reaching", "right")
+    local FistReachToggle = ReachingSector:AddToggle('Fist Reach', false, function(State)
+        PuppywareSettings.Blatant.Reaching.FistReach = State
+    end)
 
-local FistReachToggle = ReachingSector:AddToggle('Fist Reach', false, function(State)
-    PuppywareSettings.Blatant.Reaching.FistReach = State
-end)
+    FistReachToggle:AddKeybind()
 
-FistReachToggle:AddKeybind()
+    ReachingSector:AddSlider("Fists Transparency", 0, 0, 1, 2, function(Value)
+        if Value then
+            LocalPlayer.Character.RightHand.Transparency = Value
+            LocalPlayer.Character.LeftHand.Transparency = Value
+        end
+    end)
 
-ReachingSector:AddSlider("Fists Transparency", 0, 0, 1, 2, function(Value)
-    if Value then
-        LocalPlayer.Character.RightHand.Transparency = Value
-        LocalPlayer.Character.LeftHand.Transparency = Value
-    end
-end)
+    local MeleeReachToggle = ReachingSector:AddToggle('Melee Reach', false, function(State)
+        PuppywareSettings.Blatant.Reaching.MeleeReach = State
+    end)
 
-local MeleeReachToggle = ReachingSector:AddToggle('Melee Reach', false, function(State)
-    PuppywareSettings.Blatant.Reaching.MeleeReach = State
-end)
+    MeleeReachToggle:AddKeybind()
 
-MeleeReachToggle:AddKeybind()
-
-ReachingSector:AddSlider("Melee Transparency", 0, 0, 1, 2, function(Value)
-    if Value then
-        Tool.Handle.Transparency = Value
-    end
-end)
+    ReachingSector:AddSlider("Melee Transparency", 0, 0, 1, 2, function(Value)
+        if Value then
+            Tool.Handle.Transparency = Value
+        end
+    end)
+end
 
 local CharacterSector = BlatantTab:CreateSector("Character", "right")
 
