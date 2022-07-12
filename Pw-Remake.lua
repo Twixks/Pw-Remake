@@ -34,6 +34,11 @@ local PwRemakeFolder = Instance.new("Folder", workspace)
 PwRemakeFolder.Name = "PwRemake-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
+--
+_G.Idle = game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId
+_G.Run = game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId
+_G.Walk = game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId
+
 
 local AnimationModule = {
     Astronaut = {
@@ -1163,18 +1168,8 @@ BulletTracers:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
 
 end)
 ]]
-local Gunschamtoggle = ChamsSection:AddToggle("Gun Chams", false, function(State)
-    if State then
-        local Client = game.GetService(game, "Players").LocalPlayer
-        Client.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.ForceField
-        Client.Character:FindFirstChildOfClass("Tool").Default.BrickColor  = BrickColor.new(255, 255, 255)
-    else
-        local Client = game.GetService(game, "Players").LocalPlayer
-        Client.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.Plastic
-    end
-end)
 
-Gunschamtoggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(State)
+ChamsSection:AddColorpicker("Gun Chams",Color3.fromRGB(255, 255, 255), function(State)
     LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.BrickColor = BrickColor.new(State)
 end)
 
@@ -1427,7 +1422,7 @@ MisSector:AddButton("AutoClicker", function()
     local Mouse = Player:GetMouse()
     local Clicking = false
     Mouse.KeyDown:Connect(function(Key)
-        if Key == "n" then
+        if Key == "v" then
             Clicking = not Clicking
             if Clicking == true then
                 repeat
@@ -1440,8 +1435,8 @@ MisSector:AddButton("AutoClicker", function()
 end)
 
 
-
-MisSector:AddButton("Speed Glitch", function()
+--[[
+MisSector:AddKeybind("Speed Glitch", function()
     Notify({
         Title = "Pw-Remake",
         Description = "Click V to on/off Speedglitch",
@@ -1475,7 +1470,7 @@ MisSector:AddButton("Speed Glitch", function()
     end
 
     Mouse.KeyDown:Connect(function(Key)
-        if Key == "v" then
+        if Key == getgenv().Macro then
             SpeedGlitch = not SpeedGlitch
             if SpeedGlitch == true then
                 loadAnimation("rbxassetid://3189777795")
@@ -1498,7 +1493,7 @@ MisSector:AddButton("Speed Glitch", function()
         end
     end)
 end)
-
+]]
 local WorldSection = VisualsTab:CreateSector("World", "right")
 
 WorldSection:AddToggle("Global Shadows", false, function(Toggle)
@@ -1627,15 +1622,19 @@ BlatantAntiAimSector:AddToggle('SlingShot', false, function(State)
     PuppywareSettings.Blatant.BlatantAA.SlingShot = State
 end)
 
+BlatantAntiAimSector:AddSlider('Height', -50, 50, 100, 1, function(Value)
+    PuppywareSettings.Blatant.BlatantAA.SlingShotHeight = Value
+end)
+
 BlatantAntiAimSector:AddToggle('Underground Lay', false, function(State)
     if State then
         game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
         game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
         game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=3152378852"
     else
-        game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = nil
-        game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = nil
-        game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = nil
+        game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId = _G.Idle
+        game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = _G.Run
+        game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = _G.Walk
     end
 end)
 
@@ -1965,30 +1964,31 @@ local NilCharBind = MiscSector:AddKeybind("Nil Char Bind", false, function()
 end, function()
     NilBody()
 end)
+if game.PlaceId == 2788229376 then
+    local GodModeSector = BlatantTab:CreateSector("God Mode", "left")
 
-local GodModeSector = BlatantTab:CreateSector("God Mode", "left")
-
-GodModeSector:AddButton("Gun Only", function()
-    PuppywareModule.God.GodBullet = true
-    NilBody()
-end)
-
-GodModeSector:AddButton("Melee Only", function()
-    PuppywareModule.God.GodMelee = true
-    NilBody()
-end)
-
-GodModeSector:AddButton("Anti Ragdoll", function()
-    PuppywareModule.God.AntiRagdoll = true
-    NilBody()
-end)
-
-GodModeSector:AddButton("God Block", function()
-    pcall(function()
-        LocalPlayer.Character.BodyEffects.Defense.CurrentTimeBlock:Destroy()
+    GodModeSector:AddButton("Gun Only", function()
+        PuppywareModule.God.GodBullet = true
         NilBody()
     end)
-end)
+
+    GodModeSector:AddButton("Melee Only", function()
+        PuppywareModule.God.GodMelee = true
+        NilBody()
+    end)
+
+    GodModeSector:AddButton("Anti Ragdoll", function()
+        PuppywareModule.God.AntiRagdoll = true
+        NilBody()
+    end)
+
+    GodModeSector:AddButton("God Block", function()
+        pcall(function()
+            LocalPlayer.Character.BodyEffects.Defense.CurrentTimeBlock:Destroy()
+            NilBody()
+        end)
+    end)
+end
 if game.PlaceId == 2788229376 then
     local ReachingSector = BlatantTab:CreateSector("Reaching", "right")
 
@@ -2057,13 +2057,19 @@ end)
 
 FlingToggle:AddKeybind()
 
+CharacterSector:AddToggle('Trash Talk', false, function(State)
+    PuppywareSettings.Blatant.Character.TrashTalk = State
+end)
+
 CharacterSector:AddToggle('Anti Grab', false, function(State)
     PuppywareSettings.Blatant.Character.AntiGrab = State
 end)
 
-CharacterSector:AddToggle('Anti Slow', false, function(State)
-    PuppywareSettings.Blatant.Character.AntiSlow2 = State
-end)
+if game.PlaceId == 2788229376 then
+    CharacterSector:AddToggle('Anti Slow', false, function(State)
+        PuppywareSettings.Blatant.Character.AntiSlow2 = State
+    end)
+end
 
 CharacterSector:AddToggle('Anti Effects', false, function(State)
     PuppywareSettings.Blatant.Character.AntiEffects = State
@@ -2076,19 +2082,18 @@ CharacterSector:AddToggle('No jumpCooldown', false, function(State)
         a = hookfunction(wait, function(b) if b == 1.5 and PuppywareSettings.Blatant.Character.NoJumpCooldown then return a() end return a(b) end)
     end        
 end)
+if game.PlaceId == 2788229376 then
+    CharacterSector:AddToggle('Auto Lettuce', false, function(State)
+        PuppywareSettings.Blatant.Character.AutoLettuce = State
+    end)
+end
+if game.PlaceId == 2788229376 then
+    local ArmorToggle = CharacterSector:AddToggle('Auto Armor', false, function(State)
+        PuppywareSettings.Blatant.Character.AutoArmor = State
+    end)
 
-
-
-CharacterSector:AddToggle('Auto Lettuce', false, function(State)
-    PuppywareSettings.Blatant.Character.AutoLettuce = State
-end)
-
-local ArmorToggle = CharacterSector:AddToggle('Auto Armor', false, function(State)
-    PuppywareSettings.Blatant.Character.AutoArmor = State
-end)
-
-ArmorToggle:AddKeybind()
-
+    ArmorToggle:AddKeybind()
+end
 
 CharacterSector:AddToggle('Auto Reload', false, function(State)
     PuppywareSettings.Blatant.Character.AutoReload = State
@@ -2121,23 +2126,30 @@ CharacterSector:AddButton('No Recoil', function(NoRecoil)
         setreadonly(mt,true)
     end   
 end)
+if game.PlaceId == 2788229376 then
+    CharacterSector:AddButton('High Tool', function()
+        if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool') then
+            game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool').Grip = CFrame.new(0, -12, 0, 1, 0, 0, 0, 1, 0, 0, 0, -1)
+        else
+            Notify({
+                Title = "Pw-Remake",
+                Description = "Your not Holding a tool, Please hold a tool.",
+                Duration = 3
+            })
+        end
+    end)
 
-CharacterSector:AddButton('High Tool', function()
-    if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool') then
-        game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool').Grip = CFrame.new(0, -12, 0, 1, 0, 0, 0, 1, 0, 0, 0, -1)
-    else
-        Notify({
-            Title = "Pw-Remake",
-            Description = "Your not Holding a tool, Please hold a tool.",
-            Duration = 3
-        })
-    end
-end)
-
-CharacterSector:AddButton('Longer Lasting Bullet', function()
-    if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool') then
-        if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool'):FindFirstChild('Handle'):FindFirstChildWhichIsA('BillboardGui') then
-            game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool'):FindFirstChild('Handle'):FindFirstChildWhichIsA('BillboardGui'):Destroy()
+    CharacterSector:AddButton('Longer Lasting Bullet', function()
+        if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool') then
+            if game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool'):FindFirstChild('Handle'):FindFirstChildWhichIsA('BillboardGui') then
+                game.Players.LocalPlayer.Character:FindFirstChildWhichIsA('Tool'):FindFirstChild('Handle'):FindFirstChildWhichIsA('BillboardGui'):Destroy()
+            else
+                Notify({
+                    Title = "Pw-Remake",
+                    Description = "Your not Holding a gun, Please hold a gun.",
+                    Duration = 3
+                })
+            end
         else
             Notify({
                 Title = "Pw-Remake",
@@ -2145,14 +2157,8 @@ CharacterSector:AddButton('Longer Lasting Bullet', function()
                 Duration = 3
             })
         end
-    else
-        Notify({
-            Title = "Pw-Remake",
-            Description = "Your not Holding a gun, Please hold a gun.",
-            Duration = 3
-        })
-    end
-end)
+    end)
+end
 if game.PlaceId == 2788229376 then
     local FarmingSector = BlatantTab:CreateSector("Farming", "right")
 
@@ -2186,20 +2192,22 @@ if game.PlaceId == 2788229376 then
         PuppywareSettings.Blatant.Farming.MuscleFarmingType = State
     end)
 end
-local CashSector = BlatantTab:CreateSector("Cash", "right")
 
-local AutoDropToggle = CashSector:AddToggle("Auto Drop", false, function(State)
-    PuppywareSettings.Blatant.Cash.AutoDrop = State
-end)
+if game.PlaceId == 2788229376 then
+    local CashSector = BlatantTab:CreateSector("Cash", "right")
 
-AutoDropToggle:AddSlider(1000, 3500, 10000, 1, function(Value)
-    PuppywareSettings.Blatant.Cash.AutoDropAmount = Value
-end)
+    local AutoDropToggle = CashSector:AddToggle("Auto Drop", false, function(State)
+        PuppywareSettings.Blatant.Cash.AutoDrop = State
+    end)
 
-CashSector:AddToggle("Auto Pick Cash", false, function(State)
-    PuppywareSettings.Blatant.Cash.AutoPickCash = State
-end)
+    AutoDropToggle:AddSlider(1000, 3500, 10000, 1, function(Value)
+        PuppywareSettings.Blatant.Cash.AutoDropAmount = Value
+    end)
 
+    CashSector:AddToggle("Auto Pick Cash", false, function(State)
+        PuppywareSettings.Blatant.Cash.AutoPickCash = State
+    end)
+end
 -- Auto Buy Tab --
 
 local TeleportTab = Window:CreateTab("Teleport")
@@ -3128,6 +3136,38 @@ RunService.Heartbeat:Connect(function()
                 game.Players.LocalPlayer.Character.BodyEffects.Reload.Value = false 
             end
         end
+        -- Trash Talk --
+        if PuppywareSettings.Blatant.Character.TrashTalk then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                "Bad sped, sit",
+                "All"
+            )
+            wait(1.2)
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                "Son you bad lock",
+                "All"
+            )
+            wait(1.2)
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                "L = all",
+                "All"
+            )
+            wait(1.2)
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                "How you lose from an NN user?",
+                "All"
+            )
+            wait(1.2)
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                "Oh you can't resolve me?, shames on your lock",
+                "All"
+            )
+            wait(1.2)
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(
+                "You need aimlock?, go and buy Pw-Remake",
+                "All"
+            )
+        end
         --Anti Grab --
         if PuppywareSettings.Blatant.Character.AntiGrab and LocalPlayer.Character:FindFirstChild("GRABBING_CONSTRAINT") then
             LocalPlayer.Character["GRABBING_CONSTRAINT"]:Destroy()
@@ -3416,7 +3456,7 @@ RunService.RenderStepped:Connect(function()
         end
     end
     if PuppywareSettings.Blatant.BlatantAA.SlingShot then
-        SlingShot(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
+        SlingShot(PuppywareSettings.Blatant.BlatantAA.SlingShotHeight)
     end
 
     if PuppywareSettings.Blatant.Movement.BunnyHop then
