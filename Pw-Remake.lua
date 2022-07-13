@@ -35,6 +35,7 @@ PwRemakeFolder.Name = "PwRemake-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
 --
+_G.Face = game.Players.LocalPlayer.Character.Head.face.Texture
 _G.Idle = game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId
 _G.Run = game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId
 _G.Walk = game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId
@@ -1217,25 +1218,47 @@ end)
 
 ESPCheckSection:AddLabel("Turn on : \n PlayerCheck & TeamCheck \n (this will show all users)")
 -- Crosshair stuff --
-
 local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "right")
 
 local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", true, function(State)
     game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Visible = State
+end)
+
+DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.BackgroundColor3 = Color
+end)
+
+local TopPart = CrosshairSection:AddToggle("Top", true, function(State)
     game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.Visible = State
-    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.Visible = State
+end)
+
+TopPart:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.BackgroundColor3 = Color
+end)
+
+local RightPart = CrosshairSection:AddToggle("Right", true, function(State)
     game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.Visible = State
+end)
+
+RightPart:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.BackgroundColor3 = Color
+end)
+
+local LeftPart = CrosshairSection:AddToggle("Left", true, function(State)
     game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.Visible = State
 end)
 
-DrawingCrosshairToggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(State)
-    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.BackgroundColor3 = State
-    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Top.BackgroundColor3 = State
-    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.BackgroundColor3 = State
-    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Right.BackgroundColor3 = State
-    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.BackgroundColor3 = State
+LeftPart:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Left.BackgroundColor3 = Color
 end)
 
+local BottomPart = CrosshairSection:AddToggle("Bottom", true, function(State)
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.Visible = State
+end)
+
+BottomPart:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    game:GetService("Players").LocalPlayer.PlayerGui.MainScreenGui.Aim.Bottom.BackgroundColor3 = Color
+end)
 
 -- local stuff --
 
@@ -1275,6 +1298,10 @@ LocalSection:AddButton("Korblox (Cs)", function()
     game.Players.LocalPlayer.Character.RightUpperLeg.TextureID = "http://roblox.com/asset/?id=902843398"
 end)
 
+LocalSection:AddButton("Default Face", function(State)
+    game.Players.LocalPlayer.Character.Head.face.Texture = _G.Face 
+end)
+
 LocalSection:AddButton("Blizzard Beast Mode (Cs)", function()
     game.Players.LocalPlayer.Character.Head.face.Texture =  "rbxassetid://209712379"
 end)
@@ -1291,7 +1318,10 @@ LocalSection:AddButton("Super Super Happy Face (Cs)", function()
     game.Players.LocalPlayer.Character.Head.face.Texture = "rbxassetid://494290547"
 end)
 
-LocalSection:AddButton("Chat Spy", function()
+
+local MisSector = VisualsTab:CreateSector("Miscs", "left")
+
+MisSector:AddButton("Chat Spy", function()
     Notify({
         Title = "Pw-Remake",
         Description = "/spy to toggle, /me to stand out",
@@ -1365,16 +1395,6 @@ chatFrame.ChatChannelParentFrame.Visible = true
 chatFrame.ChatBarParentFrame.Position = chatFrame.ChatChannelParentFrame.Position+UDim2.new(UDim.new(),chatFrame.ChatChannelParentFrame.Size.Y)
 end)
 
-
-local MisSector = VisualsTab:CreateSector("Miscs", "left")
-
-local BoomboxTogle = MisSector:AddToggle("Boombox Transparency", false, function(State)
-    PuppywareSettings.Visuals.Miscs.BoomboxTransparency = State
-end)
-
-MisSector:AddSlider("Boombox Transparency", 0, 0, 1, 2, function(Value)
-    PuppywareSettings.Visuals.Miscs.BoomboxAmount = State
-end)
 MisSector:AddButton("Hide Boombox", function()
     if game.Players.LocalPlayer.Character.BOOMBOXHANDLE then
         game.Players.LocalPlayer.Character.BOOMBOXHANDLE:Destroy()
@@ -1409,31 +1429,6 @@ MisSector:AddButton("Hide Mask", function()
         })
     end
 end)
-
-MisSector:AddButton("AutoClicker", function()
-
-    Notify({
-        Title = "Pw-Remake",
-        Description = "Click n to on/off autoclicker",
-        Duration = 5
-    })
-
-    local Player = game:GetService("Players").LocalPlayer
-    local Mouse = Player:GetMouse()
-    local Clicking = false
-    Mouse.KeyDown:Connect(function(Key)
-        if Key == "v" then
-            Clicking = not Clicking
-            if Clicking == true then
-                repeat
-                    mouse1click()
-                    wait(0.001)    
-                until Clicking == false
-            end
-        end
-    end)
-end)
-
 
 --[[
 MisSector:AddKeybind("Speed Glitch", function()
@@ -1565,7 +1560,7 @@ local JumpStrafe = MovementSector:AddToggle('Jump Strafe', false, function(State
     PuppywareSettings.Blatant.Movement.JumpStrafe = State
 end)
 
-MovementSector:AddSlider('Jump Strafe Speed', 1.0, 3.1, 5.0, 10, function(Value)
+MovementSector:AddSlider('Jump Strafe Speed', 0.5, 3.1, 5.0, 10, function(Value)
     PuppywareSettings.Blatant.Movement.JumpStrafeSpeed = Value
 end)
 
@@ -1618,13 +1613,7 @@ end)
 
 UndergroundWallBangToggle:AddKeybind()
 
-BlatantAntiAimSector:AddToggle('SlingShot', false, function(State)
-    PuppywareSettings.Blatant.BlatantAA.SlingShot = State
-end)
 
-BlatantAntiAimSector:AddSlider('Height', -50, 50, 100, 1, function(Value)
-    PuppywareSettings.Blatant.BlatantAA.SlingShotHeight = Value
-end)
 
 BlatantAntiAimSector:AddToggle('Underground Lay', false, function(State)
     if State then
@@ -1636,6 +1625,16 @@ BlatantAntiAimSector:AddToggle('Underground Lay', false, function(State)
         game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId = _G.Run
         game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId = _G.Walk
     end
+end)
+
+local SlingShotToggle = BlatantAntiAimSector:AddToggle('SlingShot', false, function(State)
+    PuppywareSettings.Blatant.BlatantAA.SlingShot = State
+end)
+
+SlingShotToggle:AddKeybind()
+
+SlingShotToggle:AddSlider(-50, 50, 100, 1, function(Value)
+    PuppywareSettings.Blatant.BlatantAA.SlingShotHeight = Value
 end)
 
 BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin"}, "Jitter", false, function(Value)
