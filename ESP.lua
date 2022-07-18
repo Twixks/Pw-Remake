@@ -3,6 +3,7 @@ local ESP = {
 	Enabled = false,
 	Boxes = false,
     BoxFill = false,
+    BoxFillTransparency = 0.3
 	BoxShift = CFrame.new(0,-1.5,0),
 	BoxSize = Vector3.new(4,6,0),
 	Color = Color3.fromRGB(199, 255, 255),
@@ -19,7 +20,7 @@ local ESP = {
 	TeamMates = true,
 	Players = true,
     DistanceS = 2000,
-    --TracerTransparency = 1,
+    TracerTransparency = 1,
     Outline = true,
 
 	Objects = setmetatable({}, {__mode="kv"}),
@@ -353,7 +354,7 @@ function ESP:Add(obj, options)
 	box.Components["Quad"] = Draw("Quad", {
 		Thickness = self.Thickness,
 		Color = color,
-		Transparency = 1,
+		Transparency = self.BoxFillTransparency,
 		Filled = self.BoxFill,
 		Visible = self.Enabled and self.Boxes
 	})
@@ -389,7 +390,7 @@ function ESP:Add(obj, options)
 	box.Components["Tracer"] = Draw("Line", {
 		Thickness = ESP.Thickness,
 		Color = box.Color,
-		Transparency = 1,
+		Transparency = self.TracerTransparency,
 		Visible = self.Enabled and self.Tracers
 	})
 	self.Objects[obj] = box
