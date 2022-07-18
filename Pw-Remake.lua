@@ -35,11 +35,175 @@ PwRemakeFolder.Name = "PwRemake-Folder"
 local StarterGui = GetService.StarterGui
 local ReplicatedStorage = GetService.ReplicatedStorage
 --
+local parts = {
+    "Head",
+    "UpperTorso",
+    "RightUpperArm",
+    "RightLowerArm",
+    "RightUpperArm",
+    "LeftUpperArm",
+    "LeftLowerArm",
+    "LeftFoot",
+    "RightFoot",
+    "LowerTorso",
+    "LeftHand",
+    "RightHand",
+    "RightUpperLeg",
+    "LeftUpperLeg",
+    "LeftLowerLeg",
+    "RightLowerLeg"
+}
+--
 _G.Face = game.Players.LocalPlayer.Character.Head.face.Texture
 _G.Idle = game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId
 _G.Run = game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId
 _G.Walk = game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId
+--
+getgenv().BulletLength = 1
+getgenv().BulletSpeed = 2
+getgenv().weaponchams = false
+getgenv().Color = Color3.fromRGB(255, 0, 0)
+getgenv().Material = "ForceField"
+getgenv().Selfchams = false
+getgenv().SelfMaterial = "ForceField"
+getgenv().SelfColor = Color3.fromRGB(255, 0, 0)
+getgenv().BulletTracers = false
+getgenv().bullet_tracer_color = Color3.fromRGB(255, 255, 255)
+getgenv().BulletMaterial = "ForceField"
+getgenv().BulletTestTrans = 0.5
+getgenv().LightEmission = 6
+getgenv().LightInfluence = 1
+function GetGun()
+    if game.Players.LocalPlayer.Character then
+        for i, v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+            if v:FindFirstChild 'Ammo' then
+                return v
+            end
+        end
+    end
+    return nil
+end
 
+BulletTracers = false
+local Services = {
+    Players = game:GetService("Players"),
+    UserInputService = game:GetService("UserInputService"),
+    RunService = game:GetService("RunService"),
+}
+
+local Local = {
+    Player = Services.Players.LocalPlayer,
+    Mouse = Services.Players.LocalPlayer:GetMouse(),
+}
+local Other = {
+    Camera = workspace.CurrentCamera,
+    BeamPart = Instance.new("Part", workspace)
+}
+
+Other.BeamPart.Name = "BeamPart"
+Other.BeamPart.Transparency = 1
+local Settings = {
+    StartColor = MainAccentColor,
+    EndColor = MainAccentColor,
+    StartWidth = 3,
+    EndWidth = 3,
+    ShowImpactPoint = false,
+    ImpactTransparency = 1,
+    ImpactColor = Color3.new(1, 1, 1),
+    Time = getgenv().RealBulletTime,
+}
+game:GetService "RunService".Heartbeat:Connect(function()
+
+end)
+local funcs = {}
+Local.Mouse.TargetFilter = Other.BeamPart
+function funcs:Beam(v1, v2)
+    v2 = Vector3.new(v2.X - 0.1, v2.Y + 0.2, v2.Z)
+    local colorSequence = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, bullet_tracer_color),
+        ColorSequenceKeypoint.new(1, bullet_tracer_color),
+    })
+    local Part = Instance.new("Part", Other.BeamPart)
+    Part.Size = Vector3.new(0, 0, 0)
+    Part.Massless = true
+    Part.Transparency = 1
+    Part.CanCollide = false
+    Part.Position = v1
+    Part.Anchored = true
+    local Attachment = Instance.new("Attachment", Part)
+    local Part2 = Instance.new("Part", Other.BeamPart)
+    Part2.Size = Vector3.new(0, 0, 0)
+    Part2.Transparency = 0
+    Part2.CanCollide = false
+    Part2.Position = v2
+    Part2.Anchored = true
+    Part2.Material = Enum.Material.ForceField
+    Part2.Color = Settings.ImpactColor
+    Part2.Massless = true
+    local Attachment2 = Instance.new("Attachment", Part2)
+    local Beam = Instance.new("Beam", Part)
+    Beam.FaceCamera = true
+    Beam.Color = colorSequence
+    Beam.Attachment0 = Attachment
+    Beam.Attachment1 = Attachment2
+    Beam.LightEmission = getgenv().LightEmission
+    Beam.LightInfluence = getgenv().LightInfluence
+    Beam.Width0 = Settings.StartWidth
+    Beam.Width1 = Settings.EndWidth
+    Beam.Texture = "http://www.roblox.com/asset/?id=9150663556"
+    Beam.TextureSpeed = getgenv().BulletSpeed
+    Beam.TextureLength = getgenv().BulletLength
+    delay(Settings.Time, function()
+        Part:Destroy()
+        Part2:Destroy()
+    end)
+end
+
+
+spawn(function()
+    while task.wait(0.5) do
+        gun = GetGun()
+        if gun then
+            LastAmmo = gun.Ammo.Value
+            gun.Ammo:GetPropertyChangedSignal("Value"):Connect(function()
+                if getgenv().BulletTracers and gun.Ammo.Value < LastAmmo then
+                    LastAmmo = gun.Ammo.Value
+                    funcs:Beam(gun.Handle.Position, Local.Mouse.hit.p)
+                end
+            end)
+        end
+    end
+end)
+
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    local tool = game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool")
+    if tool and tool:FindFirstChild 'Default' then
+    if weaponchams == true then
+        Game.GetService(game, "Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.Material = getgenv().Material
+        Game.GetService(game, "Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.Color = getgenv().Color
+    else
+        if tool and tool:FindFirstChild 'Default' then
+            if weaponchams == false then
+                Game.GetService(game, "Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.Glass
+            end
+        end
+        end
+    end
+
+    if getgenv().Selfchams == true then
+        for i, v in pairs(parts) do
+            game.Players.LocalPlayer.Character[v].Material = getgenv().SelfMaterial
+            game.Players.LocalPlayer.Character[v].Color = getgenv().SelfColor
+        end
+    end
+
+    if getgenv().Selfchams == false then
+        for i, v in pairs(parts) do
+            game.Players.LocalPlayer.Character[v].Material = Enum.Material.Glass
+        end
+    end
+end)
 
 local AnimationModule = {
     Astronaut = {
@@ -1012,7 +1176,6 @@ ESPSection:AddToggle('Distance', false, function(onoff)
     ESP.Distance = (onoff)
 end)
 
-
 ESPSection:AddToggle('Tracer', false, function(onoff)
     ESP.Tracers = (onoff)
 end)
@@ -1040,17 +1203,18 @@ ESPSettings:AddSlider("Tracer Transparency", 0, 1, 1, 5, function(Value)
     ESP.TracerTransparency = (Value)
 end)
 ]]
-ESPSettings:AddSlider('Tracer Position', 1, 1, 20, 1, function(Value)
+ESPSettings:AddSlider('Tracer Position', 1, 1, 25, 1, function(Value)
     ESP.AttachShift = (Value)
-end)
-
-ESPSettings:AddSlider('Tracer Thickness', 1, 1, 15, 2, function(Value)
-    ESP.Thickness = (Value)
 end)
 
 -- ESP check Section --
 
 local ESPCheckSection = VisualsTab:CreateSector("ESP Check", "right")
+
+
+ESPCheckSection:AddToggle('Face Camera', false, function(onoff)
+    ESP.FaceCamera = onoff
+end)
 
 ESPCheckSection:AddToggle('Player Check', true, function(onoff)
     ESP.Players = onoff
@@ -1064,160 +1228,65 @@ ESPCheckSection:AddToggle('Team Color', false, function(onoff)
     ESP.TeamColor = onoff
 end)
 
+ESPCheckSection:AddLabel("Turn on : \n PlayerCheck & TeamCheck \n (this will show all users)")
+
+local GunSection = VisualsTab:CreateSector("Gun", "Left")
+
+local BulletTracertoggle = GunSection:AddToggle("Bullet Tracers", false, function(State)
+    getgenv().BulletTracers = State
+end)
+
+BulletTracertoggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    getgenv().bullet_tracer_color = Color
+end)
+
+GunSection:AddSlider("Light Emission", 1, 6, 10, 10, function(Light)
+    getgenv().LightEmission = Light
+end)
+
+GunSection:AddSlider("Light Influence", 1, 1, 10, 10, function(Light)
+    getgenv().LightInfluence = Light
+end)
+
+GunSection:AddSlider("Bullet Tracers Speed", 1, 2, 10, 10, function(Speed)
+    getgenv().BulletSpeed = Speed
+end)
+
+GunSection:AddSlider("Bullet Tracers Length", 0.5, 1, 10, 10, function(Length)
+    getgenv().BulletLength = Length
+end)
+
 
 local ChamsSection = VisualsTab:CreateSector("Chams", "Left")
---[[
-local BulletTracers = ChamsSection:AddToggle("Bullet tracers", false, function(State)
-    BulletTracers = State
-    if State then
-        BulletTracers = false
-local Services = {
-    Players = game:GetService("Players"),
-    UserInputService = game:GetService("UserInputService"),
-    RunService = game:GetService("RunService"),
-}
 
-local Local = {
-    Player = Services.Players.LocalPlayer,
-    Mouse = Services.Players.LocalPlayer:GetMouse(),
-}
-local Other = {
-    Camera = workspace.CurrentCamera,
-    BeamPart = Instance.new("Part", workspace)
-}
-
-Other.BeamPart.Name = "BeamPart"
-Other.BeamPart.Transparency = 1
-local Settings = {
-    StartColor = MainAccentColor,
-    EndColor = MainAccentColor,
-    StartWidth = 3,
-    EndWidth = 3,
-    ShowImpactPoint = false,
-    ImpactTransparency = 0.5,
-    ImpactColor = Color3.new(1, 1, 1),
-    Time = 1,
-}
-game:GetService "RunService".Heartbeat:Connect(function()
-    if game:GetService("Workspace").Ignored:FindFirstChild 'BULLET_RAYS' and BulletTracers then
-        game:GetService("Workspace").Ignored.BULLET_RAYS:Destroy()
-    end
-end)
-local funcs = {}
-Local.Mouse.TargetFilter = Other.BeamPart
-function funcs:Beam(v1, v2)
-    v2 = Vector3.new(v2.X - 0.1, v2.Y + 0.2, v2.Z)
-    local Part = Instance.new("Part", Other.BeamPart)
-    Part.Size = Vector3.new(0, 0, 0)
-    Part.Massless = true
-    Part.Transparency = 1
-    Part.CanCollide = false
-    Part.Position = v1
-    Part.Anchored = true
-    local Attachment = Instance.new("Attachment", Part)
-    local Part2 = Instance.new("Part", Other.BeamPart)
-    Part2.Size = Vector3.new(0, 0, 0)
-    Part2.Transparency = 0
-    Part2.CanCollide = false
-    Part2.Position = v2
-    Part2.Anchored = true
-    Part2.Material = Enum.Material.ForceField
-    Part2.Color = Settings.ImpactColor
-    Part2.Massless = true
-    local Attachment2 = Instance.new("Attachment", Part2)
-    local Beam = Instance.new("Beam", Part)
-    Beam.FaceCamera = true
-    Beam.Color = colorSequence
-    Beam.Attachment0 = Attachment
-    Beam.Attachment1 = Attachment2
-    Beam.LightEmission = 6
-    Beam.LightInfluence = 1
-    Beam.Width0 = Settings.StartWidth
-    Beam.Width1 = Settings.EndWidth
-    Beam.Texture = "http://www.roblox.com/asset/?id=9150663556"
-    Beam.TextureSpeed = 2
-    Beam.TextureLength = 1
-    delay(Settings.Time, function()
-        Part:Destroy()
-        Part2:Destroy()
-    end)
-end
-
-spawn(function()
-    while task.wait(0.5) do
-        gun = GetGun()
-        if gun then
-            LastAmmo = gun.Ammo.Value
-            gun.Ammo:GetPropertyChangedSignal("Value"):Connect(function()
-                if BulletTracers and gun.Ammo.Value < LastAmmo then
-                    LastAmmo = gun.Ammo.Value
-                    funcs:Beam(gun.Handle.Position, Local.Mouse.hit.p)
-                end
-            end)
-        end
-    end
-end)
-end
-return
+local gunschams = ChamsSection:AddToggle("Gun chams", false, function(State)
+    getgenv().weaponchams = State
 end)
 
-BulletTracers:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
-    local colorSequence = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color),
-        ColorSequenceKeypoint.new(1, Color),
-    })
-
-end)
-]]
-
-ChamsSection:AddColorpicker("Gun Chams",Color3.fromRGB(255, 255, 255), function(State)
-    LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.BrickColor = BrickColor.new(State)
+gunschams:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    getgenv().Color = Color
 end)
 
-ChamsSection:AddDropdown("Gun Cham Material", {"ForceField", "Neon", "SmoothPlastic", "Plastic"}, "Plastic", false, function(Value)
-    local Client = game.GetService(game, "Players").LocalPlayer
-    Client.Character:FindFirstChildOfClass("Tool").Default.Material = (Value)
+ChamsSection:AddDropdown("Gun Material", {"ForceField", "Glass", "Neon", "SmoothPlastic"}, "ForceField", false, function(Material)
+    getgenv().Material = Material
 end)
 
 
-ChamsSection:AddColorpicker("Self Chams", Color3.fromRGB(255, 255, 255), function(Color)
-    LocalPlayer.Character.LeftHand.Color = Color
-    LocalPlayer.Character.RightHand.Color = Color
-    LocalPlayer.Character.LeftLowerArm.Color = Color
-    LocalPlayer.Character.RightLowerArm.Color = Color
-    LocalPlayer.Character.LeftUpperArm.Color = Color
-    LocalPlayer.Character.RightUpperArm.Color = Color
-    LocalPlayer.Character.LeftFoot.Color = Color
-    LocalPlayer.Character.RightFoot.Color = Color
-    LocalPlayer.Character.LeftLowerLeg.Color = Color
-    LocalPlayer.Character.RightLowerLeg.Color = Color
-    LocalPlayer.Character.UpperTorso.Color = Color
-    LocalPlayer.Character.LowerTorso.Color = Color
-    LocalPlayer.Character.LeftUpperLeg.Color = Color
-    LocalPlayer.Character.RightUpperLeg.Color = Color
-    LocalPlayer.Character.Head.Color = Color 
+local Selfchamz = ChamsSection:AddToggle("Self Chams test", false, function(State)
+    getgenv().Selfchams = State
 end)
 
-ChamsSection:AddDropdown("Self Cham Material", {"ForceField", "Neon", "Plastic", "SmoothPlastic"}, "Plastic", false, function(Value)
-    game.Players.LocalPlayer.Character.LeftHand.Material = (Value)
-    game.Players.LocalPlayer.Character.RightHand.Material = (Value)
-    game.Players.LocalPlayer.Character.LeftLowerArm.Material = (Value)
-    game.Players.LocalPlayer.Character.RightLowerArm.Material = (Value)
-    game.Players.LocalPlayer.Character.LeftUpperArm.Material = (Value)
-    game.Players.LocalPlayer.Character.RightUpperArm.Material = (Value)
-    game.Players.LocalPlayer.Character.LeftFoot.Material = (Value)
-    game.Players.LocalPlayer.Character.RightFoot.Material = (Value)
-    game.Players.LocalPlayer.Character.LeftLowerLeg.Material = (Value)
-    game.Players.LocalPlayer.Character.RightLowerLeg.Material = (Value)
-    game.Players.LocalPlayer.Character.UpperTorso.Material = (Value)
-    game.Players.LocalPlayer.Character.LowerTorso.Material = (Value)
-    game.Players.LocalPlayer.Character.LeftUpperLeg.Material = (Value)
-    game.Players.LocalPlayer.Character.RightUpperLeg.Material = (Value)
-    game.Players.LocalPlayer.Character.Head.Material = (Value)
+Selfchamz:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
+    getgenv().SelfColor = Color
 end)
 
-ESPCheckSection:AddLabel("Turn on : \n PlayerCheck & TeamCheck \n (this will show all users)")
+ChamsSection:AddDropdown("Self Material", {"ForceField", "Glass", "Neon", "SmoothPlastic"}, "ForceField", false, function(Material)
+    getgenv().SelfMaterial = Material
+end)
+
+
 -- Crosshair stuff --
+
 local CrosshairSection = VisualsTab:CreateSector("Drawing Crosshair", "right")
 
 local DrawingCrosshairToggle = CrosshairSection:AddToggle("Crosshair Enabled", true, function(State)
