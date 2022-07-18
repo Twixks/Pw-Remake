@@ -185,7 +185,7 @@ game:GetService("RunService").Heartbeat:Connect(function()
     else
         if tool and tool:FindFirstChild 'Default' then
             if weaponchams == false then
-                Game.GetService(game, "Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.Glass
+                Game.GetService(game, "Players").LocalPlayer.Character:FindFirstChildOfClass("Tool").Default.Material = Enum.Material.Plastic
             end
         end
         end
@@ -200,7 +200,7 @@ game:GetService("RunService").Heartbeat:Connect(function()
 
     if getgenv().Selfchams == false then
         for i, v in pairs(parts) do
-            game.Players.LocalPlayer.Character[v].Material = Enum.Material.Glass
+            game.Players.LocalPlayer.Character[v].Material = Enum.Material.Plastic
         end
     end
 end)
@@ -1259,7 +1259,7 @@ end)
 
 local ChamsSection = VisualsTab:CreateSector("Chams", "Left")
 
-local gunschams = ChamsSection:AddToggle("Gun chams", false, function(State)
+local gunschams = ChamsSection:AddToggle("Gun Chams", false, function(State)
     getgenv().weaponchams = State
 end)
 
@@ -1267,12 +1267,12 @@ gunschams:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
     getgenv().Color = Color
 end)
 
-ChamsSection:AddDropdown("Gun Material", {"ForceField", "Glass", "Neon", "SmoothPlastic"}, "ForceField", false, function(Material)
+ChamsSection:AddDropdown("Gun Material", {"ForceField", "Glass", "SmoothPlastic"}, "ForceField", false, function(Material)
     getgenv().Material = Material
 end)
 
 
-local Selfchamz = ChamsSection:AddToggle("Self Chams test", false, function(State)
+local Selfchamz = ChamsSection:AddToggle("Self Chams", false, function(State)
     getgenv().Selfchams = State
 end)
 
@@ -1280,7 +1280,7 @@ Selfchamz:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
     getgenv().SelfColor = Color
 end)
 
-ChamsSection:AddDropdown("Self Material", {"ForceField", "Glass", "Neon", "SmoothPlastic"}, "ForceField", false, function(Material)
+ChamsSection:AddDropdown("Self Material", {"ForceField", "Glass", "SmoothPlastic"}, "ForceField", false, function(Material)
     getgenv().SelfMaterial = Material
 end)
 
