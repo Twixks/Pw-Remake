@@ -1699,13 +1699,14 @@ BlatantAntiAimSector:AddToggle('Underground Lay', false, function(State)
     end
 end)
 
+
 local SlingShotToggle = BlatantAntiAimSector:AddToggle('SlingShot', false, function(State)
     PuppywareSettings.Blatant.BlatantAA.SlingShot = State
 end)
 
 SlingShotToggle:AddKeybind()
 
-SlingShotToggle:AddSlider(-50, 50, 100, 1, function(Value)
+SlingShotToggle:AddSlider(0, 50, 200, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.SlingShotHeight = Value
 end)
 
@@ -1713,11 +1714,15 @@ BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velo
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
-BlatantAntiAimSector:AddSlider("Spin Speed/Jitter Speed", 0, 100, 300, 1, function(Value)
+BlatantAntiAimSector:AddSlider("Under Velocity Angle", -300, -50, 300, 1, function(Value)
+    PuppywareSettings.Blatant.BlatantAA.UnderVelocityAngle = Value
+end)
+
+BlatantAntiAimSector:AddSlider("Spin Speed/Jitter Speed", 0, 0, 300, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed = Value
 end)
 
-BlatantAntiAimSector:AddSlider("Jitter Angle/Velocity", 0, 180, 360, 1, function(Value)
+BlatantAntiAimSector:AddSlider("Jitter Angle", 0, 180, 360, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.JitterAngle = Value
 end)
 --[[
@@ -2981,12 +2986,14 @@ function SlingShot(Speed)
 end
 
 function Underground(Velocity)
-    if Alive(LocalPlayer) then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, math.rad(Velocity), 0)
+if Alive(LocalPlayer) then
+    pcall(function()
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,Velocity,0)
+        end)
     end
 end
 
-
+        
 function TeleportBuy(Target, AutoSetDelay)
     if workspace.Ignored.Shop:FindFirstChild(Target) and Alive(LocalPlayer) then
         PuppywareModule.Old.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
@@ -3526,7 +3533,7 @@ RunService.RenderStepped:Connect(function()
                     Spin(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
                 end
                 if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Under velocity" then
-                    Underground(PuppywareSettings.Blatant.BlatantAA.JitterAngle)
+                    Underground(PuppywareSettings.Blatant.BlatantAA.UnderVelocityAngle)
                 end
                 if PuppywareSettings.Blatant.BlatantAA.NoAutoRotate then
                     LocalPlayer.Character.Humanoid.AutoRotate = false
