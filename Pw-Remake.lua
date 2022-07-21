@@ -2987,13 +2987,15 @@ end
 
 function Underground(Velocity)
 if Alive(LocalPlayer) then
-    pcall(function()
-        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,Velocity,0)
+    task.wait() do
+        pcall(function()
+            game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0,Velocity,0)
         end)
     end
 end
+end
 
-        
+    
 function TeleportBuy(Target, AutoSetDelay)
     if workspace.Ignored.Shop:FindFirstChild(Target) and Alive(LocalPlayer) then
         PuppywareModule.Old.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
