@@ -1713,11 +1713,11 @@ BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velo
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
-BlatantAntiAimSector:AddSlider("Anti Aim Speed", 0, 100, 300, 1, function(Value)
+BlatantAntiAimSector:AddSlider("Spin Speed/Jitter Speed", 0, 100, 300, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed = Value
 end)
 
-BlatantAntiAimSector:AddSlider("Jitter Angle", 0, 180, 360, 1, function(Value)
+BlatantAntiAimSector:AddSlider("Jitter Angle/Velocity Angle", 0, 180, 360, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.JitterAngle = Value
 end)
 --[[
