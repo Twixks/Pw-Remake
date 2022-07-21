@@ -1717,7 +1717,7 @@ BlatantAntiAimSector:AddSlider("Spin Speed/Jitter Speed", 0, 100, 300, 1, functi
     PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed = Value
 end)
 
-BlatantAntiAimSector:AddSlider("Jitter Angle/Velocity Angle", 0, 180, 360, 1, function(Value)
+BlatantAntiAimSector:AddSlider("Jitter Angle/Velocity", 0, 180, 360, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.JitterAngle = Value
 end)
 --[[
