@@ -1709,7 +1709,7 @@ SlingShotToggle:AddSlider(-50, 50, 100, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.SlingShotHeight = Value
 end)
 
-BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Underground"}, "Jitter", false, function(Value)
+BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velocity"}, "Jitter", false, function(Value)
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
@@ -3525,7 +3525,7 @@ RunService.RenderStepped:Connect(function()
                 else
                     Spin(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
                 end
-                if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Underground" then
+                if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Under velocity" then
                     Underground(PuppywareSettings.Blatant.BlatantAA.JitterAngle)
                 end
                 if PuppywareSettings.Blatant.BlatantAA.NoAutoRotate then
