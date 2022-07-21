@@ -203,6 +203,7 @@ game:GetService("RunService").Heartbeat:Connect(function()
             game.Players.LocalPlayer.Character[v].Material = Enum.Material.Plastic
         end
     end
+-------
 end)
 
 local AnimationModule = {
@@ -1645,6 +1646,8 @@ MovementSector:AddDropdown("Speed Render Type", {"Slower", "Default", "Faster"},
     PuppywareSettings.Blatant.Movement.SpeedRenderType = Value
 end)
 
+
+
 local BlatantAntiAimSector = BlatantTab:CreateSector("Anti-Aim", "left")
 
 local AntiAimToggle = BlatantAntiAimSector:AddToggle('Anti-Aim Enabled', false, function(State)
@@ -1706,7 +1709,7 @@ SlingShotToggle:AddSlider(-50, 50, 100, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.SlingShotHeight = Value
 end)
 
-BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin"}, "Jitter", false, function(Value)
+BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Underground"}, "Jitter", false, function(Value)
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
@@ -1781,6 +1784,7 @@ FlySector:AddButton('Increase Speed (+)', function()
     })
     FLYSPEED = FLYSPEED + 3
 end)
+
 
 FlySector:AddButton('Fly (X)', function()
     Notify({
@@ -2976,6 +2980,12 @@ function SlingShot(Speed)
     end
 end
 
+function Underground(Velocity)
+    if Alive(LocalPlayer) then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(0, math.rad(Velocity), 0)
+    end
+end
+
 
 function TeleportBuy(Target, AutoSetDelay)
     if workspace.Ignored.Shop:FindFirstChild(Target) and Alive(LocalPlayer) then
@@ -3184,6 +3194,7 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end
+        
         if getgenv().AntiLock then
             game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame =
                 game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame +
@@ -3514,6 +3525,9 @@ RunService.RenderStepped:Connect(function()
                 else
                     Spin(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
                 end
+                if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Underground" then
+                    Underground(PuppywareSettings.Blatant.BlatantAA.JitterAngle)
+                end
                 if PuppywareSettings.Blatant.BlatantAA.NoAutoRotate then
                     LocalPlayer.Character.Humanoid.AutoRotate = false
                 else
@@ -3523,6 +3537,7 @@ RunService.RenderStepped:Connect(function()
             LocalPlayer.Character.Humanoid.AutoRotate = true
         end
     end
+
     if PuppywareSettings.Blatant.BlatantAA.SlingShot then
         SlingShot(PuppywareSettings.Blatant.BlatantAA.SlingShotHeight)
     end
