@@ -1716,7 +1716,7 @@ BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velo
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
-BlatantAntiAimSector:AddSlider("Under Velocity Angle", -300, -50, 0, 1, function(Value)
+BlatantAntiAimSector:AddSlider("Under Velocity Angle", -150, -50, 0, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.UnderVelocityAngle = Value
 end)
 
