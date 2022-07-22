@@ -59,6 +59,7 @@ _G.Idle = game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId
 _G.Run = game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId
 _G.Walk = game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId
 --
+
 getgenv().BulletLength = 1
 getgenv().BulletSpeed = 2
 getgenv().weaponchams = false
@@ -105,12 +106,12 @@ Other.BeamPart.Transparency = 1
 local Settings = {
     StartColor = MainAccentColor,
     EndColor = MainAccentColor,
-    StartWidth = 3,
-    EndWidth = 3,
+    StartWidth = getgenv().LightEmission,
+    EndWidth = getgenv().LightInfluence,
     ShowImpactPoint = false,
     ImpactTransparency = 1,
     ImpactColor = Color3.new(1, 1, 1),
-    Time = getgenv().RealBulletTime,
+    Time = 1,
 }
 game:GetService "RunService".Heartbeat:Connect(function()
 
@@ -146,8 +147,8 @@ function funcs:Beam(v1, v2)
     Beam.Color = colorSequence
     Beam.Attachment0 = Attachment
     Beam.Attachment1 = Attachment2
-    Beam.LightEmission = getgenv().LightEmission
-    Beam.LightInfluence = getgenv().LightInfluence
+    Beam.LightEmission = 6
+    Beam.LightInfluence = 1
     Beam.Width0 = Settings.StartWidth
     Beam.Width1 = Settings.EndWidth
     Beam.Texture = "http://www.roblox.com/asset/?id=9150663556"
@@ -1240,6 +1241,7 @@ end)
 BulletTracertoggle:AddColorpicker(Color3.fromRGB(255, 255, 255), function(Color)
     getgenv().bullet_tracer_color = Color
 end)
+
 
 GunSection:AddSlider("Light Emission", 1, 6, 10, 10, function(Light)
     getgenv().LightEmission = Light
