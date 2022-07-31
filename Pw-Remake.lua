@@ -59,7 +59,198 @@ _G.Idle = game.Players.LocalPlayer.Character.Animate.idle.Animation1.AnimationId
 _G.Run = game.Players.LocalPlayer.Character.Animate.run.RunAnim.AnimationId
 _G.Walk = game.Players.LocalPlayer.Character.Animate.walk.WalkAnim.AnimationId
 --
+getgenv().Desync_Settings = {
+    Modes = {
+Up = {
+    enabled = false,
+    strengh = 150
+},
+Down = {
+    enabled = false,
+    strengh = 150
+},
+Right = {
+    enabled = false,
+    strengh = 150
+},
+Left = {
+    enabled = false,
+    strengh = 150
+},
+All = {
+    enabled = false,
+    strengh = 150
+}
+    }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+local runService = game:GetService("RunService")
+local character = script.Parent
+--Up
+runService.Heartbeat:Connect(function()
+if getgenv().Desync_Settings.Modes.Up.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Up.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Up.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Up.strengh, old_vel.Z) 
+    end  
+end)
 
+
+runService.RenderStepped:Connect(function()
+if getgenv().Desync_Settings.Modes.Up.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+    end
+end)
+--Down
+runService.Heartbeat:Connect(function()
+if getgenv().Desync_Settings.Modes.Down.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.Down.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.Down.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.Down.strengh, old_vel.Z) 
+    end  
+end)
+
+
+runService.RenderStepped:Connect(function()
+if getgenv().Desync_Settings.Modes.Down.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+    end
+end)
+--Right
+runService.Heartbeat:Connect(function()
+if getgenv().Desync_Settings.Modes.Right.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Right.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Right.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Right.strengh, old_vel.Z) 
+    end  
+end)
+
+
+runService.RenderStepped:Connect(function()
+if getgenv().Desync_Settings.Modes.Right.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+    end
+end)
+--Left
+--Down
+runService.Heartbeat:Connect(function()
+if getgenv().Desync_Settings.Modes.Left.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.Left.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.Left.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.Left.strengh, old_vel.Z) 
+    end  
+end)
+
+
+runService.RenderStepped:Connect(function()
+if getgenv().Desync_Settings.Modes.Left.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+    end
+end)
+--All
+--Up
+runService.Heartbeat:Connect(function()
+if getgenv().Desync_Settings.Modes.All.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Up.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Up.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.Up.strengh, old_vel.Z) 
+    end  
+end)
+
+
+runService.RenderStepped:Connect(function()
+if getgenv().Desync_Settings.Modes.All.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+    end
+end)
+--Down
+runService.Heartbeat:Connect(function()
+if getgenv().Desync_Settings.Modes.All.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.All.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.All.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.All.strengh, old_vel.Z) 
+    end  
+end)
+
+
+runService.RenderStepped:Connect(function()
+if getgenv().Desync_Settings.Modes.All.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+    end
+end)
+--Right
+runService.Heartbeat:Connect(function()
+if getgenv().Desync_Settings.Modes.All.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.All.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.All.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, Desync_Settings.Modes.All.strengh, old_vel.Z) 
+    end  
+end)
+
+
+runService.RenderStepped:Connect(function()
+if getgenv().Desync_Settings.Modes.All.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+    end
+end)
+--Left
+--Down
+runService.Heartbeat:Connect(function()
+    if getgenv().Desync_Settings.Modes.All.enabled then
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.All.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.All.strengh, old_vel.Z)   
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, -Desync_Settings.Modes.All.strengh, old_vel.Z) 
+    end  
+end)
+
+
+runService.RenderStepped:Connect(function()
+    if getgenv().Desync_Settings.Modes.All.enabled then
+
+        old_vel = game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)    
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = Vector3.new(old_vel.X, 0, old_vel.Z)
+    end
+end)
+--
 getgenv().BulletLength = 1
 getgenv().BulletSpeed = 2
 getgenv().weaponchams = false
@@ -1712,8 +1903,17 @@ SlingShotToggle:AddSlider(0, 50, 200, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.SlingShotHeight = Value
 end)
 
-BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velocity"}, "Jitter", false, function(Value)
+BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velocity", "Desync"}, "Jitter", false, function(Value)
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
+end)
+
+BlatantAntiAimSector:AddDropdown("Desync Mode", {'Up', "Down"}, "Up", false, function(State)
+    PuppywareSettings.Blatant.BlatantAA.DesyncMode = State
+end)
+
+BlatantAntiAimSector:AddSlider("Desync Strength", 10, 100, 1000, 1, function(State)
+    Desync_Settings.Modes.Up.strengh = State
+    Desync_Settings.Modes.Down.strengh = State
 end)
 
 BlatantAntiAimSector:AddSlider("Under Velocity Angle", -150, -50, 0, 1, function(Value)
@@ -3538,6 +3738,20 @@ RunService.RenderStepped:Connect(function()
                 end
                 if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Under velocity" then
                     Underground(PuppywareSettings.Blatant.BlatantAA.UnderVelocityAngle)
+                end
+                if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Desync" and PuppywareSettings.Blatant.BlatantAA.DesyncMode == "Up" then
+                    getgenv().Desync_Settings.Modes.Up.enabled = true
+                else
+                    getgenv().Desync_Settings.Modes.Up.enabled = false
+                end
+                if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Desync" and PuppywareSettings.Blatant.BlatantAA.DesyncMode == "Down" then
+                    getgenv().Desync_Settings.Modes.Down.enabled = true
+                else
+                    getgenv().Desync_Settings.Modes.Down.enabled = false
+                end
+                if not PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Desync" then
+                    Desync_Settings.Modes.Up.strengh = 0
+                    Desync_Settings.Modes.Down.strengh = 0
                 end
                 if PuppywareSettings.Blatant.BlatantAA.NoAutoRotate then
                     LocalPlayer.Character.Humanoid.AutoRotate = false
