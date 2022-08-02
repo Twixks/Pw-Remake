@@ -1907,7 +1907,7 @@ BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velo
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
-BlatantAntiAimSector:AddDropdown("Desync Mode", {'Up', "Down"}, "Up", false, function(State)
+BlatantAntiAimSector:AddDropdown("Desync Mode", {'Off' ,'Up', "Down"}, "Up", false, function(State)
     PuppywareSettings.Blatant.BlatantAA.DesyncMode = State
 end)
 
@@ -3749,15 +3749,18 @@ RunService.RenderStepped:Connect(function()
                 else
                     getgenv().Desync_Settings.Modes.Down.enabled = false
                 end
-                if not PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Desync" then
+                if not PuppywareSettings.Blatant.BlatantAA.Enabled and PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Desync" then
                     Desync_Settings.Modes.Up.strengh = 0
                     Desync_Settings.Modes.Down.strengh = 0
+                    getgenv().Desync_Settings.Modes.Down.enabled = false
+                    getgenv().Desync_Settings.Modes.Up.enabled = false
                 end
                 if PuppywareSettings.Blatant.BlatantAA.NoAutoRotate then
                     LocalPlayer.Character.Humanoid.AutoRotate = false
                 else
                     LocalPlayer.Character.Humanoid.AutoRotate = true
                 end
+                
         else
             LocalPlayer.Character.Humanoid.AutoRotate = true
         end
