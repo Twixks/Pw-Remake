@@ -1915,7 +1915,7 @@ BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velo
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
-BlatantAntiAimSector:AddDropdown("Desync Mode", {'Off' ,'Up', "Down", "All", "Right", "Left"}, "Up", false, function(State)
+BlatantAntiAimSector:AddDropdown("Desync Mode", {'Off' ,'Up', "Down"}, "Up", false, function(State)
     PuppywareSettings.Blatant.BlatantAA.DesyncMode = State
 end)
 
