@@ -1915,19 +1915,22 @@ BlatantAntiAimSector:AddDropdown("Anti Aim Type", {"Jitter", "Spin", "Under velo
     PuppywareSettings.Blatant.BlatantAA.AntiAimType = Value
 end)
 
-BlatantAntiAimSector:AddDropdown("Desync Mode", {'Off' ,'Up', "Down"}, "Up", false, function(State)
+BlatantAntiAimSector:AddDropdown("Desync Mode", {'Off' ,'Up', "Down", "All", "Right", "Left"}, "Up", false, function(State)
     PuppywareSettings.Blatant.BlatantAA.DesyncMode = State
 end)
 
 BlatantAntiAimSector:AddSlider("Desync Strength", 10, 100, 1000, 1, function(State)
     Desync_Settings.Modes.Up.strengh = State
     Desync_Settings.Modes.Down.strengh = State
+    Desync_Settings.Modes.Right.strengh = State
+    Desync_Settings.Modes.Left.strengh = State
+    Desync_Settings.Modes.All.strengh = State
 end)
 
 BlatantAntiAimSector:AddSlider("Under Velocity Angle", -150, -50, 0, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.UnderVelocityAngle = Value
 end)
-
+--[[
 BlatantAntiAimSector:AddSlider("Spin Velocity", 0, 0, 1000, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.Velocity = Value
 end)
@@ -1935,7 +1938,7 @@ end)
 BlatantAntiAimSector:AddSlider("Spin Speed", 0, 0, 1000, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.Cframe = Value
 end)
-
+]]
 BlatantAntiAimSector:AddSlider("Jitter Speed", 0, 0, 200, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed = Value
 end)
@@ -3757,8 +3760,8 @@ RunService.RenderStepped:Connect(function()
                 if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Jitter" then     -- Jitter Init--
                     Jitter(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed, PuppywareSettings.Blatant.BlatantAA.JitterAngle)
                 else
-                    --Spin(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
-                    SpinDesync(PuppywareSettings.Blatant.BlatantAA.Velocity, PuppywareSettings.Blatant.BlatantAA.Cframe)
+                    Spin(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
+                    --SpinDesync(PuppywareSettings.Blatant.BlatantAA.Velocity, PuppywareSettings.Blatant.BlatantAA.Cframe)
                 end
                 if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Under velocity" then
                     Underground(PuppywareSettings.Blatant.BlatantAA.UnderVelocityAngle)
