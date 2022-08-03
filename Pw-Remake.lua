@@ -1584,6 +1584,14 @@ end)
 
 local MisSector = VisualsTab:CreateSector("Miscs", "left")
 
+MisSector:AddToggle("Auto Clicker", false, function(State)
+    PuppywareSettings.Visuals.Miscs.AutoClicker = State
+end)
+
+local AutoClickerToggle = MisSector:AddKeybind("On/Off Clicker", nil, false, function(Key)
+    PuppywareSettings.Visuals.Miscs.Keybind = Key
+end)
+
 MisSector:AddButton("Chat Spy", function()
     Notify({
         Title = "Pw-Remake",
@@ -1920,7 +1928,15 @@ BlatantAntiAimSector:AddSlider("Under Velocity Angle", -150, -50, 0, 1, function
     PuppywareSettings.Blatant.BlatantAA.UnderVelocityAngle = Value
 end)
 
-BlatantAntiAimSector:AddSlider("Spin Speed/Jitter Speed", 0, 0, 300, 1, function(Value)
+BlatantAntiAimSector:AddSlider("Spin Velocity", 0, 0, 1000, 1, function(Value)
+    PuppywareSettings.Blatant.BlatantAA.Velocity = Value
+end)
+
+BlatantAntiAimSector:AddSlider("Spin Speed", 0, 0, 1000, 1, function(Value)
+    PuppywareSettings.Blatant.BlatantAA.Cframe = Value
+end)
+
+BlatantAntiAimSector:AddSlider("Jitter Speed", 0, 0, 200, 1, function(Value)
     PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed = Value
 end)
 
@@ -3197,7 +3213,13 @@ if Alive(LocalPlayer) then
 end
 end
 
-    
+function SpinDesync(Velocity, Cframe)
+    if Alive(LocalPlayer) then
+        game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.lookVector * Velocity
+        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(Cframe), 0)
+    end
+end
+
 function TeleportBuy(Target, AutoSetDelay)
     if workspace.Ignored.Shop:FindFirstChild(Target) and Alive(LocalPlayer) then
         PuppywareModule.Old.CFrame = LocalPlayer.Character.HumanoidRootPart.CFrame
@@ -3393,6 +3415,7 @@ RunService.Heartbeat:Connect(function()
                 end
             end
         end
+
         if PuppywareSettings.Blatant.Character.AntiStomp then
             if Knocked(LocalPlayer) then
                 if PuppywareSettings.Blatant.Character.AntiStompType == "Nil Char" then
@@ -3734,7 +3757,8 @@ RunService.RenderStepped:Connect(function()
                 if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Jitter" then     -- Jitter Init--
                     Jitter(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed, PuppywareSettings.Blatant.BlatantAA.JitterAngle)
                 else
-                    Spin(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
+                    --Spin(PuppywareSettings.Blatant.BlatantAA.AntiAimSpeed)
+                    SpinDesync(PuppywareSettings.Blatant.BlatantAA.Velocity, PuppywareSettings.Blatant.BlatantAA.Cframe)
                 end
                 if PuppywareSettings.Blatant.BlatantAA.AntiAimType == "Under velocity" then
                     Underground(PuppywareSettings.Blatant.BlatantAA.UnderVelocityAngle)
